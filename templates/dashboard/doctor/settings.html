@@ -1,0 +1,492 @@
+
+
+{% extends "dashboard/doctor/header_base.html" %}
+{% load static %}
+{% block content %}
+<!-- Page Wrapper -->
+<div id="wrapper">
+   <!-- Sidebar -->
+   {% include "dashboard/doctor/sidebar.html" %}
+   <!-- End of Sidebar -->
+   <!-- Content Wrapper -->
+   <div id="content-wrapper" class="d-flex flex-column">
+      <!-- Main Content -->
+      <div id="content">
+         <!-- Topbar -->
+         {% include "dashboard/doctor/top_bar.html" %}
+         <!-- End of Topbar -->
+         <!-- Begin Page Content -->
+         <div class="container">
+            <div class="card o-hidden border-0 shadow-lg my-5">
+               <div class="card-body p-0">
+                  <!-- Nested Row within Card Body -->              
+                  <div class="text-center">
+                     <h1 class="h4 text-gray-900 mb-4">Update your Account!</h1>
+                     {{message}}
+                     <script>
+                        {% if messages %}
+                            {% for message in messages %}
+                                alert(message);
+                            {% endfor %}
+                        {% endif %}
+                     </script>
+                     {% if form.errors %}
+                     {% for field in form %}
+                     {% for error in field.errors %}
+                     <div class="alert alert-danger">
+                        <strong>Field Error{{ error|escape }}</strong>
+                     </div>
+                     {% endfor %}
+                     {% endfor %}
+                     {% for error in form.non_field_errors %}
+                     <div class="alert alert-danger">
+                        <strong>Non Field Error{{ error|escape }}</strong>
+                     </div>
+                     {% endfor %}
+                     {% endif %}
+                  </div>
+                  <form class="doctor" action='' method='POST' enctype = "multipart/form-data" >
+                     {% csrf_token %}
+                     <div class="row">
+                        <div class="col-lg-6">
+                           <div class="p-5">
+                              <div class="form-group row">
+                                 <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <input type="text" class="form-control form-control-user" value="{{user.firstname}}" pattern="^[a-zA-Z]*$"  id="exampleFirstName" name="firstname" placeholder="First Name" required autofocus>
+                                 </div>
+                                 <div class="col-sm-6">
+                                    <input type="text" class="form-control form-control-user" value="{{user.lastname}}" pattern="^[a-zA-Z]*$" id="exampleLastName" name="lastname"placeholder="Last Name" required>
+                                 </div>
+                              </div>
+                              <div class="form-group">
+                                 <input type="text" pattern="^[a-zA-Z0-9-_]+$" class="form-control form-control-user" value="{{user.user_name}}" id="user_name"  name="user_name" placeholder="User Name(Only Alphanumeric and dash,underscore)" required>
+                              </div>
+                              <!-- <div class="form-group">
+                                 <input type="email" class="form-control form-control-user"  value="{{user.user_name}}" id="exampleInputEmail" name="email" placeholder="Email Address" required>
+                              </div> -->
+                              <div class="form-group">
+                                 <input type="text" class="form-control form-control-user"  value="{{user.aadhar_card_no}}" pattern="^[0-9]*$" id="aadhar_card_no" maxlength="12" placeholder="Aadhar Card" name="aadhar_card_no" required>
+                              </div>
+                              <p>Please Select Pincode After country</p>
+                              <div class="form-group">
+                                 <select id="countryselect" class="form-control" name="country">
+                                    <option selected>Please Select the Country</option>
+                                    {% for x in country_drop %}
+                                    <option value="{{x}}">{{x}}</option>
+                                    {% endfor %}
+                                 </select>
+                              </div>
+                              <div class="form-group">
+                                 <input type="text" class="form-control form-control-user" value="{{user.pincode}}"  pattern="^[0-9]*$" id='PostName' maxlength="6" name="pincode" placeholder="Pincode">
+                              </div>
+                              <h6>Enter Address Details(Auto Generated from Pincode) </h6>
+                              <button class="btn btn-danger m-3" id="get_loc" type="button" onclick="getLocation()">Click here for geolocation(if supported)</button>
+                              <!-- <div id="mapid" style="height: 400px;"></div> -->
+                              <div class="form-group row">
+                                 <div class="col-sm-6">
+                                    <!-- <select id="stateselect" class="form-control" name="state">
+                                       <option selected>Please Select the State</option>
+                                       </select> -->
+                                    <input type="text"  class="form-control form-control-user" id="state" value="{{user.state}}" name="state" placeholder="State" readonly>
+                                 </div>
+                                 <div class="col-sm-6">
+                                    <!-- <select id="cityselect" class="form-control" name="state">
+                                       <option selected>Please Select the District/Region</option>
+                                       </select> -->
+                                    <input type="text" value="{{user.district}}" class="form-control form-control-user" id="district" placeholder="district" name="district" readonly>
+                                 </div>
+                              </div>
+                              <div class="form-group row">
+                                 <div class="col-sm-6">
+                                    <input type="text" class="form-control form-control-user" id="city" value="{{user.city}}"  name="city" placeholder="City/Taluka" readonly>
+                                 </div>
+                                 <div class="col-sm-6">
+                                    <select id="areaselect" class="form-control" name="area">
+                                       <option selected>Please Select the Area</option>
+                                    </select>
+                                    <!-- <input type="text" class="form-control form-control-user" id=""  name="area" placeholder="Area"> -->
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="col-lg-6">
+                           <div class="p-5">
+                              <div class="form-group row">
+                                 <div class="col-sm-6">
+                                    <input type="text" class="form-control form-control-user" value="{{user.phone_number}}"  pattern="^\+?1?\d{9,15}$" id="" placeholder="Mobile Number" name="phone_number" required>
+                                 </div>
+                                 <div class="col-sm-6">
+                                    <input type="text" pattern="^[a-zA-Z0-9-_]+$"  value="{{user.society}}" class="form-control form-control-user" id=""  name="society" placeholder="Society" required>
+                                 </div>
+                              </div>
+                              <div class="form-group row">
+                                 <div class="col-sm-6">
+                                    <input type="text" pattern="^[a-zA-Z0-9-_]+$" value="{{user.landmark}}"  class="form-control form-control-user" id=""  name="landmark" placeholder="Landmark" required>
+                                 </div>
+                                 <div class="col-sm-6">
+                                    <input type="text"  pattern="^[a-zA-Z0-9-_]+$" value="{{user.house_no}}"  class="form-control form-control-user" id=""  name="house_no" placeholder="House No." required>
+                                 </div>
+                              </div>
+                              <div class="form-group row">
+                                 <div class="col-sm-6">
+                                    <input type="text" class="form-control form-control-user" id=""   value='{{user.dateofBirth|date:"Y-m-d"}}' name="dateofBirth" data-toggle="datepicker" placeholder="Date of Birth(YYYY-MM-DD)" required>
+                                 </div>
+                                 <div class="col-sm-6">
+                                    <input type="text" pattern="^[a-zA-Z+-]+$" maxlength="3"  value="{{user.blood_group}}" class="form-control form-control-user" id=""  name="blood_group" placeholder="Blood Group" required>
+                                 </div>
+                              </div>
+                              <!-- <div class="form-group row">
+                                 <div class="col-sm-6">
+                                    <input type="text" class="form-control form-control-user" id=""  name="secret_que" placeholder="Security Question">
+                                 </div>
+                                 <div class="col-sm-6">
+                                    <input type="text" class="form-control form-control-user" id="" name="secret_ans" placeholder="Security answer">
+                                 </div>
+                                 </div> -->
+                              <div class="form-group">
+                                 <div class="container">
+                                    <div class="row">
+                                       <div class="col-sm-6">
+                                          <p>Due to security reasons you have to again upload file</p>
+                                          <p> You can download from the left.</p>
+                                          <input onchange="readURL(this);" type = "file" name = "user_photo" /><br>
+                                          <button type="button" class="btn btn-danger mt-3  py-2 px-1" id="openwebcam" onclick="opencam()" data-toggle="modal" data-target="#myModal">Click Here(For Capture)</button>
+                                       </div>
+                                       <div class="col-sm-6">
+                                          <img src="{{user.user_photo.url}}" class="img-thumbnail w-100 pl-1" id="image_incident_img" />
+                                          <p id="image_incident_p"></p>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+                              <div class="form-group row">
+                                <div class="col-sm-6">
+                                   <input type="text" class="form-control form-control-user" value="{{user.doctor_hospital_name}}"  name="doctor_hospital_name" placeholder="doctor_hospital_name ">
+                                </div>
+                                <div class="col-sm-6">
+                                   <input type="text" class="form-control form-control-user" value="{{user.doctor_specialization_field}}" name="doctor_specialization_field" placeholder="doctor_specialization_field ">
+                                </div>
+                                
+                             </div>
+                              <h6>Gender</h6>
+                              <div class="form-group">
+                                 {{form.gender}}
+                              </div>
+                              <script type="text/javascript">
+                                      var select=document.getElementById('id_gender');
+                                      var len=select.options.length;
+                                      for (var i = 0; i <len; i++) {
+                                        if(select.options[i].value=="{{user.gender}}")
+                                        {
+                                          
+                                          select.options[i].selected=true;
+                                        }
+                                        else 
+                                        {
+                                          select.options[i].selected=false;
+                                        
+                                        }
+                                      }
+                                    </script>
+                              
+                               <center>
+                              <input type='submit' name='submit' class="btn btn-danger btn-user btn-block w-50 m-2"/>
+                              </center>
+                           </div>
+                        </div>
+                      </div>
+                  </form>
+                  <hr>
+                </div>
+              </div>
+           
+            
+      
+      <div class="modal" id="myModal">
+         <div class="modal-dialog">
+            <div class="modal-content">
+               <!-- Modal Header -->
+               <div class="modal-header">
+                  <h4 class="modal-title">For Providing SnapShot. It will Automatically Detect Faces</h4>
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+               </div>
+               <!-- Modal body -->
+               <div class="modal-body">
+                  <div id="my_camera"></div>
+                  <input type=button value="Detect Face" class="btn btn-dark w-100 m-2"  onClick="detect_face()">
+                  <input type=button value="" id='print_detected' class="btn btn-info w-100 m-2"  >
+                  <input type=button value="Take Snapshot" class="btn btn-success w-100 m-2"  onClick="take_snapshot();">
+                  <div id="results" class="w-100 px-1 "  ></div>
+                  <script src="{% static 'dashboard/js/tracking-min.js' %}"></script>
+                  <script src="{% static 'dashboard/js/face-min.js' %}"></script>
+                  <style>
+                     #video_detect, #canvas_detect {
+                     left: 18%;
+                     top: 2%;
+                     position: absolute;
+                     }
+                  </style>
+                  <video id="video_detect" width="320" height="240" preload autoplay loop muted></video>
+                  <canvas id="canvas_detect" width="320" height="240"></canvas>
+                  <script>
+                     function detect_face() {
+                       var canvas = document.getElementById('canvas_detect');
+                       var context = canvas.getContext('2d');
+                     
+                       var tracker = new tracking.ObjectTracker('face');
+                       tracker.setInitialScale(4);
+                       tracker.setStepSize(2);
+                       tracker.setEdgesDensity(0.1);
+                     
+                       tracking.track('#video_detect', tracker, { camera: true });
+                     
+                       tracker.on('track', function(event) {
+                         context.clearRect(0, 0, canvas.width, canvas.height);
+                         document.getElementById('print_detected').value='Undetected';
+                         event.data.forEach(function(rect) {
+                           document.getElementById('print_detected').value='Detected';
+                           context.strokeStyle = '#a64ceb';
+                           context.strokeRect(rect.x, rect.y, rect.width, rect.height);
+                           context.font = '11px Helvetica';
+                           context.fillStyle = "#fff";
+                           context.fillText('x: ' + rect.x + 'px', rect.x + rect.width + 5, rect.y + 11);
+                           context.fillText('y: ' + rect.y + 'px', rect.x + rect.width + 5, rect.y + 22);
+                         });
+                       });
+                     };
+                  </script>
+                  <script src="{% static 'dashboard/js/webcam.min.js' %}"></script>
+                  <!-- Configure a few settings and attach camera -->
+                  <script language="JavaScript">
+                     function opencam() {
+                       Webcam.set({
+                         width: 320,
+                         height: 240,
+                         image_format: 'jpeg',
+                         jpeg_quality: 90
+                       });
+                       Webcam.attach( '#my_camera' );
+                        var x_vid=document.getElementById('my_camera');
+                     x_vid.style.width="100%";
+                     x_vid.childNodes[1].style.width="100%";
+                       }
+                       function take_snapshot() {
+                         Webcam.snap( function(data_uri) {
+                           document.getElementById('results').innerHTML =  '<img src="'+data_uri+'" style="width:100%" />';
+                           document.getElementById('results').innerHTML += '<button type="button" class="btn btn-success w-100 my-2"  ><a class="text-danger" href="'+data_uri+'" download="Custom_img"/>Click Here to download Snapshot </a></button>';
+                         } );
+                     }
+                  </script>
+               </div>
+               <!-- Modal footer -->
+               <div class="modal-footer">
+                  <!-- Result:<p id='print_detected'></p> -->
+                  <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+               </div>
+            </div>
+         </div>
+      </div>
+      <script type="text/javascript">
+         function readURL(input) {
+           if (input.files && input.files[0]) {
+             var reader = new FileReader();
+             
+             reader.onload = function(e) {
+               $('#image_incident_img')
+               .attr('src', e.target.result);
+             };
+           
+             reader.readAsDataURL(input.files[0]);
+           }
+         }
+         var x_gen=document.getElementById('id_gender');
+         x_gen.classList.add('form-control');
+         // x_gen.classList.add('form-control-user');
+         x_gen.placeholder="Please Select Gender";
+         x_gen.firstElementChild.innerHTML="Please Select Gender";
+         
+      </script>
+   <!-- Page level plugins -->
+   <!-- </div> -->
+   <script src="{% static 'dashboard/vendor/jquery/jquery.min.js' %}"></script>
+   <script src="{% static 'dashboard/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+   <!-- Core plugin JavaScript-->
+   <script src="{% static 'dashboard/vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+   <!-- Custom scripts for all pages-->
+   <script src="{% static 'dashboard/vendor/jquery/datepicker.min.js' %}"></script>
+   <script type="text/javascript">
+      (function() {
+      $('[data-toggle="datepicker"]').datepicker({ format: 'yyyy-mm-dd'});
+      
+      })();
+      document.getElementById('countryselect').options[document.getElementById('countryselect').selectedIndex].value="{{user.country}}";
+      document.getElementById('countryselect').options[document.getElementById('countryselect').selectedIndex].innerHTML="{{user.country}}";
+      document.getElementById('areaselect').options[document.getElementById('areaselect').selectedIndex].value="{{user.area}}";
+       document.getElementById('id_gender').options[document.getElementById('id_gender').selectedIndex].value="{{user.gender}}";
+      document.getElementById('areaselect').options[document.getElementById('areaselect').selectedIndex].innerHTML="{{user.area}}";
+
+      $("#id_captcha_1").addClass("form-control form-control-user");
+      $(".captcha").css("float","right");
+      $(".captcha").addClass("img-fluid p-2");
+      var mymap;
+       
+      function getLocation() {
+      if (navigator.geolocation) {  
+       navigator.geolocation.getCurrentPosition(showPosition, showError);
+      } else { 
+       $("#get_loc").after('<strong>Geolocation is not supported by this browser.</strong>');
+       // x.innerHTML = "Geolocation is not supported by this browser.";
+      }
+      }
+      function showPosition(position) {
+      $("#get_loc").after('<div id="mapid" style="height: 400px;"></div>');
+      $("#get_loc").hide();
+             lat = position.coords.latitude;
+             long = position.coords.longitude;
+             console.log(lat,long);
+             var xmlhttp = new XMLHttpRequest();
+      var url="https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat="+lat+"&lon="+long;
+      xmlhttp.onreadystatechange = function()
+      {
+      if (this.readyState == 4 && this.status == 200)
+      {
+       var myArr = JSON.parse(this.responseText);
+       $("#PostName").val(myArr.address.postcode);
+       $("#countryselect option[value="+myArr.address.country+"]").attr('selected','selected');
+       // console.log(myArr);
+       // console.log(myArr.address);
+       //  console.log(myArr.address.postcode);
+       //  console.log(myArr.address.country);
+         var val=document.getElementById('countryselect').options[document.getElementById('countryselect').selectedIndex].value;
+            if(isNaN(val))
+            {
+              console.log($('#PostName').val())
+              $.ajax({
+                   url: '/doctor/getselected_area',
+                   data: {
+                       'country' : val,
+                       'pincode': $('#PostName').val()
+                   },
+                   dataType: 'json',
+                   success:function(data)
+                   {
+                       console.log(data);
+                       var select;
+                       $(".area-added").remove();
+                       for(var i=0;i<data.result.length;i++)
+                       {
+                           select+=('<option class="area-added" value="'+data.result[i]+'">'+data.result[i]+'</option>');
+                       }
+                       $("#areaselect").append(select);
+                       $("#city").val(data.community_name);
+                       $("#district").val(data.county_name);
+                       $("#state").val(data.state_name);
+                       L.marker([data.lat,data.lon]).addTo(mymap).bindPopup("<p>(Automated)This is the Location "+$("#PostName").val()+"<br/> of your Pincode with accuracy "+eval(((data.accuracy/6)*100).toPrecision(2))+"%</p>").openPopup();
+                   }
+                 });
+               }
+      
+      }
+      };
+      xmlhttp.open("GET", url, true);
+      xmlhttp.send();
+      
+      
+      
+      
+            mymap = L.map('mapid').setView([lat,long], 13);
+            L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+             maxZoom: 18,
+             attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+               '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+               'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+             id: 'mapbox/streets-v11',
+             tileSize: 512,
+             zoomOffset: -1
+            }).addTo(mymap);
+            L.marker([lat,long]).addTo(mymap).bindPopup("<p>Looks like This is your Location</p>").openPopup();
+        }
+      
+      function showError(error) {
+      switch(error.code) {
+       case error.PERMISSION_DENIED:
+       $("#get_loc").after("<p>User denied the request for Geolocation.</p>");
+         // x.innerHTML = "User denied the request for Geolocation."
+         break;
+       case error.POSITION_UNAVAILABLE:
+       $("#get_loc").after("<p>Location information is unavailable.</p>");
+         // x.innerHTML = "Location information is unavailable."
+         break;
+       case error.TIMEOUT:
+       $("#get_loc").after("<p>The request to get user location timed out.</p>");
+         // x.innerHTML = "The request to get user location timed out."
+         break;
+       case error.UNKNOWN_ERROR:
+       $("#get_loc").after("<p>An unknown error occurred.</p>");
+         // x.innerHTML = "An unknown error occurred."
+         break;
+      }
+      }
+      
+      
+      $('#PostName').change(function(){
+             var val=document.getElementById('countryselect').options[document.getElementById('countryselect').selectedIndex].value;
+
+            if(isNaN(val) && $('#PostName').val().length==6)
+            {
+              console.log($('#PostName').val())
+              $.ajax({
+                   url: '/doctor/getselected_area',
+                   data: {
+                       'country' : val,
+                       'pincode': $('#PostName').val()
+                   },
+                   dataType: 'json',
+                   success:function(data)
+                   {
+                       console.log(data);
+                       var select;
+                       $(".area-added").remove();
+                       for(var i=0;i<data.result.length;i++)
+                       {
+                           select+=('<option class="area-added" value="'+data.result[i]+'">'+data.result[i]+'</option>');
+                       }
+                       $("#areaselect").append(select);
+                       $("#city").val(data.community_name);
+                       $("#district").val(data.county_name);
+                       $("#state").val(data.state_name);
+                       L.marker([data.lat,data.lon]).addTo(mymap).bindPopup("<p>This is the Location<br/> of your Pincode with accuracy "+eval(((data.accuracy/6)*100).toPrecision(2))+"%</p>").openPopup();
+                   }
+                 });
+               }
+      });
+   </script>
+</div>
+<!-- /.container-fluid -->
+</div>
+<!-- End of Main Content -->
+<!-- Footer -->
+<footer class="sticky-footer bg-white">
+   <div class="container my-auto">
+      <div class="copyright text-center my-auto">
+         <span>Copyright &copy; Your Website </span><span id="year-current"></span>
+      </div>
+   </div>
+</footer>
+<!-- End of Footer -->
+</div>
+<!-- End of Content Wrapper -->
+</div>
+<!-- End of Page Wrapper -->
+<!-- Scroll to Top Button-->
+<a class="scroll-to-top rounded" href="#page-top">
+<i class="fas fa-angle-up"></i>
+</a>
+<script type="text/javascript">
+   document.getElementById('year-current').innerHTML=new Date().getFullYear();
+</script> 
+
+<!-- Custom scripts for all pages-->
+<script src="{% static 'dashboard/js/sb-admin-2.min.js' %}"></script>
+{% endblock %}
+

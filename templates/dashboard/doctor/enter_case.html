@@ -1,0 +1,328 @@
+{% extends "dashboard/doctor/header_base.html" %}
+{% load static %}
+{% block content %}
+<link href="{% static 'dashboard/vendor/datatables/dataTables.bootstrap4.min.css' %}" rel="stylesheet">
+<style type="text/css">
+   .sp-container {
+   display: -webkit-box;
+   display: -ms-flexbox;
+   display: flex;
+   -webkit-box-align: center;
+   -ms-flex-align: center;
+   align-items: center;
+   -webkit-box-pack: center;
+   -ms-flex-pack: center;
+   justify-content: center;
+   min-height: 100vh;
+   background-color: transparent;
+   position: absolute;
+   left: 45%;
+   z-index: 99999;
+   display: none;
+   top: 27%;
+   }
+   .loader {
+   max-width: 15rem;
+   width: 50%;
+   height: auto;
+   stroke-linecap: round;
+   }
+   circle {
+   fill: none;
+   stroke-width: 3.5;
+   -webkit-animation-name: preloader;
+   animation-name: preloader;
+   -webkit-animation-duration: 3s;
+   animation-duration: 3s;
+   -webkit-animation-iteration-count: infinite;
+   animation-iteration-count: infinite;
+   -webkit-animation-timing-function: ease-in-out;
+   animation-timing-function: ease-in-out;
+   -webkit-transform-origin: 170px 170px;
+   transform-origin: 170px 170px;
+   will-change: transform;
+   }
+   circle:nth-of-type(1) {
+   stroke-dasharray: 550;
+   }
+   circle:nth-of-type(2) {
+   stroke-dasharray: 500;
+   }
+   circle:nth-of-type(3) {
+   stroke-dasharray: 450;
+   }
+   circle:nth-of-type(4) {
+   stroke-dasharray: 300;
+   }
+   circle:nth-of-type(1) {
+   -webkit-animation-delay: -0.15s;
+   animation-delay: -0.15s;
+   }
+   circle:nth-of-type(2) {
+   -webkit-animation-delay: -0.3s;
+   animation-delay: -0.3s;
+   }
+   circle:nth-of-type(3) {
+   -webkit-animation-delay: -0.45s;
+   -moz-animation-delay:  -0.45s;
+   animation-delay: -0.45s;
+   }
+   circle:nth-of-type(4) {
+   -webkit-animation-delay: -0.6s;
+   -moz-animation-delay: -0.6s;
+   animation-delay: -0.6s;
+   }
+   @-webkit-keyframes preloader {
+   50% {
+   -webkit-transform: rotate(360deg);
+   transform: rotate(360deg);
+   }
+   }
+   @keyframes preloader {
+   50% {
+   -webkit-transform: rotate(360deg);
+   transform: rotate(360deg);
+   }
+   }
+</style>
+<div class="sp-container" id="preloader">
+   <svg class="loader" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 340">
+      <circle cx="170" cy="170" r="160" stroke="#4e73df"/>
+      <circle cx="170" cy="170" r="135" stroke="#6f42c1"/>
+      <circle cx="170" cy="170" r="110" stroke="#4e73df"/>
+      <circle cx="170" cy="170" r="85" stroke="#6f42c1"/>
+   </svg>
+</div>
+<!-- Page Wrapper -->
+<div id="wrapper">
+   <!-- Sidebar -->
+   {% include "dashboard/doctor/sidebar.html" %}
+   <!-- End of Sidebar -->
+   <!-- Content Wrapper -->
+   <div id="content-wrapper" class="d-flex flex-column">
+      <!-- Main Content -->
+      <div id="content">
+         <!-- Topbar -->
+         {% include "dashboard/doctor/top_bar.html" %}
+         <!-- End of Topbar -->
+         <!-- Begin Page Content -->
+         <div class="container-fluid">
+            <!-- Page Heading -->
+            <h1 class="h3 mb-2 text-gray-800">Doctor:{{user.user_name}} User:{{user_patient.user_name}}</h1>
+            <p class="mb-4"></p>
+            <!-- Model 1 -->
+             <div class="card shadow mb-4">
+               <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold text-danger">Previous Cases of User Details</h6>
+               </div>
+               <div class="card-body">
+                  <div class="table-responsive">
+                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                           <tr>
+                              <th>ID</th>
+                              <th>Symptoms</th>
+                              <th>Diseases</th>
+                              <th>Injuries</th>
+                              <th>General Notes</th>
+                              <th>Case of Injury?</th>
+                              <th>Closed</th>
+                              <th>Consultancy</th>
+                              <th>Take Case</th>
+                           </tr>
+                        </thead>
+                        <tfoot>
+                           <tr>
+                              <th>ID</th>
+                              <th>Symptoms</th>
+                              <th>Diseases</th>
+                              <th>Injuries</th>
+                              <th>General Notes</th>
+                              <th>Case of Injury?</th>
+                              <th>Closed</th>
+                              <th>Consultancy</th>
+                              <th>Take Case</th>
+                           </tr>
+                        </tfoot>
+                        <tbody>
+                           {% for ajax in cases_ %}
+                          
+                           <tr id="table-{{forloop.counter0}}">
+                              <th>{{ ajax.id }}</th>
+                              <td>{{ ajax.symptoms }}</td>
+                              <td>{{ ajax.diseases }}</td>
+                              <td>{{ ajax.injury_type }}</td>
+                              <td>{{ ajax.general_notes }}</td>
+                              <td>{{ ajax.is_accidental}}</td>
+                              <td>{{ ajax.is_closed}}</td>
+                              <td><a href="#" onclick="getajaxconsultancy('{{ajax.id}}')" class="btn btn-info btn-icon-split" data-toggle="modal" data-target="#doc_cons{{ajax.id}}"><span class="icon text-white-50">
+                                 <i class="fas fa-arrow-right"></i>
+                                 </span><span class="text">Click</span></a>
+                                <!-- The Modal -->
+                                <div class="modal " id="doc_cons{{ajax.id}}">
+                                  <div class="modal-dialog mw-100">
+                                    <div class="modal-content">
+                                      <!-- Modal Header -->
+                                      <div class="modal-header">
+                                        <h4 class="modal-title">Case ID: {{ ajax.id }}</h4>
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                      </div>
+                                      <!-- Modal body -->
+                                      <div class="modal-body" id="doc_cons_body{{ajax.id}}">
+                                       <div class="table-responsive">
+                                            <table class="table table-bordered"  width="100%" cellspacing="0">
+                                              <thead>
+                                                <tr>
+                                                  <!-- <th>Id</th> -->
+                                                  <th>Entry Date</th>
+                                                  <th>Symptoms</th>
+                                                  <th>Injuries</th>
+                                                  <th>Diseases</th>
+                                                  <th>Personal notes</th>
+                                                  <th>General notes</th>
+                                                  <th>Case of Injury?</th>
+                                                </tr>
+                                              </thead>
+                                              <tfoot>
+                                                <tr>
+                                                   <!-- <th>Id</th> -->
+                                                  <th>Entry Date</th>
+                                                  <th>Symptoms</th>
+                                                  <th>Injuries</th>
+                                                  <th>Diseases</th>
+                                                  <th>Personal notes</th>
+                                                  <th>General notes</th>
+                                                  <th>Case of Injury?</th>
+                                                </tr>
+                                              </tfoot>
+                                              <tbody id="tbody-{{ajax.id}}">
+                                              </tbody>
+                                            </table>
+                                          </div>
+                                      </div>
+                                      <!-- Modal footer -->
+                                      <div class="modal-footer">
+                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                      </div>
+
+                                    </div>
+                                  </div>
+                                </div>
+                              </td>
+                              <td>
+                                <a href="/doctor/select_case/{{user.user_name}}/{{ajax.id}}" class="btn btn-success btn-icon-split"><span class="icon text-white-50">
+                                 <i class="fas fa-arrow-right"></i>
+                                 </span><span class="text">Click</span></a></td>
+
+                           </tr>
+                           {% endfor %}
+                        </tbody>
+                     </table>
+                  </div>
+               </div>
+            </div>
+
+            
+         </div>
+         <!-- /.container-fluid -->
+      </div>
+      <!-- End of Main Content -->
+      <!-- Footer -->
+      <footer class="sticky-footer bg-white">
+         <div class="container my-auto">
+            <div class="copyright text-center my-auto">
+               <span>Copyright &copy; Your Website </span><span id="year-current"></span>
+            </div>
+         </div>
+      </footer>
+      <!-- End of Footer -->
+   </div>
+   <!-- End of Content Wrapper -->
+</div>
+<!-- End of Page Wrapper -->
+<!-- Scroll to Top Button-->
+<a class="scroll-to-top rounded" href="#page-top">
+<i class="fas fa-angle-up"></i>
+</a>
+<script type="text/javascript">
+   document.getElementById('year-current').innerHTML=new Date().getFullYear();
+</script> 
+<!-- Page level plugins -->
+<script src="{% static 'dashboard/vendor/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'dashboard/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<!-- Core plugin JavaScript-->
+<script src="{% static 'dashboard/vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+<!-- Custom scripts for all pages-->
+<script src="{% static 'dashboard/vendor/jquery/datepicker.min.js' %}"></script>
+<script src="{% static 'dashboard/js/sb-admin-2.min.js' %}"></script>
+<!-- Page level plugins -->
+<script src="{% static 'dashboard/vendor/datatables/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'dashboard/vendor/datatables/dataTables.bootstrap4.min.js' %}"></script>
+<!-- Page level custom scripts -->
+<script src="{% static 'dashboard/js/demo/datatables-demo.js' %}"></script>
+<script type="text/javascript">
+   function csrfSafeMethod(method) {
+   // these HTTP methods do not require CSRF protection
+   return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+   }
+   var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
+   $.ajaxSetup({
+   beforeSend: function(xhr, settings) {
+     $('#preloader').show();
+       if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+           xhr.setRequestHeader("X-CSRFToken", csrftoken);
+       }
+       
+        
+   }
+   });
+function getajaxconsultancy(tt) {
+  console.log(tt);
+       $.ajax({
+         type: "GET",
+         url: '/doctor/get_cons_doc/{{user.user_name}}',
+         data: {
+           'case_id': tt
+         },
+         dataType: 'json',
+         complete: function(){
+         $('#preloader').hide();
+         },
+         success:function(data)
+         {
+          // console.log(data.result);
+          xxx=JSON.parse(data.result);
+          console.log(xxx);
+          strr="";
+          $("#tbody-"+tt).empty();
+          for (var i = 0; i < xxx.length; i++) {  
+            var date_= new Date(xxx[i].fields['logoutTime']);
+            console.log(date_);
+            var dd = date_.getDate();
+            var mm = date_.getMonth() + 1; //January is 0!
+
+            var yyyy = date_.getFullYear();
+            if (dd < 10) {
+              dd = '0' + dd;
+            } 
+            if (mm < 10) {
+              mm = '0' + mm;
+            } 
+            var disp_date = dd + '/' + mm + '/' + yyyy;
+            strr="<tr><td>"+disp_date+"</td><td>"+xxx[i].fields['symptoms']+"</td><td>"+xxx[i].fields['injury_type']+"</td><td>"+xxx[i].fields['diseases']+"</td><td>"+xxx[i].fields['personal_notes']+"</td><td>"+xxx[i].fields['general_notes']+"</td><td>"+xxx[i].fields['is_accidental']+"</td></tr>"
+            console.log(xxx[i].fields);
+            $("#tbody-"+tt).append(strr);
+         
+          }
+           
+         },
+         error : function(xhr,errmsg,err) {
+            alert(xhr.status + ": " + xhr.responseText); 
+         }
+       });
+      
+       
+   }
+            
+</script>
+{% endblock %}

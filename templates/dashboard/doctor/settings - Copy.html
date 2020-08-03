@@ -1,0 +1,365 @@
+{% extends "dashboard/doctor/header_base.html" %}
+{% load static %}
+{% block content %}
+
+  <!-- Page Wrapper -->
+  <div id="wrapper">
+
+    <!-- Sidebar -->
+    {% include "dashboard/doctor/sidebar.html" %}
+    <!-- End of Sidebar -->
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+      <!-- Main Content -->
+      <div id="content">
+
+        <!-- Topbar -->
+        
+   {% include "dashboard/doctor/top_bar.html" %}
+        <!-- End of Topbar -->
+
+
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+
+          <!-- Page Heading -->
+          <h1 class="h3 mb-2 text-gray-800">User Settings</h1>
+          <p class="mb-4">If the User Wants to Update Profile</p>
+          <div class="card shadow mb-4">
+            <div class="card-header py-3">
+              <h6 class="m-0 font-weight-bold text-danger"> Update Settings for Account </h6>
+            </div>
+             <div class="card-body">
+              <div class="container">
+              <h3><img class="float-right" style="width: 150px" src="{{user.user_photo.url}}" alt="{{user.user_name}}"></h3>
+            </div>
+            <div class="text-center">
+                <h1 class="h4 text-gray-900 mb-4">Update Your Account!</h1>
+                {{message}}
+                <script>
+            {% if messages %}
+                {% for message in messages %}
+                    alert(message);
+                {% endfor %}
+            {% endif %}
+        </script>
+                {% if form.errors %}
+    {% for field in form %}
+        {% for error in field.errors %}
+            <div class="alert alert-danger">
+                <strong>Field Error{{ error|escape }}</strong>
+            </div>
+        {% endfor %}
+    {% endfor %}
+    {% for error in form.non_field_errors %}
+        <div class="alert alert-danger">
+            <strong>Non Field Error{{ error|escape }}</strong>
+        </div>
+    {% endfor %}
+{% endif %}
+              </div>
+<!--               <h1>User Name:{{user.user_name}}</h1>
+              <h3><span>First Name:{{user.firstname}}</span><span class="float-right">Last Name:{{user.lastname}}</span></h3>
+              <h3><span>Gender:{{user.gender}}</span></h3>
+              <h3><span>Created At:{{user.created_at}}</span><span class="float-right">Updated At:{{user.updated_at}}</span></h3>
+              <h1>Address Details</h1>
+
+              <h3><span>country Name:{{user.country}}</span><span class="float-right">state Name:{{user.state}}</span></h3>
+              <h3><span>district Name:{{user.district}}</span><span class="float-right">city Name:{{user.city}}</span></h3>
+              <h3><span>area Name:{{user.area}}</span><span class="float-right">city Name:{{user.city}}</span></h3>
+              <h3><span>society Name:{{user.society}}</span><span class="float-right">landmark Name:{{user.landmark}}</span></h3>
+              <h3><span>house_no Name:{{user.house_no}}</span><span class="float-right">pincode :{{user.pincode}}</span></h3>
+              <h3><span>dateofBirth :{{user.dateofBirth}}</span><span class="float-right">phone_number :{{user.phone_number}}</span></h3>
+              <h3><span>email :{{user.email}}</span></h3> -->
+              <form class="user" action='' method='POST' enctype = "multipart/form-data" >
+                {% csrf_token %}  
+                <div class="form-group row">
+                  <div class="col-sm-6 mb-3 mb-sm-0">
+                    <input type="text" value="{{user.firstname}}" class="form-control form-control-user" id="exampleFirstName" name="firstname" placeholder="First Name">
+                  </div>
+                  <div class="col-sm-6">
+                    <input type="text" class="form-control form-control-user"  value="{{user.lastname}}" id="exampleLastName" name="lastname"placeholder="Last Name">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <input type="text" class="form-control form-control-user"  value="{{user.user_name}}" id="exampleInputEmail"  name="user_name" placeholder="User Name">
+                </div>
+                <div class="form-group">
+                  <input type="email" class="form-control form-control-user"  value="{{user.email}}" id="exampleInputEmail" name="email" placeholder="Email Address">
+                </div>
+                
+                <div class="form-group">
+                  <input type="text" class="form-control form-control-user" value="{{user.aadhar_card_no}}" placeholder="Aadhar Card" name="aadhar_card_no" >
+                </div>
+                <div class="form-group">
+                  <input type="text" class="form-control form-control-user" value="{{user.phone_number}}" placeholder="Mobile Number" name="phone_number">
+                </div>
+                <h6>Enter Address Details</h6>
+                <div class="form-group row">
+                  <div class="col-sm-6 mb-3 mb-sm-0">
+                    <input type="text" class="form-control form-control-user" value="{{user.country}}"  name="country" placeholder="Country">
+                  </div>
+                  <div class="col-sm-6">
+                    <input type="text" class="form-control form-control-user" value="{{user.state}}"  name="state" placeholder="State">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <input type="text" class="form-control form-control-user" value="{{user.district}}" placeholder="district" name="district">
+                </div>
+                <div class="form-group row">
+                  <div class="col-sm-6">
+                    <input type="text" class="form-control form-control-user" value="{{user.city}}"  name="city" placeholder="City">
+                  </div>
+                  <div class="col-sm-6">
+                    <input type="text" class="form-control form-control-user" value="{{user.area}}"  name="area" placeholder="Area">
+                  </div>
+                </div>
+                <div class="form-group row">                
+                  <div class="col-sm-6">
+                    <input type="text" class="form-control form-control-user" value="{{user.pincode}}"  name="pincode" placeholder="Pincode">
+                  </div>
+                  <div class="col-sm-6">
+                    <input type="text" class="form-control form-control-user" value="{{user.society}}"  name="society" placeholder="Society">
+                  </div>
+                </div>                
+                <div class="form-group row">
+                  <div class="col-sm-6">
+                    <input type="text" class="form-control form-control-user" value="{{user.landmark}}"  name="landmark" placeholder="Landmark">
+                  </div>
+                  <div class="col-sm-6">
+                    <input type="text" class="form-control form-control-user" value="{{user.house_no}}"  name="house_no" placeholder="House No.">
+                  </div>
+                </div>
+                <div class="form-group row">
+                  
+                  <div class="col-sm-6">
+                    <input type="text" class="form-control form-control-user" value='{{user.dateofBirth|date:"Y-m-d"}}' name="dateofBirth" data-toggle="datepicker" placeholder="Date of Birth(YYYY-MM-DD)">
+                  </div>
+
+                  <div class="col-sm-6">
+                    <input type="text" class="form-control form-control-user" value="{{user.blood_group}}"  name="blood_group" placeholder="Blood Group">
+                  </div>
+                </div>
+                <div class="form-group">
+                  
+                  <div class="container">
+                    <div class="row">
+                      <div class="col-sm-6"><p> Please upload the Image and<br> check with the right one.</p><input onchange="readURL(this);" type = "file" name = "user_photo" value="{{user.user_photo.url}}" /><br>
+                        <button type="button" class="btn btn-danger mt-3" data-toggle="modal" data-target="#myModal">Click Here(For Capture)</button>
+
+                      </div>
+                        <div class="col-sm-6"><img src="{{user.user_photo.url}}" class="img-thumbnail w-100 pl-1" id="image_incident_img"  /><p id="image_incident_p"></p></div>
+                      </div>
+                    </div>
+                </div>
+                <h6>Gender</h6>
+                <!-- <div class="form-check-inline w-25 py-2">
+                  <label class="form-check-label">
+                    <input type="radio" class="form-check-input" value="M" name="gender">Male
+                  </label>
+                </div>
+                <div class="form-check-inline w-25 py-2" >
+                  <label class="form-check-label">
+                    <input type="radio" class="form-check-input" value="F" name="gender">Female
+                  </label>
+                </div>
+                <div class="form-check-inline  w-25 py-2">
+                  <label class="form-check-label">
+                    <input type="radio" class="form-check-input" value="O" name="gender" >Other
+                  </label>
+                </div> -->
+                 <div class="form-group">
+                {{form.gender}}
+              </div>
+              <div class="form-group row">
+                  
+                  <div class="col-sm-6">
+                    <input type="text" class="form-control form-control-user" id="" value="{{user.secret_que}}"  name="secret_que" placeholder="Security Question">
+                  </div>
+
+                  <div class="col-sm-6">
+                    <input type="text" class="form-control form-control-user" id="" value="{{user.secret_ans}}" name="secret_ans" placeholder="Security answer">
+                  </div>
+                </div>
+                
+                
+                <input type='submit' name='submit' class="btn btn-danger btn-user btn-block"/>
+               
+              </form>
+              
+
+              
+            </div>
+           
+          </div>
+          <div class="modal" id="myModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">For Providing SnapShot. It will Automatically Detect Faces</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+       <div id="my_camera"></div>
+       <input type=button value="Detect Face" class="btn btn-dark w-100 m-2"  onClick="detect_face()">
+       <input type=button value="" id='print_detected' class="btn btn-info w-100 m-2"  >
+  <input type=button value="Take Snapshot" class="btn btn-success w-100 m-2"  onClick="take_snapshot();">
+  
+    <div id="results" class="w-100 px-1 "  ></div>
+      <script src="{% static 'dashboard/js/tracking-min.js' %}"></script>
+        <script src="{% static 'dashboard/js/face-min.js' %}"></script>
+        <style>
+  #video_detect, #canvas_detect {
+   left: 18%;
+    top: 2%;
+    position: absolute;
+  }
+  </style>
+<video id="video_detect" width="320" height="240" preload autoplay loop muted></video>
+      <canvas id="canvas_detect" width="320" height="240"></canvas>
+<script>
+    function detect_face() {
+      var canvas = document.getElementById('canvas_detect');
+      var context = canvas.getContext('2d');
+
+      var tracker = new tracking.ObjectTracker('face');
+      tracker.setInitialScale(4);
+      tracker.setStepSize(2);
+      tracker.setEdgesDensity(0.1);
+
+      tracking.track('#video_detect', tracker, { camera: true });
+
+      tracker.on('track', function(event) {
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        document.getElementById('print_detected').value='Undetected';
+        event.data.forEach(function(rect) {
+          document.getElementById('print_detected').value='Detected';
+          context.strokeStyle = '#a64ceb';
+          context.strokeRect(rect.x, rect.y, rect.width, rect.height);
+          context.font = '11px Helvetica';
+          context.fillStyle = "#fff";
+          context.fillText('x: ' + rect.x + 'px', rect.x + rect.width + 5, rect.y + 11);
+          context.fillText('y: ' + rect.y + 'px', rect.x + rect.width + 5, rect.y + 22);
+        });
+      });
+    };
+  </script>
+
+  <script src="{% static 'dashboard/js/webcam.min.js' %}"></script>
+
+  <!-- Configure a few settings and attach camera -->
+  <script language="JavaScript">
+    Webcam.set({
+      width: 320,
+      height: 240,
+      image_format: 'jpeg',
+      jpeg_quality: 90
+    });
+    Webcam.attach( '#my_camera' );
+  </script>
+  <!-- A button for taking snaps -->
+  
+  <!-- Code to handle taking the snapshot and displaying it locally -->
+  <script language="JavaScript">
+
+    function take_snapshot() {
+      
+      // take snapshot and get image data
+      Webcam.snap( function(data_uri) {
+        // display results in page
+        document.getElementById('results').innerHTML =  '<img src="'+data_uri+'" style="width:100%" />';
+        document.getElementById('results').innerHTML += '<button type="button" class="btn btn-success w-100 my-2"  ><a class="text-danger" href="'+data_uri+'" download="Custom_img"/>Click Here to download Snapshot </a></button>';
+      } );
+    }
+  </script>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <!-- Result:<p id='print_detected'></p> -->
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+ <script type="text/javascript">
+           function readURL(input) {
+    if (input.files && input.files[0]) {
+      var reader = new FileReader();
+
+      reader.onload = function(e) {
+        $('#image_incident_img')
+        .attr('src', e.target.result);
+      };
+
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+  var x_gen=document.getElementById('id_gender');
+ x_gen.classList.add('form-control');
+ // x_gen.classList.add('form-control-user');
+ x_gen.placeholder="Please Select Gender";
+ x_gen.firstElementChild.innerHTML="Please Select Gender";
+ var x_vid=document.getElementById('my_camera');
+ x_vid.style.width="100%";
+ x_vid.childNodes[1].style.width="100%";
+         </script>
+          
+          
+
+        </div>
+        <!-- /.container-fluid -->
+
+      </div>
+      <!-- End of Main Content -->
+
+      <!-- Footer -->
+       <footer class="sticky-footer bg-white">
+        <div class="container my-auto">
+          <div class="copyright text-center my-auto">
+            <span>Copyright &copy; Your Website </span><span id="year-current"></span>
+          </div>
+        </div>
+      </footer>
+      <!-- End of Footer -->
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+  </div>
+  <!-- End of Page Wrapper -->
+
+  <!-- Scroll to Top Button-->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+ <script type="text/javascript">
+  document.getElementById('year-current').innerHTML=new Date().getFullYear();
+</script> 
+
+<!-- Page level plugins -->
+  <script src="{% static 'dashboard/vendor/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'dashboard/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="{% static 'dashboard/vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+
+  <!-- Custom scripts for all pages-->
+  <script src="{% static 'dashboard/vendor/jquery/datepicker.min.js' %}"></script>
+  <script src="{% static 'dashboard/js/sb-admin-2.min.js' %}"></script>
+ <script type="text/javascript">
+    (function() {
+$('[data-toggle="datepicker"]').datepicker({ format: 'yyyy-mm-dd'});
+
+})();
+  </script>
+
+  {% endblock %}

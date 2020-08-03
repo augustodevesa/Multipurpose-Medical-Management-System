@@ -1,0 +1,554 @@
+{% extends "dashboard/doctor/header_base.html" %}
+{% load static %} 
+{% block content %}
+<div class="container">
+   <div class="card o-hidden border-0 shadow-lg my-5">
+      <div class="card-body p-0">
+         <!-- Nested Row within Card Body -->
+         <div class="row">
+            <div class="col-lg-5 d-none d-lg-block bg-register-image"></div>
+            <div class="col-lg-7">
+               <div class="p-5">
+                  <div class="text-center">
+                     <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
+                     {{message}}
+                     <script>
+                        {% if messages %}
+                            {% for message in messages %}
+                                alert(message);
+                            {% endfor %}
+                        {% endif %}
+                     </script>
+                     {% if form.errors %}
+                     {% for field in form %}
+                     {% for error in field.errors %}
+                     <div class="alert alert-danger">
+                        <strong>Field Error{{ error|escape }}</strong>
+                     </div>
+                     {% endfor %}
+                     {% endfor %}
+                     {% for error in form.non_field_errors %}
+                     <div class="alert alert-danger">
+                        <strong>Non Field Error{{ error|escape }}</strong>
+                     </div>
+                     {% endfor %}
+                     {% endif %}
+                  </div>
+                  <form class="user" action='' method='POST' enctype = "multipart/form-data" >
+                     {% csrf_token %}  
+                     <div class="form-group row">
+                        <div class="col-sm-6 mb-3 mb-sm-0">
+                           <input type="text" class="form-control form-control-user" id="exampleFirstName" name="firstname" placeholder="First Name">
+                        </div>
+                        <div class="col-sm-6">
+                           <input type="text" class="form-control form-control-user" id="exampleLastName" name="lastname"placeholder="Last Name">
+                        </div>
+                     </div>
+                     <div class="form-group">
+                        <input type="text" class="form-control form-control-user" id="exampleInputEmail"  name="user_name" placeholder="User Name">
+                     </div>
+                     <div class="form-group">
+                        <input type="email" class="form-control form-control-user" id="exampleInputEmail" name="email" placeholder="Email Address">
+                     </div>
+                     <div class="form-group">
+                        <input type="text" class="form-control form-control-user" id="" placeholder="Aadhar Card" name="aadhar_card_no" >
+                     </div>
+                     <div class="form-group">
+                        <input type="text" class="form-control form-control-user" id="" placeholder="Mobile Number" name="phone_number">
+                     </div>
+                     <h6>Enter Address Details</h6>
+                     <div class="form-group row">
+                        <div class="col-sm-6 mb-3 mb-sm-0">
+                           <input type="text" class="form-control form-control-user" id="" name="country" placeholder="Country">
+                        </div>
+                        <div class="col-sm-6">
+                           <input type="text" class="form-control form-control-user" id=""  name="state" placeholder="State">
+                        </div>
+                     </div>
+                     <div class="form-group">
+                        <input type="text" class="form-control form-control-user" id="" placeholder="district" name="district">
+                     </div>
+                     <div class="form-group row">
+                        <div class="col-sm-6">
+                           <input type="text" class="form-control form-control-user" id=""  name="city" placeholder="City">
+                        </div>
+                        <div class="col-sm-6">
+                           <input type="text" class="form-control form-control-user" id=""  name="area" placeholder="Area">
+                        </div>
+                     </div>
+                     <div class="form-group row">
+                        <div class="col-sm-6">
+                           <input type="text" class="form-control form-control-user" id=""  name="pincode" placeholder="Pincode">
+                        </div>
+                        <div class="col-sm-6">
+                           <input type="text" class="form-control form-control-user" id=""  name="society" placeholder="Society">
+                        </div>
+                     </div>
+                     <div class="form-group row">
+                        <div class="col-sm-6">
+                           <input type="text" class="form-control form-control-user" id=""  name="landmark" placeholder="Landmark">
+                        </div>
+                        <div class="col-sm-6">
+                           <input type="text" class="form-control form-control-user" id=""  name="house_no" placeholder="House No.">
+                        </div>
+                     </div>
+                     <div class="form-group row">
+                        <div class="col-sm-6">
+                           <input type="text" class="form-control form-control-user" id=""  name="dateofBirth" data-toggle="datepicker" placeholder="Date of Birth(YYYY-MM-DD)">
+                        </div>
+                        <div class="col-sm-6">
+                           <input type="text" class="form-control form-control-user" id=""  name="blood_group" placeholder="Blood Group">
+                        </div>
+                     </div>
+                     <div class="form-group row">
+                        <div class="col-sm-6">
+                           <input type="text" class="form-control form-control-user" id=""  name="secret_que" placeholder="Security Question">
+                        </div>
+                        <div class="col-sm-6">
+                           <input type="text" class="form-control form-control-user" id="" name="secret_ans" placeholder="Security answer">
+                        </div>
+                     </div>
+                     <div class="form-group">
+                        <div class="container">
+                           <div class="row">
+                              <div class="col-sm-6">
+                                 <p> Please upload the Image and<br> check with the right one.</p>
+                                 <input onchange="readURL(this);" type = "file" name = "user_photo" /><br>
+                                 <button type="button" class="btn btn-primary mt-3" data-toggle="modal" data-target="#myModal1">Click Here(For Capture)</button>
+                              </div>
+                              <div class="col-sm-6">
+                                 <img src="{% static 'img/feedback-bg.jpg' %}" class="img-thumbnail w-100 pl-1" id="image_incident_img"  />
+                                 <p id="image_incident_p_1"></p>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="modal" id="myModal1">
+                           <div class="modal-dialog">
+                              <div class="modal-content">
+                                 <!-- Modal Header -->
+                                 <div class="modal-header">
+                                    <h4 class="modal-title">For Providing SnapShot. It will Automatically Detect Faces</h4>
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                 </div>
+                                 <!-- Modal body -->
+                                 <div class="modal-body">
+                                    <div id="my_camera"></div>
+                                    <input type=button value="Detect Face" class="btn btn-dark w-100 m-2"  onClick="detect_face()">
+                                    <input type=button value="" id='print_detected' class="btn btn-info w-100 m-2"  >
+                                    <input type=button value="Take Snapshot" class="btn btn-success w-100 m-2"  onClick="take_snapshot();">
+                                    <div id="results" class="w-100 px-1 "  ></div>
+                                    <script src="{% static 'dashboard/js/tracking-min.js' %}"></script>
+                                    <script src="{% static 'dashboard/js/face-min.js' %}"></script>
+                                    <style>
+                                       #video_detect, #canvas_detect {
+                                       left: 18%;
+                                       top: 2%;
+                                       position: absolute;
+                                       }
+                                    </style>
+                                    <video id="video_detect" width="320" height="240" preload autoplay loop muted></video>
+                                    <canvas id="canvas_detect" width="320" height="240"></canvas>
+                                    <script>
+                                       function detect_face() {
+                                         var canvas = document.getElementById('canvas_detect');
+                                         var context = canvas.getContext('2d');
+                                       
+                                         var tracker = new tracking.ObjectTracker('face');
+                                         tracker.setInitialScale(4);
+                                         tracker.setStepSize(2);
+                                         tracker.setEdgesDensity(0.1);
+                                       
+                                         tracking.track('#video_detect', tracker, { camera: true });
+                                       
+                                         tracker.on('track', function(event) {
+                                           context.clearRect(0, 0, canvas.width, canvas.height);
+                                           document.getElementById('print_detected').value='Undetected';
+                                           event.data.forEach(function(rect) {
+                                             document.getElementById('print_detected').value='Detected';
+                                             context.strokeStyle = '#a64ceb';
+                                             context.strokeRect(rect.x, rect.y, rect.width, rect.height);
+                                             context.font = '11px Helvetica';
+                                             context.fillStyle = "#fff";
+                                             context.fillText('x: ' + rect.x + 'px', rect.x + rect.width + 5, rect.y + 11);
+                                             context.fillText('y: ' + rect.y + 'px', rect.x + rect.width + 5, rect.y + 22);
+                                           });
+                                         });
+                                       };
+                                    </script>
+                                    <script src="{% static 'dashboard/js/webcam.min.js' %}"></script>
+                                    <!-- Configure a few settings and attach camera -->
+                                    <script language="JavaScript">
+                                       Webcam.set({
+                                         width: 320,
+                                         height: 240,
+                                         image_format: 'jpeg',
+                                         jpeg_quality: 90
+                                       });
+                                       Webcam.attach( '#my_camera' );
+                                       
+                                       //A button for taking snaps -->
+                                       // Code to handle taking the snapshot and displaying it locally -->
+                                       
+                                       function take_snapshot() {
+                                       
+                                       // take snapshot and get image data
+                                       Webcam.snap( function(data_uri) {
+                                       // display results in page
+                                       document.getElementById('results').innerHTML =  '<img src="'+data_uri+'" style="width:100%" />';
+                                       document.getElementById('results').innerHTML += '<button type="button" class="btn btn-success w-100 my-2"  ><a class="text-danger" href="'+data_uri+'" download="Custom_img"/>Click Here to download Snapshot </a></button>';
+                                       } );
+                                       }
+                                       
+                                       function readURL(input) {
+                                       if (input.files && input.files[0]) {
+                                       var reader = new FileReader();
+                                       
+                                       reader.onload = function(e) {
+                                       $('#image_incident_img')
+                                       .attr('src', e.target.result);
+                                       };
+                                       
+                                       reader.readAsDataURL(input.files[0]);
+                                       }
+                                       }
+                                       var x_gen=document.getElementById('id_gender');
+                                       x_gen.classList.add('form-control');
+                                       // x_gen.classList.add('form-control-user');
+                                       x_gen.placeholder="Please Select Gender";
+                                       x_gen.firstElementChild.innerHTML="Please Select Gender";
+                                       var x_vid=document.getElementById('my_camera');
+                                       x_vid.style.width="100%";
+                                       x_vid.childNodes[1].style.width="100%";
+                                    </script>
+                                 </div>
+                                 <!-- Modal footer -->
+                                 <div class="modal-footer">
+                                    <!-- Result:<p id='print_detected'></p> -->
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="form-group">
+                        <div class="container">
+                           <div class="row">
+                              <div class="col-sm-6">
+                                 <p> Please upload your degree certificate Image and<br> check with the right one.</p>
+                                 <input onchange="readURL(this);" type = "file" name = "doctor_degree_cert" /><br>
+                                 <button type="button" class="btn btn-primary mt-3" data-toggle="modal" data-target="#myModal2">Click Here(For Capture)</button>
+                              </div>
+                              <div class="col-sm-6">
+                                 <img src="{% static 'img/feedback-bg.jpg' %}" class="img-thumbnail w-100 pl-1" id="image_incident_img"  />
+                                 <p id="image_incident_p_2"></p>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="modal" id="myModal2">
+                           <div class="modal-dialog">
+                              <div class="modal-content">
+                                 <!-- Modal Header -->
+                                 <div class="modal-header">
+                                    <h4 class="modal-title">For Providing SnapShot. It will Automatically Detect Faces</h4>
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                 </div>
+                                 <!-- Modal body -->
+                                 <div class="modal-body">
+                                    <div id="my_camera"></div>
+                                    <input type=button value="Detect Face" class="btn btn-dark w-100 m-2"  onClick="detect_face()">
+                                    <input type=button value="" id='print_detected' class="btn btn-info w-100 m-2"  >
+                                    <input type=button value="Take Snapshot" class="btn btn-success w-100 m-2"  onClick="take_snapshot();">
+                                    <div id="results" class="w-100 px-1 "  ></div>
+                                    <script src="{% static 'dashboard/js/tracking-min.js' %}"></script>
+                                    <script src="{% static 'dashboard/js/face-min.js' %}"></script>
+                                    <style>
+                                       #video_detect, #canvas_detect {
+                                       left: 18%;
+                                       top: 2%;
+                                       position: absolute;
+                                       }
+                                    </style>
+                                    <video id="video_detect" width="320" height="240" preload autoplay loop muted></video>
+                                    <canvas id="canvas_detect" width="320" height="240"></canvas>
+                                    <script>
+                                       function detect_face() {
+                                         var canvas = document.getElementById('canvas_detect');
+                                         var context = canvas.getContext('2d');
+                                       
+                                         var tracker = new tracking.ObjectTracker('face');
+                                         tracker.setInitialScale(4);
+                                         tracker.setStepSize(2);
+                                         tracker.setEdgesDensity(0.1);
+                                       
+                                         tracking.track('#video_detect', tracker, { camera: true });
+                                       
+                                         tracker.on('track', function(event) {
+                                           context.clearRect(0, 0, canvas.width, canvas.height);
+                                           document.getElementById('print_detected').value='Undetected';
+                                           event.data.forEach(function(rect) {
+                                             document.getElementById('print_detected').value='Detected';
+                                             context.strokeStyle = '#a64ceb';
+                                             context.strokeRect(rect.x, rect.y, rect.width, rect.height);
+                                             context.font = '11px Helvetica';
+                                             context.fillStyle = "#fff";
+                                             context.fillText('x: ' + rect.x + 'px', rect.x + rect.width + 5, rect.y + 11);
+                                             context.fillText('y: ' + rect.y + 'px', rect.x + rect.width + 5, rect.y + 22);
+                                           });
+                                         });
+                                       };
+                                    </script>
+                                    <script src="{% static 'dashboard/js/webcam.min.js' %}"></script>
+                                    <!-- Configure a few settings and attach camera -->
+                                    <script language="JavaScript">
+                                       Webcam.set({
+                                         width: 320,
+                                         height: 240,
+                                         image_format: 'jpeg',
+                                         jpeg_quality: 90
+                                       });
+                                       Webcam.attach( '#my_camera' );
+                                       
+                                       //A button for taking snaps -->
+                                       // Code to handle taking the snapshot and displaying it locally -->
+                                       
+                                       function take_snapshot() {
+                                       
+                                       // take snapshot and get image data
+                                       Webcam.snap( function(data_uri) {
+                                       // display results in page
+                                       document.getElementById('results').innerHTML =  '<img src="'+data_uri+'" style="width:100%" />';
+                                       document.getElementById('results').innerHTML += '<button type="button" class="btn btn-success w-100 my-2"  ><a class="text-danger" href="'+data_uri+'" download="Custom_img"/>Click Here to download Snapshot </a></button>';
+                                       } );
+                                       }
+                                       
+                                       function readURL(input) {
+                                       if (input.files && input.files[0]) {
+                                       var reader = new FileReader();
+                                       
+                                       reader.onload = function(e) {
+                                       $('#image_incident_img')
+                                       .attr('src', e.target.result);
+                                       };
+                                       
+                                       reader.readAsDataURL(input.files[0]);
+                                       }
+                                       }
+                                       var x_gen=document.getElementById('id_gender');
+                                       x_gen.classList.add('form-control');
+                                       // x_gen.classList.add('form-control-user');
+                                       x_gen.placeholder="Please Select Gender";
+                                       x_gen.firstElementChild.innerHTML="Please Select Gender";
+                                       var x_vid=document.getElementById('my_camera');
+                                       x_vid.style.width="100%";
+                                       x_vid.childNodes[1].style.width="100%";
+                                    </script>
+                                 </div>
+                                 <!-- Modal footer -->
+                                 <div class="modal-footer">
+                                    <!-- Result:<p id='print_detected'></p> -->
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="form-group">
+                        <div class="container">
+                           <div class="row">
+                              <div class="col-sm-6">
+                                 <p> Please upload the Image and<br> check with the right one.</p>
+                                 <input onchange="readURL(this);" type = "file" name = "doctor_licencse_cert" /><br>
+                                 <button type="button" class="btn btn-primary mt-3" data-toggle="modal" data-target="#myModal3">Click Here(For Capture)</button>
+                              </div>
+                              <div class="col-sm-6">
+                                 <img src="{% static 'img/feedback-bg.jpg' %}" class="img-thumbnail w-100 pl-1" id="image_incident_img"  />
+                                 <p id="image_incident_p_3"></p>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="modal" id="myModal3">
+                           <div class="modal-dialog">
+                              <div class="modal-content">
+                                 <!-- Modal Header -->
+                                 <div class="modal-header">
+                                    <h4 class="modal-title">For Providing SnapShot. It will Automatically Detect Faces</h4>
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                 </div>
+                                 <!-- Modal body -->
+                                 <div class="modal-body">
+                                    <div id="my_camera"></div>
+                                    <input type=button value="Detect Face" class="btn btn-dark w-100 m-2"  onClick="detect_face()">
+                                    <input type=button value="" id='print_detected' class="btn btn-info w-100 m-2"  >
+                                    <input type=button value="Take Snapshot" class="btn btn-success w-100 m-2"  onClick="take_snapshot();">
+                                    <div id="results" class="w-100 px-1 "  ></div>
+                                    <script src="{% static 'dashboard/js/tracking-min.js' %}"></script>
+                                    <script src="{% static 'dashboard/js/face-min.js' %}"></script>
+                                    <style>
+                                       #video_detect, #canvas_detect {
+                                       left: 18%;
+                                       top: 2%;
+                                       position: absolute;
+                                       }
+                                    </style>
+                                    <video id="video_detect" width="320" height="240" preload autoplay loop muted></video>
+                                    <canvas id="canvas_detect" width="320" height="240"></canvas>
+                                    <script>
+                                       function detect_face() {
+                                         var canvas = document.getElementById('canvas_detect');
+                                         var context = canvas.getContext('2d');
+                                       
+                                         var tracker = new tracking.ObjectTracker('face');
+                                         tracker.setInitialScale(4);
+                                         tracker.setStepSize(2);
+                                         tracker.setEdgesDensity(0.1);
+                                       
+                                         tracking.track('#video_detect', tracker, { camera: true });
+                                       
+                                         tracker.on('track', function(event) {
+                                           context.clearRect(0, 0, canvas.width, canvas.height);
+                                           document.getElementById('print_detected').value='Undetected';
+                                           event.data.forEach(function(rect) {
+                                             document.getElementById('print_detected').value='Detected';
+                                             context.strokeStyle = '#a64ceb';
+                                             context.strokeRect(rect.x, rect.y, rect.width, rect.height);
+                                             context.font = '11px Helvetica';
+                                             context.fillStyle = "#fff";
+                                             context.fillText('x: ' + rect.x + 'px', rect.x + rect.width + 5, rect.y + 11);
+                                             context.fillText('y: ' + rect.y + 'px', rect.x + rect.width + 5, rect.y + 22);
+                                           });
+                                         });
+                                       };
+                                    </script>
+                                    <script src="{% static 'dashboard/js/webcam.min.js' %}"></script>
+                                    <!-- Configure a few settings and attach camera -->
+                                    <script language="JavaScript">
+                                       Webcam.set({
+                                         width: 320,
+                                         height: 240,
+                                         image_format: 'jpeg',
+                                         jpeg_quality: 90
+                                       });
+                                       Webcam.attach( '#my_camera' );
+                                       
+                                       //A button for taking snaps -->
+                                       // Code to handle taking the snapshot and displaying it locally -->
+                                       
+                                       function take_snapshot() {
+                                       
+                                       // take snapshot and get image data
+                                       Webcam.snap( function(data_uri) {
+                                       // display results in page
+                                       document.getElementById('results').innerHTML =  '<img src="'+data_uri+'" style="width:100%" />';
+                                       document.getElementById('results').innerHTML += '<button type="button" class="btn btn-success w-100 my-2"  ><a class="text-danger" href="'+data_uri+'" download="Custom_img"/>Click Here to download Snapshot </a></button>';
+                                       } );
+                                       }
+                                       
+                                       function readURL(input) {
+                                       if (input.files && input.files[0]) {
+                                       var reader = new FileReader();
+                                       
+                                       reader.onload = function(e) {
+                                       $('#image_incident_img')
+                                       .attr('src', e.target.result);
+                                       };
+                                       
+                                       reader.readAsDataURL(input.files[0]);
+                                       }
+                                       }
+                                       var x_gen=document.getElementById('id_gender');
+                                       x_gen.classList.add('form-control');
+                                       // x_gen.classList.add('form-control-user');
+                                       x_gen.placeholder="Please Select Gender";
+                                       x_gen.firstElementChild.innerHTML="Please Select Gender";
+                                       var x_vid=document.getElementById('my_camera');
+                                       x_vid.style.width="100%";
+                                       x_vid.childNodes[1].style.width="100%";
+                                    </script>
+                                 </div>
+                                 <!-- Modal footer -->
+                                 <div class="modal-footer">
+                                    <!-- Result:<p id='print_detected'></p> -->
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <h6>Gender</h6>
+                     <!-- <div class="form-check-inline w-25 py-2">
+                        <label class="form-check-label">
+                          <input type="radio" class="form-check-input" value="M" name="gender">Male
+                        </label>
+                        </div>
+                        <div class="form-check-inline w-25 py-2" >
+                        <label class="form-check-label">
+                          <input type="radio" class="form-check-input" value="F" name="gender">Female
+                        </label>
+                        </div>
+                        <div class="form-check-inline  w-25 py-2">
+                        <label class="form-check-label">
+                          <input type="radio" class="form-check-input" value="O" name="gender" >Other
+                        </label>
+                        </div> -->
+                     <div class="form-group">
+                        {{form.gender}}
+                     </div>
+                     <div class="form-group row">
+                        <div class="col-sm-6 mb-3 mb-sm-0">
+                           <input type="password" class="form-control form-control-user" id="exampleInputPassword" placeholder="Password" name="password1">
+                        </div>
+                        <div class="col-sm-6">
+                           <input type="password" class="form-control form-control-user" id="exampleRepeatPassword" placeholder="Repeat Password" name="password2">
+                        </div>
+                     </div>
+                     <div class="form-group">
+                        <label>Please Enter the Captcha</label>
+                        {{form.captcha}}
+                     </div>
+                     <input type='submit' name='submit' class="btn btn-primary btn-user btn-block"/>
+                     <hr>
+                     <a href="index.html" class="btn btn-google btn-user btn-block">
+                     <i class="fab fa-google fa-fw"></i> Register with Google
+                     </a>
+                     <a href="index.html" class="btn btn-facebook btn-user btn-block">
+                     <i class="fab fa-facebook-f fa-fw"></i> Register with Facebook
+                     </a>
+                  </form>
+                  <!-- <form class="user" action='/user/register' method='POST'>
+                     <input type='submit' name='submit' class="btn btn-primary btn-user btn-block"/>
+                     <hr>
+                     <a href="index.html" class="btn btn-google btn-user btn-block">
+                       <i class="fab fa-google fa-fw"></i> Register with Google
+                     </a>
+                     <a href="index.html" class="btn btn-facebook btn-user btn-block">
+                       <i class="fab fa-facebook-f fa-fw"></i> Register with Facebook
+                     </a>
+                     </form> -->
+                  <hr>
+                  <div class="text-center">
+                     <a class="small" href="/doctor/forgot_pass">Forgot Password?</a>
+                  </div>
+                  <div class="text-center">
+                     <a class="small" href="/doctor/login">Already have an account? Login!</a>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+<!-- Page level plugins -->
+<script src="{% static 'dashboard/vendor/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'dashboard/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<!-- Core plugin JavaScript-->
+<script src="{% static 'dashboard/vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+<!-- Custom scripts for all pages-->
+<script src="{% static 'dashboard/vendor/jquery/datepicker.min.js' %}"></script>
+<script src="{% static 'dashboard/js/sb-admin-2.min.js' %}"></script>
+<script type="text/javascript">
+   (function() {
+   $('[data-toggle="datepicker"]').datepicker({ format: 'yyyy-mm-dd'});
+   
+   })();
+</script>
+{% endblock %}

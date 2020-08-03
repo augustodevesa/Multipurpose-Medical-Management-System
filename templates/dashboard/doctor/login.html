@@ -1,0 +1,113 @@
+{% extends "dashboard/doctor/header_base.html" %}
+ {% load static %} 
+{% block content %}
+	<canvas id="canvas" style="background-color: #2c343f;width: 100%; z-index: -1; position: absolute; top:0;  "></canvas>
+   <div class="container">
+
+    <!-- Outer Row -->
+    <div class="row justify-content-center">
+
+      <div class="col-xl-10 col-lg-12 col-md-9">
+
+        <div class="card o-hidden border-0 shadow-lg my-5">
+          <div class="card-body p-0">
+            <!-- Nested Row within Card Body -->
+            <div class="row">
+               <div class="col-lg-6" style="position: relative;">
+                <img src="{% static 'img/doctor1.png' %}" class="mx-auto d-block mw-100" style="position: absolute;top: 10%;" >
+              </div>
+              <div class="col-lg-6">
+                <div class="p-5">
+                  <div class="text-center">
+                    <h1 class="h4 text-gray-900 mb-4">Welcome Back!<br/></h1>
+                     <!-- <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1> -->
+                {{message}}
+                <script>
+            {% if messages %}
+                {% for message in messages %}
+                    alert(message);
+                {% endfor %}
+            {% endif %}
+        </script>
+                {% if form.errors %}
+    {% for field in form %}
+        {% for error in field.errors %}
+            <div class="alert alert-danger">
+                <strong>Field Error{{ error|escape }}</strong>
+            </div>
+        {% endfor %}
+    {% endfor %}
+    {% for error in form.non_field_errors %}
+        <div class="alert alert-danger">
+            <strong>Non Field Error{{ error|escape }}</strong>
+        </div>
+    {% endfor %}
+{% endif %}
+                  </div>
+                  <form class="user" action="/doctor/login" method='POST'>
+                    {% csrf_token %} 
+                    <!-- {{ form.as_p }}  -->
+                    <div class="form-group">
+                      <input type="email" class="form-control form-control-user" id="exampleInputEmail" aria-describedby="emailHelp" name="email" placeholder="Enter Email Address...">
+                    </div>
+                    <div class="form-group">
+                      <input type="password" class="form-control form-control-user" id="exampleInputPassword" name="password" placeholder="Password">
+                    </div>
+                    <div class="form-group">
+                      <div class="custom-control custom-checkbox small">
+                        <input type="checkbox" class="custom-control-input" id="customCheck">
+                        <label class="custom-control-label" for="customCheck">Remember Me</label>
+                      </div>
+                    </div>
+                     <div class="form-group">
+                      <label>Please Enter the Captcha</label>
+                      {{form.captcha}}
+                    </div>
+                       <input type='submit' name='submit' class="btn btn-danger btn-user btn-block"/>
+                    <hr>
+                    
+                  </form>
+                  <hr>
+                  <div class="text-center">
+                    <a class="small" href="/doctor/forgot_pass">Forgot Password?</a>
+                  </div>
+                  <div class="text-center">
+                    <a class="small" href="/doctor/register">Create an Account!</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+  <!-- Page level plugins -->
+  <script src="{% static 'dashboard/vendor/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'dashboard/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="{% static 'dashboard/vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+
+  <!-- Custom scripts for all pages-->
+  <script src="{% static 'dashboard/vendor/jquery/datepicker.min.js' %}"></script>
+  <script src="{% static 'dashboard/js/sb-admin-2.min.js' %}"></script>
+
+  <!-- Page level plugins -->
+  <script src="{% static 'dashboard/vendor/datatables/jquery.dataTables.min.js' %}"></script>
+  <script src="{% static 'dashboard/vendor/datatables/dataTables.bootstrap4.min.js' %}"></script>
+
+  <!-- Page level custom scripts -->
+  <script src="{% static 'dashboard/js/demo/datatables-demo.js' %}"></script>
+  <script type="text/javascript" src="{% static 'dashboard/js/background.js' %}"></script>
+  <script type="text/javascript">
+    $("#id_captcha_1").addClass("form-control form-control-user");
+   $(".captcha").css("float","right");
+   $(".captcha").addClass("img-fluid p-2");
+
+
+  </script>
+{% endblock %}

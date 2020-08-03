@@ -1,0 +1,858 @@
+{% extends "dashboard/doctor/header_base.html" %}
+{% load static %}
+{% block content %}
+<link href="{% static 'dashboard/vendor/datatables/dataTables.bootstrap4.min.css' %}" rel="stylesheet">
+<style type="text/css">
+   .sp-container {
+   display: -webkit-box;
+   display: -ms-flexbox;
+   display: flex;
+   -webkit-box-align: center;
+   -ms-flex-align: center;
+   align-items: center;
+   -webkit-box-pack: center;
+   -ms-flex-pack: center;
+   justify-content: center;
+   min-height: 100vh;
+   background-color: transparent;
+   position: absolute;
+   left: 45%;
+   z-index: 99999;
+   display: none;
+   top: 27%;
+   }
+   .loader {
+   max-width: 15rem;
+   width: 50%;
+   height: auto;
+   stroke-linecap: round;
+   }
+   circle {
+   fill: none;
+   stroke-width: 3.5;
+   -webkit-animation-name: preloader;
+   animation-name: preloader;
+   -webkit-animation-duration: 3s;
+   animation-duration: 3s;
+   -webkit-animation-iteration-count: infinite;
+   animation-iteration-count: infinite;
+   -webkit-animation-timing-function: ease-in-out;
+   animation-timing-function: ease-in-out;
+   -webkit-transform-origin: 170px 170px;
+   transform-origin: 170px 170px;
+   will-change: transform;
+   }
+   circle:nth-of-type(1) {
+   stroke-dasharray: 550;
+   }
+   circle:nth-of-type(2) {
+   stroke-dasharray: 500;
+   }
+   circle:nth-of-type(3) {
+   stroke-dasharray: 450;
+   }
+   circle:nth-of-type(4) {
+   stroke-dasharray: 300;
+   }
+   circle:nth-of-type(1) {
+   -webkit-animation-delay: -0.15s;
+   animation-delay: -0.15s;
+   }
+   circle:nth-of-type(2) {
+   -webkit-animation-delay: -0.3s;
+   animation-delay: -0.3s;
+   }
+   circle:nth-of-type(3) {
+   -webkit-animation-delay: -0.45s;
+   -moz-animation-delay:  -0.45s;
+   animation-delay: -0.45s;
+   }
+   circle:nth-of-type(4) {
+   -webkit-animation-delay: -0.6s;
+   -moz-animation-delay: -0.6s;
+   animation-delay: -0.6s;
+   }
+   @-webkit-keyframes preloader {
+   50% {
+   -webkit-transform: rotate(360deg);
+   transform: rotate(360deg);
+   }
+   }
+   @keyframes preloader {
+   50% {
+   -webkit-transform: rotate(360deg);
+   transform: rotate(360deg);
+   }
+   }
+</style>
+<div class="sp-container" id="preloader">
+   <svg class="loader" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 340">
+      <circle cx="170" cy="170" r="160" stroke="#4e73df"/>
+      <circle cx="170" cy="170" r="135" stroke="#6f42c1"/>
+      <circle cx="170" cy="170" r="110" stroke="#4e73df"/>
+      <circle cx="170" cy="170" r="85" stroke="#6f42c1"/>
+   </svg>
+</div>
+<script src="{% static 'dashboard/vendor/jquery/jquery.min.js' %}"></script>
+<script type="text/javascript">
+   function show_dis() {
+      $(".Disabled").show();
+      // body...
+   }
+   function remove_dis() {
+      $(".Disabled").hide();
+      // body...
+   }
+   function show_other() {
+     $("#disability_other").show();
+   }
+   function remove_other() {
+     $("#disability_other").hide();
+   }
+</script>
+<!-- Page Wrapper -->
+<div id="wrapper">
+   <!-- Sidebar -->
+   {% include "dashboard/doctor/sidebar.html" %}
+   <!-- End of Sidebar -->
+   <!-- Content Wrapper -->
+   <div id="content-wrapper" class="d-flex flex-column">
+      <!-- Main Content -->
+      <div id="content">
+         <!-- Topbar -->
+         {% include "dashboard/doctor/top_bar.html" %}
+         <!-- End of Topbar -->
+         <!-- Begin Page Content -->
+         <div class="container-fluid">
+            <!-- Page Heading -->
+            <h1 class="h3 mb-2 text-gray-800">Doctor:{{user.user_name}} User:{{user_patient.user_name}}</h1>
+            <p class="mb-4"></p>
+            <div class="card shadow mb-4">
+               <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold text-primary">Basic Medical Details{{message}}</h6>
+               </div>
+               <div class="card-body p-0">
+                  {% with x=basic_med %}
+                  <fieldset>
+                     <!-- Form Name -->
+                     <div class="container">
+                        <legend>Fields marked with * are manadatory</legend>
+                        <div class="row">
+                           <div class="col-sm-6">
+                              <!-- Text input-->
+                              <div class="form-group">
+                                 <label class=" control-label" >Full Name</label>  
+                                 <input readonly  id="height" name="height" type="text" placeholder="Height (in cms)" value="{{user_patient.firstname}} {{user_patient.lastname}}" class="form-control input-md" >
+                              </div>
+                              <div class="form-group">
+                                 <label class=" control-label" >Gender</label>  
+                                 <input readonly  id="Gender" name="Gender" type="text" placeholder="Gender" value="{{user_patient.get_gender_display}}" class="form-control input-md" >
+                              </div>
+                              <div class="form-group">
+                                 <label class=" control-label" >Blood Group</label>  
+                                 <input readonly  id="Gender" name="Gender" type="text" placeholder="Gender" value="{{user_patient.blood_group}}" class="form-control input-md" >
+                              </div>
+                              <div class="form-group">
+                                 <label class=" control-label" >Date of Birth</label>  
+                                 <input readonly  id="Gender" name="Gender" type="text" placeholder="Gender" value="{{user_patient.dateofBirth}}" class="form-control input-md" >
+                              </div>
+                              <div class="form-group">
+                                 <label class=" control-label" >Height</label>  
+                                 <input readonly  id="height" name="height" type="text" placeholder="Height (in cms)" value="{{x.height}}" class="form-control input-md" >
+                              </div>
+                              <!-- Text input-->
+                              <div class="form-group">
+                                 <label class=" control-label" for="weight">Weight</label>  
+                                 <input readonly id="weight" name="weight" type="text"value="{{x.weight}}" placeholder="Weight(in Kgs)" class="form-control input-md">
+                              </div>
+                              <div class="form-group">
+                                 <label class="control-label" for="martial_s">Martial Status*</label>
+                                 <select disabled class="form-control" id="martial_s" name="martial_s" required>
+                                    <option value="S" >Single</option>
+                                    <option value="M" selected>Married</option>
+                                    <option value="D">Divorced</option>
+                                    <option value="W">Widowed</option>
+                                 </select>
+                              </div>
+                              <script type="text/javascript">
+                                 var select=document.getElementById('martial_s')
+                                 var len=select.options.length;
+                                 for (var i = 0; i <len; i++) {
+                                   if(select.options[i].value=="{{x.martial_s}}")
+                                   {
+                                     
+                                     select.options[i].selected=true;
+                                   }
+                                   else 
+                                   {
+                                     select.options[i].selected=false;
+                                   
+                                   }
+                                 }
+                              </script>
+                              <div class="form-group">
+                                 <label class="control-label mr-5" for="pregnency">Pregnent</label>
+                                 <div class="form-check-inline">
+                                    <label class="form-check-label">
+                                    <input disabled type="radio" class="form-check-input"  name="pregnency" value="1">YES
+                                    </label>
+                                 </div>
+                                 <div class="form-check-inline">
+                                    <label class="form-check-label">
+                                    <input disabled type="radio" class="form-check-input" name="pregnency" value="0" >NO
+                                    </label>
+                                 </div>
+                              </div>
+                              <script type="text/javascript">
+                                 var p = document.getElementsByName('pregnency');
+                                   for (var i = 0; i <p.length; i++) {
+                                     if("{{x.pregnency}}"=="True")
+                                     {
+                                       var y=1;
+                                     }
+                                     else
+                                     {
+                                       var y=0;
+                                     }
+                                   if(p[i].value==y)
+                                   {
+                                 
+                                     p[i].checked=true;
+                                   }
+                                   else
+                                   {
+                                      p[i].checked=false;
+                                   }
+                                 }
+                                 
+                              </script>
+                              <div class="form-group">
+                                 <label class="control-label mr-5" for="disability_status">Are you Disabled Person?</label>
+                                 <div class="form-check-inline">
+                                    <label class="form-check-label">
+                                    <input disabled type="radio" class="form-check-input" onclick="show_dis()" value="1" name="disability_status" >YES
+                                    </label>
+                                 </div>
+                                 <div class="form-check-inline">
+                                    <label class="form-check-label">
+                                    <input disabled type="radio" class="form-check-input" name="disability_status" value="0" onclick="remove_dis()" >NO
+                                    </label>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="col-sm-6">
+                              <div class="Disabled" style="display: none;">
+                                 <div class="form-group">
+                                    <label class="control-label" for="disability_type">Disability Type*</label>
+                                    <select disabled class="form-control" id="disability_type" name="disability_type" >
+                                       <option onclick="remove_other()">Please Select</option>
+                                       <option value="VI" onclick="remove_other()">Vision Impairment</option>
+                                       <option value="DF" onclick="remove_other()">Deaf or Hard of hearing</option>
+                                       <option value="MH" onclick="remove_other()">Mental health Conditions</option>
+                                       <option value="ID" onclick="remove_other()">Intellectual Disability</option>
+                                       <option value="AB" onclick="remove_other()">Acquired Brain Injury</option>
+                                       <option value="AS" onclick="remove_other()">Autism Spectrum Disorder</option>
+                                       <option value="PD" onclick="remove_other()">Physical Disability</option>
+                                       <option value="OT" onclick="show_other()">Other</option>
+                                    </select>
+                                 </div>
+                                 <div class="form-group" style="display: none;" id="disability_other">
+                                    <label class=" control-label" >Other Type</label>  
+                                    <input readonly  name="disability_other" type="text" value="{{x.disability_other}}" placeholder="Please mention" class="form-control input-md" >
+                                 </div>
+                              </div>
+                              <div class="form-group">
+                                 <label class="control-label" for="vision">Vision*</label>
+                                 <select disabled class="form-control" name="vision" id="vision" required>
+                                    <option value="0">Blind</option>
+                                    <option value="1">Nearly Blind</option>
+                                    <option value="2">Having just Specs</option>
+                                    <option value="3" selected>OK</option>
+                                    <option value="4">Good</option>
+                                 </select>
+                              </div>
+                              <script type="text/javascript">
+                                 var p = document.getElementsByName('disability_status');
+                                   for (var i = 0; i <p.length; i++) {
+                                     if("{{x.disability_status}}"=="True")
+                                     {
+                                       var y=1;
+                                     }
+                                     else
+                                     {
+                                       var y=0;
+                                     }
+                                   if(p[i].value==y)
+                                   {
+                                     if(y==1)
+                                     {
+                                      show_dis();
+                                     }
+                                 
+                                     p[i].checked=true;
+                                   }
+                                   else
+                                   {
+                                      p[i].checked=false;
+                                   }
+                                 }
+                                 
+                                 var select=document.getElementById('vision')
+                                 var len=select.options.length;
+                                 for (var i = 0; i <len; i++) {
+                                   if(select.options[i].value=="{{x.vision}}")
+                                   {
+                                     
+                                     select.options[i].selected=true;
+                                   }
+                                   else 
+                                   {
+                                     select.options[i].selected=false;
+                                   
+                                   }
+                                 }
+                                  var select=document.getElementById('disability_type')
+                                 var len=select.options.length;
+                                 for (var i = 0; i <len; i++) {
+                                   if(select.options[i].value=="{{x.disability_type}}")
+                                   {
+                                     if(select.options[i].value=="OT")
+                                     {
+                                       show_other();
+                                     }
+                                     
+                                     select.options[i].selected=true;
+                                   }
+                                   else 
+                                   {
+                                     select.options[i].selected=false;
+                                   
+                                   }
+                                 }
+                              </script>
+                              <div class="form-group">
+                                 <label class="control-label" for="alcohol">Alcohol Consumption*</label>
+                                 <select disabled class="form-control" id="alcohol" name="alcohol"  required>
+                                    <option value="0">Severely Addicted</option>
+                                    <option value="1">Once in a day</option>
+                                    <option value="2">Once or twice a Week</option>
+                                    <option value="3">Not Regulary</option>
+                                    <option value="4" selected>Not touched in Life</option>
+                                 </select>
+                              </div>
+                              <script type="text/javascript">
+                                 var select=document.getElementById('alcohol')
+                                 var len=select.options.length;
+                                 for (var i = 0; i <len; i++) {
+                                   if(select.options[i].value=="{{x.alcohol}}")
+                                   {
+                                     
+                                     select.options[i].selected=true;
+                                   }
+                                   else 
+                                   {
+                                     select.options[i].selected=false;
+                                   
+                                   }
+                                 }
+                               </script>
+                                 <div class="form-group">
+                                  <label class="control-label" for="smoking">Smoking Consumption*</label>
+                                  <select disabled class="form-control" id="smoking"  name="smoking" required>
+                                     <option value="0">Severely Addicted</option>
+                                     <option value="1">Once in a day</option>
+                                     <option value="2">Once or twice a Week</option>
+                                     <option value="3">Not Regulary</option>
+                                     <option value="4" selected>Not touched in Life</option>
+                                  </select>
+                                 </div>
+                                 <script type="text/javascript">
+                                 var select=document.getElementById('smoking')
+                                 var len=select.options.length;
+                                 for (var i = 0; i <len; i++) {
+                                   if(select.options[i].value=="{{x.smoking}}")
+                                   {
+                                     
+                                     select.options[i].selected=true;
+                                   }
+                                   else 
+                                   {
+                                     select.options[i].selected=false;
+                                   
+                                   }
+                                 }
+                              </script>
+                              <div class="form-group">
+                                 <label class="control-label" for="vision">Color Vision *</label>
+                                 <select disabled class="form-control" id="color_vison" name="color_vison" required>
+                                    <option value="0">Color Blind</option>
+                                    <option value="1">Nearly Blind</option>
+                                    <option value="2">Bad Color Vision</option>
+                                    <option value="3" selected>OK</option>
+                                    <option value="4">Good</option>
+                                 </select>
+                              </div>
+                              <script type="text/javascript">
+                                 var select=document.getElementById('color_vison')
+                                 var len=select.options.length;
+                                 for (var i = 0; i <len; i++) {
+                                   if(select.options[i].value=="{{x.color_vison}}")
+                                   {
+                                     
+                                     select.options[i].selected=true;
+                                   }
+                                   else 
+                                   {
+                                     select.options[i].selected=false;
+                                   
+                                   }
+                                 }
+                              </script>
+                              <div class="form-group">
+                                 <label class="control-label" for="smoking">Masturbating*</label>
+                                 <select disabled class="form-control"  id="masturbating" name="masturbating" required>
+                                    <option value="0">Severely Addicted</option>
+                                    <option value="1">Once in a day</option>
+                                    <option value="2">Once or twice a Week</option>
+                                    <option value="3">Not Regulary</option>
+                                    <option value="4" selected>Not to be disclose</option>
+                                 </select>
+                              </div>
+                              <script type="text/javascript">
+                                 var select=document.getElementById('masturbating')
+                                 var len=select.options.length;
+                                 for (var i = 0; i <len; i++) {
+                                   if(select.options[i].value=="{{x.masturbating}}")
+                                   {
+                                     
+                                     select.options[i].selected=true;
+                                   }
+                                   else 
+                                   {
+                                     select.options[i].selected=false;
+                                   
+                                   }
+                                 }
+                              </script>
+                              <div class="form-group">
+                                 <label class="control-label" for="smoking">Drugs*</label>
+                                 <select disabled class="form-control" id="drugs" name="drugs" required>
+                                    <option value="0">Severely Addicted</option>
+                                    <option value="1">Once in a day</option>
+                                    <option value="2">Once or twice a Week</option>
+                                    <option value="3">Not Regulary</option>
+                                    <option value="4" selected>Not touched in Life</option>
+                                 </select>
+                              </div>
+                              <script type="text/javascript">
+                                 var select=document.getElementById('drugs')
+                                 var len=select.options.length;
+                                 for (var i = 0; i <len; i++) {
+                                   if(select.options[i].value=="{{x.drugs}}")
+                                   {
+                                     
+                                     select.options[i].selected=true;
+                                   }
+                                   else 
+                                   {
+                                     select.options[i].selected=false;
+                                   
+                                   }
+                                 }
+                              </script>
+                              <!-- Textarea -->
+                              <div class="form-group">
+                                 <label class=" control-label" for="other_details">Other Problems you want to Mention</label>
+                                 <textarea readonly class="form-control" value="{{x.other_details}}" name="other_details" >{{x.other_details}}</textarea>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </fieldset>
+                  {% endwith %}   
+               </div>
+            </div>
+            <div class="card shadow mb-4">
+               <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold text-primary">Previous Surgical Details</h6>
+               </div>
+               <div class="card-body">
+                  <div class="table-responsive">
+                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                           <tr>
+                              <th>Id</th>
+                              <th>Surgery type</th>
+                              <th>Surgery description</th>
+                              <th>Date of Surgery</th>
+                              <th>Surgery file</th>
+                              <th>Hospital Name</th>
+                              <th>Hospital Location</th>
+                              <th>Action</th>
+                           </tr>
+                        </thead>
+                        <tfoot>
+                           <tr>
+                              <th>Id</th>
+                              <th>Surgery type</th>
+                              <th>Surgery description</th>
+                              <th>Date of Surgery</th>
+                              <th>Surgery file</th>
+                              <th>Hospital Name</th>
+                              <th>Hospital Location</th>
+                              <th>Action</th>
+                           </tr>
+                        </tfoot>
+                        <tbody>
+                           {% for ajax in surgery %}
+                           <tr id="table-{{forloop.counter0}}">
+                              <td>{{ ajax.id }}</td>
+                              <td>{{ ajax.surgery_type }}</td>
+                              <td>{{ ajax.surgery_description }}</td>
+                              <td>{{ ajax.dateofSurgery }}</td>
+                              <td><a href="{{ ajax.surgery_file.url }}" class="btn btn-info btn-icon-split" download><span class="icon text-white-50">
+                                 <i class="fas fa-arrow-right"></i>
+                                 </span><span class="text">Click</span></a>
+                              </td>
+                              <td>{{ ajax.hospital_name }}</td>
+                              <td>{{ ajax.hospital_location}}</td>
+                              <td><a href="#" onclick="delete_contact({{ ajax.id }})" class="btn btn-danger btn-icon-split"> <span class="icon text-white-50">
+                                 <i class="fas fa-arrow-right"></i>
+                                 </span>
+                                 <span class="text">Delete</span>
+                                 </a>
+                              </td>
+                           </tr>
+                           {% endfor %}
+                        </tbody>
+                     </table>
+                  </div>
+               </div>
+            </div>
+            <div class="card o-hidden border-0 shadow-lg my-5">
+               <div class="card-body p-0">
+                  <!-- Nested Row within Card Body -->
+                  <div class="card-header py-3">
+                     <h6 class="m-0 font-weight-bold text-primary">Enter Details for Patient Counselling</h6>
+                  </div>
+                  <div class="card-body">
+                     <div class="text-center">
+                        <!-- <h1 class="h4 text-gray-900 mb-4">Welcome Back!<br/></h1> -->
+                        <h1 class="h4 text-gray-900 mb-4">Forgot Your Password?</h1>
+                        <p class="mb-4">We get it, stuff happens. Just enter your email address below and we'll send you a link to reset your password!</p>
+                        {{message}}
+                        <script>
+                           {% if messages %}
+                               {% for message in messages %}
+                                   alert(message);
+                               {% endfor %}
+                           {% endif %}
+                        </script>
+                        {% if form.errors %}
+                        {% for field in form %}
+                        {% for error in field.errors %}
+                        <div class="alert alert-danger">
+                           <strong>Field Error{{ error|escape }}</strong>
+                        </div>
+                        {% endfor %}
+                        {% endfor %}
+                        {% for error in form.non_field_errors %}
+                        <div class="alert alert-danger">
+                           <strong>Non Field Error{{ error|escape }}</strong>
+                        </div>
+                        {% endfor %}
+                        {% endif %}
+                     </div>
+                     <div class="row">
+                        <div class="col-sm-6">
+                           <center>
+                              <button type="button" class="btn btn-primary my-2" data-toggle="modal" data-target="#myModal1">
+                              Click here to add new Symptom</button>
+                           </center>
+                        </div>
+                        <div class="modal" id="myModal1">
+                           <div class="modal-dialog">
+                              <div class="modal-content">
+                                 <!-- Modal Header -->
+                                 <div class="modal-header">
+                                    <h4 class="modal-title">Symptom Addition </h4>
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                 </div>
+                                 <!-- Modal body -->
+                                 <div class="modal-body">
+                                    <center>
+                                       <button type="button" class="btn btn-primary my-2" data-toggle="modal" data-target="#myModal3">
+                                       Click here to add new Symptom Category
+                                       </button>
+                                    </center>
+                                    <div class="modal" id="myModal3">
+                                       <div class="modal-dialog">
+                                          <div class="modal-content">
+                                             <!-- Modal Header -->
+                                             <div class="modal-header">
+                                                <h4 class="modal-title">Symptom Category Addition</h4>
+                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                             </div>
+                                             <!-- Modal body -->
+                                             <div class="modal-body">
+                                                <form class="user" action="" method='POST' id="symptom_cat">
+                                                 {% csrf_token %} 
+                                                 <div class="form-group">
+                                                    <input type="text" class="form-control m-1" id="symptom_cat_name" name="symptom_cat_name" placeholder="Enter Symptom Name" required>
+                                                    <textarea type="text" class="form-control m-1 " id="symptom_cat_desc" name="symptom_cat_desc" placeholder="Enter Symptom Description" required></textarea>
+                                                 </div>
+                                                 <center><input type='submit' name='submit' class="btn btn-primary btn-user btn-block w-50"/></center>
+                                              </form>
+                                             </div>
+                                             <!-- Modal footer -->
+                                             <div class="modal-footer">
+                                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                    <form class="user" action="" method='POST' id="symptom_sub">
+                                       {% csrf_token %} 
+                                       <div class="form-group">
+                                          <input type="text" class="form-control m-1" id="symptom_name" name="symptom_name" placeholder="Enter Symptom Name" required>
+                                          <input type="text" class="form-control m-1" id="alternate_name" name="alternate_name" placeholder="Enter Alternate names" required>
+                                          <textarea type="text" class="form-control m-1 " id="symptom_desc" name="symptom_desc" placeholder="Enter Symptom Description" required></textarea>
+                                          <div class="form-group">
+                                             <label class="control-label" for="martial_s">Symptom Category</label>
+                                             <select  class="form-control" id="symptom_cat_select_modal" name="symptom_cat_select_modal" required>
+                                              <option selected>--Select from below--</option>
+                                              {% for x in sys_cat %}
+                                              <option value="{{x.id}}"title="{{x.description}}">{{x.name}}</option>
+                                                {% endfor %}
+                                             </select>
+                                          </div>
+                                       </div>
+                                       <center><input type='submit' name='submit' class="btn btn-primary btn-user btn-block w-50"/></center>
+                                    </form>
+                                 </div>
+                                 <!-- Modal footer -->
+                                 <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="col-sm-6">
+                           <center>
+                              <button type="button" class="btn btn-primary my-2" data-toggle="modal" data-target="#myModal2">
+                              Click here to add new Injury
+                              </button>
+                           </center>
+                           <div class="modal" id="myModal2">
+                                       <div class="modal-dialog">
+                                          <div class="modal-content">
+                                             <!-- Modal Header -->
+                                             <div class="modal-header">
+                                                <h4 class="modal-title">Injury Addition</h4>
+                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                             </div>
+                                             <!-- Modal body -->
+                                             <div class="modal-body">
+                                                <form class="user" action="" method='POST' id="injury_form">
+                                                 {% csrf_token %} 
+                                                 <div class="form-group">
+                                                    <input type="text" class="form-control m-1" id="injury_name" name="injury_name" placeholder="Enter Injury Name" required>
+                                                    <input type="text" class="form-control m-1" id="inj_alternate_name" name="alternate_name" placeholder="Enter Alternate names" required>
+                                                    <textarea type="text" class="form-control m-1 " id="injury_desc" name="injury_desc" placeholder="Enter Injury Description" required></textarea>
+                                                    <div class="form-group">
+                                                       <label class="control-label" for="inj_sev">Injury Severity</label>
+                                                       <select  class="form-control" id="inj_sev" name="inj_sev" required>
+                                                        <option selected>--Select from below--</option>
+                                                       
+                                                        <option value="Ordinary">Ordinary</option>
+                                                        <option value="highly_severe">Highly_Severe</option>
+                                                        <option value="capable_of_handicapping">Capable of Handicapping</option>
+                                                        <option value="Life_threatning">Life threatning</option>
+
+                                                         
+                                                       </select>
+                                                    </div>
+                                                 </div>
+                                                 <center><input type='submit' name='submit' class="btn btn-primary btn-user btn-block w-50"/></center>
+                                              </form>
+                                             </div>
+                                             <!-- Modal footer -->
+                                             <div class="modal-footer">
+                                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                        </div>
+                     </div>
+                     <script type="text/javascript">
+                       function delete_e(t) {
+      // console.log(t.previousSibling.previousSibling,t.previousSibling.previousSibling.value);
+      t.previousSibling.previousSibling.remove();
+      // console.log(t.previousSibling,t.previousSibling.value);
+      t.previousSibling.remove();
+      // console.log(t,t.parentNode);
+      t.parentNode.remove();
+      t.remove();
+    }
+    function add_cl()
+    {
+      var div_to_be_appended = $("<div class='fair_grp'></div>").html('<input type="text" class="fair" id="head" placeholder="Subject"><input type="text" class="fair" id="tail" placeholder="Data"><a  onclick="delete_e(this)">Click</a>');
+      $('.fair_grp').last().after(div_to_be_appended);
+    }
+                     </script>
+                      <button id="add_class" onclick="add_cl()">Click to add</button>
+                     <form class="user" action="" method='POST'>
+                        {% csrf_token %}
+                          
+                        <div class='fair_grp'><input type="text" class="fair" id="head" placeholder="Subject"><input type="text" class="fair" id="tail" placeholder="Data">
+                          </div>
+                          <input type="text" name="content" id="final_val" hidden >
+                        
+                        <input type='submit' name='submit' class="btn btn-primary btn-user btn-block"/>
+                        <hr>
+                     </form>
+                    
+                     
+                  </div>
+               </div>
+            </div>
+         </div>
+         <!-- /.container-fluid -->
+      </div>
+      <!-- End of Main Content -->
+      <!-- Footer -->
+      <footer class="sticky-footer bg-white">
+         <div class="container my-auto">
+            <div class="copyright text-center my-auto">
+               <span>Copyright &copy; Your Website </span><span id="year-current"></span>
+            </div>
+         </div>
+      </footer>
+      <!-- End of Footer -->
+   </div>
+   <!-- End of Content Wrapper -->
+</div>
+<!-- End of Page Wrapper -->
+<!-- Scroll to Top Button-->
+<a class="scroll-to-top rounded" href="#page-top">
+<i class="fas fa-angle-up"></i>
+</a>
+<script type="text/javascript">
+   document.getElementById('year-current').innerHTML=new Date().getFullYear();
+</script> 
+<!-- Page level plugins -->
+<script src="{% static 'dashboard/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<!-- Core plugin JavaScript-->
+<script src="{% static 'dashboard/vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+<!-- Custom scripts for all pages-->
+<script src="{% static 'dashboard/vendor/jquery/datepicker.min.js' %}"></script>
+<script src="{% static 'dashboard/js/sb-admin-2.min.js' %}"></script>
+<!-- Page level plugins -->
+<script src="{% static 'dashboard/vendor/datatables/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'dashboard/vendor/datatables/dataTables.bootstrap4.min.js' %}"></script>
+<!-- Page level custom scripts -->
+<script src="{% static 'dashboard/js/demo/datatables-demo.js' %}"></script>
+<script type="text/javascript">
+      function csrfSafeMethod(method) {
+      // these HTTP methods do not require CSRF protection
+      return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+      }
+      var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
+      $.ajaxSetup({
+      beforeSend: function(xhr, settings) {
+        $('#preloader').show();
+          if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+              xhr.setRequestHeader("X-CSRFToken", csrftoken);
+          }
+          
+           
+      }
+      });
+      // $('#loader').bind('ajaxStart', function(){
+      
+      //     $(this).show();
+      // }).bind('ajaxStop', function(){
+      //     $(this).hide();
+      // });
+      $("#symptom_sub").submit(function (event) {
+        event.preventDefault();
+        $.ajax({
+          type: "POST",
+          url: '/doctor/addsymptajax/{{user.user_name}}',
+          data: {
+            'symptom_name': $("#symptom_name").val(),
+            'symptom_desc': $("#symptom_desc").val(),
+            'symptom_cat_select_modal':$("#symptom_cat_select_modal").val(),
+            'alternate_name':$("#alternate_name").val()
+          },
+          dataType: 'json',
+          complete: function(){
+          $('#preloader').hide();
+          },
+          success:function(data)
+          {
+            alert(data.result);
+          },
+          error : function(xhr,errmsg,err) {
+             alert(xhr.status + ": " + xhr.responseText); 
+          }
+        });
+          return false;
+      });
+
+
+
+      $("#symptom_cat").submit(function (event) {
+        event.preventDefault();
+        $.ajax({
+          type: "POST",
+          url: '/doctor/addsymptcatajax/{{user.user_name}}',
+          data: {
+            'symptom_name': $("#symptom_cat_name").val(),
+            'symptom_desc': $("#symptom_cat_desc").val(),
+          },
+          dataType: 'json',
+          complete: function(){
+          $('#preloader').hide();
+          },
+          success:function(data)
+          {
+            alert(data.result);
+          },
+          error : function(xhr,errmsg,err) {
+             alert(xhr.status + ": " + xhr.responseText); 
+          }
+        });
+          return false;
+      });
+      
+    
+
+      $("#injury_form").submit(function (event) {
+        event.preventDefault();
+        $.ajax({
+          type: "POST",
+          url: '/doctor/addinjajax/{{user.user_name}}',
+          data: {
+            'injury_name': $("#injury_name").val(),
+            'inj_alternate_name': $("#inj_alternate_name").val(),
+            'injury_desc':$("#injury_desc").val(),
+            'inj_sev':$("#inj_sev").val()
+          },
+          dataType: 'json',
+          complete: function(){
+          $('#preloader').hide();
+          },
+          success:function(data)
+          {
+            alert(data.result);
+          },
+          error : function(xhr,errmsg,err) {
+             alert(xhr.status + ": " + xhr.responseText); 
+          }
+        });
+          return false;
+      }); 
+</script>
+{% endblock %}
