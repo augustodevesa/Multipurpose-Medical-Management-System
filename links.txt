@@ -1,0 +1,5 @@
+https://github.com/amineHorseman/facial-expression-recognition-using-cnn
+
+https://github.com/WuJie1010/Facial-Expression-Recognition.Pytorch
+
+http://www.jq22.com/demo/bootstrap-mb20150906/index.html
