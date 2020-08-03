@@ -1,0 +1,651 @@
+{% extends "dashboard/user/header_base.html" %}
+{% load static %}
+{% block content %}
+<!-- Page Wrapper -->
+<div id="wrapper">
+   <!-- Sidebar -->
+   {% include "dashboard/user/sidebar.html" %}
+   <!-- End of Sidebar -->
+   <!-- Content Wrapper -->
+   <div id="content-wrapper" class="d-flex flex-column">
+      <!-- Main Content -->
+      <div id="content">
+         <!-- Topbar -->
+         {% include "dashboard/user/top_bar.html" %}
+         <!-- End of Topbar -->
+         <!-- Begin Page Content -->
+         <div class="container-fluid">
+            <!-- Page Heading -->
+            <h1 class="h3 mb-2 text-gray-800">Basic Medical Profile</h1>
+            <p class="mb-4"> Enter Basic Medical Details</p>
+            <div class="card shadow mb-4">
+               <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold text-primary"> Name:&nbsp {{user.firstname}} &nbsp {{user.lastname}}</h6>
+               </div>
+               <div class="card-body">
+                  <div class="container">
+                     <form class="user">
+                        <!--  <div class="container"> -->
+                        <h4>I. PAST MEDICAL HISTORY </h4>
+                        <div class="row">
+                           <div class="col-sm-4">
+                              Chidhood Illness:
+                           </div>
+                           <div class="col-sm-4">
+                              <input type="checkbox" name="measles">Measles <br>
+                              <input type="checkbox" name="mumps">Mumps <br>
+                              <input type="checkbox" name="rubella">Rubella <br>
+                           </div>
+                           <div class="col-sm-4">
+                              <input type="checkbox" name="chickenpox">Chicken Pox <br>
+                              <input type="checkbox" name="rheumaticfever"> Rheumatic Fever <br>
+                              <input type="checkbox" name="polio">Polio <br>
+                           </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                           <div class="col-sm-4">
+                              Present Illnesses::
+                           </div>
+                           <div class="col-sm-4">
+                              <input type="checkbox" name="htn">HTN<br>
+                              <input type="checkbox" name="dm">DM<br>
+                              <input type="checkbox" name="asth">Asthma <br>
+                           </div>
+                           <div class="col-sm-4">
+                              <input type="checkbox" name="ptb">PTB <br>
+                              <input type="checkbox" name="goiter"> Goiter <br>
+                              <input type="checkbox" name="ca">CA <br>
+                           </div>
+                        </div>
+                        <p>
+                           Medical Illnesses taking maintenance medications:  <input type="text" name="medications">
+                        </p>
+                        <p>  Surgeries: <input type="text" name="surgeries"> </p>
+                        <p> Hospitalizations: <input type="text" name="hospitalizations"> </p>
+                        <h4>II. FAMILY HISTORY</h4>
+                        <div class="row">
+                           <div class="col-sm-5">
+                              <p>Allergy:</p>
+                           </div>
+                           <div class="col-sm-2">
+                              <div class="form-group">
+                                 <input type="radio" class=" form-check-input"  name="allergy" value="Yes">Yes
+                              </div>
+                           </div>
+                           <div class="col-sm-2">
+                              <div class="form-group">
+                                 <input type="radio" class=" form-check-input" name="allergy"  value="No">No
+                              </div>
+                           </div>
+                           <div class="col-sm-3">
+                              <div class="form-group">
+                                 <input type="text" class="form-control form-control-user" name="allergy_desc"  placeholder="Remarks">
+                              </div>
+                           </div>
+                           <div class="col-sm-5">
+                              <p>Arthritis:</p>
+                           </div>
+                           <div class="col-sm-2">
+                              <div class="form-group">
+                                 <input type="radio" class=" form-check-input"  value="Yes" name="arthritis">Yes
+                              </div>
+                           </div>
+                           <div class="col-sm-2">
+                              <div class="form-group">
+                                 <input type="radio" class=" form-check-input"  value="No" name="arthritis">No
+                              </div>
+                           </div>
+                           <div class="col-sm-3">
+                              <div class="form-group">
+                                 <input type="text" class="form-control form-control-user"  placeholder="Remarks" name="arthritis_desc">
+                              </div>
+                           </div>
+                        </div>
+                        <div class="row">
+                           <div class="col-sm-5">
+                              <p>Bronchial Asthma</p>
+                           </div>
+                           <div class="col-sm-2">
+                              <div class="form-group">
+                                 <input type="radio" class=" form-check-input"  name="bronch_asthma" value="Yes" >Yes
+                              </div>
+                           </div>
+                           <div class="col-sm-2">
+                              <div class="form-group">
+                                 <input type="radio" class=" form-check-input" name="bronch_asthma"  value="No">No
+                              </div>
+                           </div>
+                           <div class="col-sm-3">
+                              <div class="form-group">
+                                 <input type="text" class="form-control form-control-user" name="bronch_asthma_desc"  placeholder="Remarks">
+                              </div>
+                           </div>
+                           <div class="col-sm-5">
+                              <p>Pulmonary Tuberculosis</p>
+                           </div>
+                           <div class="col-sm-2">
+                              <div class="form-group">
+                                 <input type="radio" class=" form-check-input"  value="Yes" name="pul_tuber">Yes
+                              </div>
+                           </div>
+                           <div class="col-sm-2">
+                              <div class="form-group">
+                                 <input type="radio" class=" form-check-input"  value="No" name="pul_tuber">No
+                              </div>
+                           </div>
+                           <div class="col-sm-3">
+                              <div class="form-group">
+                                 <input type="text" class="form-control form-control-user"  placeholder="Remarks" name="pul_tuber_desc">
+                              </div>
+                           </div>
+                        </div>
+                        <div class="row">
+                           <div class="col-sm-5">
+                              <p>Hypertension</p>
+                           </div>
+                           <div class="col-sm-2">
+                              <div class="form-group">
+                                 <input type="radio" class=" form-check-input"  name="hypertension" value="Yes">Yes
+                              </div>
+                           </div>
+                           <div class="col-sm-2">
+                              <div class="form-group">
+                                 <input type="radio" class=" form-check-input" name="hypertension"  value="No">No
+                              </div>
+                           </div>
+                           <div class="col-sm-3">
+                              <div class="form-group">
+                                 <input type="text" class="form-control form-control-user" name="hypertension_desc"  placeholder="Remarks">
+                              </div>
+                           </div>
+                           <div class="col-sm-5">
+                              <p>Thyroid Disease</p>
+                           </div>
+                           <div class="col-sm-2">
+                              <div class="form-group">
+                                 <input type="radio" class=" form-check-input"  value="Yes" name="thyroid">Yes
+                              </div>
+                           </div>
+                           <div class="col-sm-2">
+                              <div class="form-group">
+                                 <input type="radio" class=" form-check-input"  value="No" name="thyroid" >No
+                              </div>
+                           </div>
+                           <div class="col-sm-3">
+                              <div class="form-group">
+                                 <input type="text" class="form-control form-control-user" name="thyroid_desc" placeholder="Remarks">
+                              </div>
+                           </div>
+                        </div>
+                        <div class="row">
+                           <div class="col-sm-5">
+                              <p>Neurological Disorders</p>
+                           </div>
+                           <div class="col-sm-2">
+                              <div class="form-group">
+                                 <input type="radio" class=" form-check-input"  name="neuro_disorder" value="Yes">Yes
+                              </div>
+                           </div>
+                           <div class="col-sm-2">
+                              <div class="form-group">
+                                 <input type="radio" class=" form-check-input" name="neuro_disorder"  value="No">No
+                              </div>
+                           </div>
+                           <div class="col-sm-3">
+                              <div class="form-group">
+                                 <input type="text" class="form-control form-control-user" name="neuro_disorder_desc"  placeholder="Remarks">
+                              </div>
+                           </div>
+                           <div class="col-sm-5">
+                              <p>Diabetes Mellitus:</p>
+                           </div>
+                           <div class="col-sm-2">
+                              <div class="form-group">
+                                 <input type="radio" class=" form-check-input"  value="Yes" name="diabetes_mel">Yes
+                              </div>
+                           </div>
+                           <div class="col-sm-2">
+                              <div class="form-group">
+                                 <input type="radio" class=" form-check-input"  value="No" name="diabetes_mel">No
+                              </div>
+                           </div>
+                           <div class="col-sm-3">
+                              <div class="form-group">
+                                 <input type="text" class="form-control form-control-user" name="diabetes_mel_desc"  placeholder="Remarks">
+                              </div>
+                           </div>
+                        </div>
+                        <div class="row">
+                           <div class="col-sm-5">
+                              <p>Heart Disease:</p>
+                           </div>
+                           <div class="col-sm-2">
+                              <div class="form-group">
+                                 <input type="radio" class=" form-check-input"  name="allergy" value="Yes" name="heart_desease">Yes
+                              </div>
+                           </div>
+                           <div class="col-sm-2">
+                              <div class="form-group">
+                                 <input type="radio" class=" form-check-input" name="allergy" name="heart_desease" value="No">No
+                              </div>
+                           </div>
+                           <div class="col-sm-3">
+                              <div class="form-group">
+                                 <input type="text" class="form-control form-control-user" name="heart_desease_desc"  placeholder="Remarks">
+                              </div>
+                           </div>
+                           <div class="col-sm-5">
+                              <p>Gastrointestinal Disease:</p>
+                           </div>
+                           <div class="col-sm-2">
+                              <div class="form-group">
+                                 <input type="radio" class=" form-check-input"  value="Yes" name="gastro_disease">Yes
+                              </div>
+                           </div>
+                           <div class="col-sm-2">
+                              <div class="form-group">
+                                 <input type="radio" class=" form-check-input"  value="No" name="gastro_disease">No
+                              </div>
+                           </div>
+                           <div class="col-sm-3">
+                              <div class="form-group">
+                                 <input type="text" class="form-control form-control-user" name="gastro_disease_desc" placeholder="Remarks">
+                              </div>
+                           </div>
+                        </div>
+                        <div class="row">
+                           <div class="col-sm-5">
+                              <p>Kidney Disease: </p>
+                           </div>
+                           <div class="col-sm-2">
+                              <div class="form-group">
+                                 <input type="radio" class=" form-check-input" value="Yes" name="kidney_disease">Yes
+                              </div>
+                           </div>
+                           <div class="col-sm-2">
+                              <div class="form-group">
+                                 <input type="radio" class=" form-check-input" name="kidney_disease"  value="No">No
+                              </div>
+                           </div>
+                           <div class="col-sm-3">
+                              <div class="form-group">
+                                 <input type="text" class="form-control form-control-user" name="kidney_disease_desc"  placeholder="Remarks">
+                              </div>
+                           </div>
+                        </div>
+                        <div class="row">
+                           <div class="col-sm-5">
+                              <p>Blood Disorder:</p>
+                           </div>
+                           <div class="col-sm-2">
+                              <div class="form-group">
+                                 <input type="radio" class=" form-check-input"  name="blood_disorder" value="Yes">Yes
+                              </div>
+                           </div>
+                           <div class="col-sm-2">
+                              <div class="form-group">
+                                 <input type="radio" class=" form-check-input" name="blood_disorder"  value="No">No
+                              </div>
+                           </div>
+                           <div class="col-sm-3">
+                              <div class="form-group">
+                                 <input type="text" class="form-control form-control-user" name="blood_disorder_desc"  placeholder="Remarks">
+                              </div>
+                           </div>
+                           <div class="col-sm-5">
+                              <p>Psychiatric Illness:</p>
+                           </div>
+                           <div class="col-sm-2">
+                              <div class="form-group">
+                                 <input type="radio" class=" form-check-input"  value="Yes" name="psychiatric">Yes
+                              </div>
+                           </div>
+                           <div class="col-sm-2">
+                              <div class="form-group">
+                                 <input type="radio" class=" form-check-input"  value="No" name="psychiatric">No
+                              </div>
+                           </div>
+                           <div class="col-sm-3">
+                              <div class="form-group">
+                                 <input type="text" class="form-control form-control-user" name="psychiatric_desc" placeholder="Remarks">
+                              </div>
+                           </div>
+                        </div>
+                        <div class="row">
+                           <div class="col-sm-5">
+                              <p>Others:</p>
+                           </div>
+                           <div class="col-sm-2">
+                              <div class="form-group">
+                                 <input type="radio" class=" form-check-input"  name="allergy" value="Yes" name="others">Yes
+                              </div>
+                           </div>
+                           <div class="col-sm-2">
+                              <div class="form-group">
+                                 <input type="radio" class=" form-check-input" name="allergy"  value="No" name="others">No
+                              </div>
+                           </div>
+                           <div class="col-sm-3">
+                              <div class="form-group">
+                                 <input type="text" class="form-control form-control-user" name="others_desc"  placeholder="Remarks">
+                              </div>
+                           </div>
+                        </div>
+                        <h4>III. PERSONAL & SOCIAL HISTORY</h4>
+                        <div class="row">
+                           <div class="col-sm-5">
+                              <p>Smoking History:</p>
+                           </div>
+                           <div class="col-sm-2">
+                              <div class="form-group">
+                                 <input type="radio" class=" form-check-input"  name="smoking" value="Yes">Yes
+                              </div>
+                           </div>
+                           <div class="col-sm-2">
+                              <div class="form-group">
+                                 <input type="radio" class=" form-check-input" name="smoking"  value="No">No
+                              </div>
+                           </div>
+                           <div class="col-sm-3">
+                              <div class="form-group">
+                                 <input type="text" class="form-control form-control-user" name="smoking_desc"  placeholder="Remarks">
+                              </div>
+                           </div>
+                           <div class="col-sm-5">
+                              <p>Alcohol Intake:</p>
+                           </div>
+                           <div class="col-sm-2">
+                              <div class="form-group">
+                                 <input type="radio" class=" form-check-input"  value="Yes" name="alcohol">Yes
+                              </div>
+                           </div>
+                           <div class="col-sm-2">
+                              <div class="form-group">
+                                 <input type="radio" class=" form-check-input"  value="No" name="alcohol">No
+                              </div>
+                           </div>
+                           <div class="col-sm-3">
+                              <div class="form-group">
+                                 <input type="text" class="form-control form-control-user"  placeholder="Remarks" name="alcohol_desc">
+                              </div>
+                           </div>
+                        </div>
+                        <div class="row">
+                           <div class="col-sm-5">
+                              <p>Allergies:</p>
+                           </div>
+                           <div class="col-sm-2">
+                              <div class="form-group">
+                                 <input type="radio" class=" form-check-input"  name="allergies" value="Yes" >Yes
+                              </div>
+                           </div>
+                           <div class="col-sm-2">
+                              <div class="form-group">
+                                 <input type="radio" class=" form-check-input" name="allergies_desc"  value="No">No
+                              </div>
+                           </div>
+                           <div class="col-sm-3">
+                              <div class="form-group">
+                                 <input type="text" class="form-control form-control-user" name="allergies_desc"  placeholder="Remarks">
+                              </div>
+                           </div>
+                           <div class="col-sm-5">
+                              <p>Drug Use:</p>
+                           </div>
+                           <div class="col-sm-2">
+                              <div class="form-group">
+                                 <input type="radio" class=" form-check-input"  value="Yes" name="drug_use">Yes
+                              </div>
+                           </div>
+                           <div class="col-sm-2">
+                              <div class="form-group">
+                                 <input type="radio" class=" form-check-input"  value="No" name="drug_use">No
+                              </div>
+                           </div>
+                           <div class="col-sm-3">
+                              <div class="form-group">
+                                 <input type="text" class="form-control form-control-user"  placeholder="Remarks" name="drug_use_desc">
+                              </div>
+                           </div>
+                        </div>
+                        <div class="row">
+                           <div class="col-sm-5">
+                              <p>For Women: G___P___</p>
+                           </div>
+                           <div class="col-sm-2">
+                              <div class="form-group">
+                              </div>
+                           </div>
+                           <div class="col-sm-2">
+                              <div class="form-group">
+                              </div>
+                           </div>
+                           <div class="col-sm-3">
+                              <div class="form-group">
+                                 <input type="text" class="form-control form-control-user" name="forwomen_desc"  placeholder="Remarks">
+                              </div>
+                           </div>
+                        </div>
+                        <h4>IV. REVIEW OF SYSTEMS </h4>
+                        <div class="row">
+                           <div class="col-sm-3">
+                              <p>Skin:</p>
+                           </div>
+                           <div class="col-sm-3">
+                              <div class="form-group">
+                                 <input type="radio" class=" form-check-input"  name="skin" value="Yes">Yes
+                              </div>
+                           </div>
+                           <div class="col-sm-3">
+                              <div class="form-group">
+                                 <input type="radio" class=" form-check-input" name="skin"  value="No">No
+                              </div>
+                           </div>
+                           <div class="col-sm-3">
+                              <div class="form-group">
+                                 <input type="text" class="form-control form-control-user" name="skin_desc"  placeholder="Remarks">
+                              </div>
+                           </div>
+                           <div class="col-sm-3">
+                              <p>HEENTS:</p>
+                           </div>
+                           <div class="col-sm-3">
+                              <div class="form-group">
+                                 <input type="radio" class=" form-check-input"  value="Yes" name="heents">Yes
+                              </div>
+                           </div>
+                           <div class="col-sm-3">
+                              <div class="form-group">
+                                 <input type="radio" class=" form-check-input"  value="No" name="heents">No
+                              </div>
+                           </div>
+                           <div class="col-sm-3">
+                              <div class="form-group">
+                                 <input type="text" class="form-control form-control-user"  placeholder="Remarks" name="heents_desc">
+                              </div>
+                           </div>
+                        </div>
+                        <div class="row">
+                           <div class="col-sm-3">
+                              <p>Chest/Breast</p>
+                           </div>
+                           <div class="col-sm-3">
+                              <div class="form-group">
+                                 <input type="radio" class=" form-check-input"  name="chestbreast" value="Yes" >Yes
+                              </div>
+                           </div>
+                           <div class="col-sm-3">
+                              <div class="form-group">
+                                 <input type="radio" class=" form-check-input" name="chestbreast"  value="No">No
+                              </div>
+                           </div>
+                           <div class="col-sm-3">
+                              <div class="form-group">
+                                 <input type="text" class="form-control form-control-user" name="chestbreast_desc"  placeholder="Remarks">
+                              </div>
+                           </div>
+                           <div class="col-sm-3">
+                              <p>Heart/Lungs:</p>
+                           </div>
+                           <div class="col-sm-3">
+                              <div class="form-group">
+                                 <input type="radio" class=" form-check-input"  value="Yes" name="heartlungs">Yes
+                              </div>
+                           </div>
+                           <div class="col-sm-3">
+                              <div class="form-group">
+                                 <input type="radio" class=" form-check-input"  value="No" name="heartlungs">No
+                              </div>
+                           </div>
+                           <div class="col-sm-3">
+                              <div class="form-group">
+                                 <input type="text" class="form-control form-control-user"  placeholder="Remarks" name="heartlungs_desc">
+                              </div>
+                           </div>
+                        </div>
+                        <div class="row">
+                           <div class="col-sm-3">
+                              <p>Abdomen</p>
+                           </div>
+                           <div class="col-sm-3">
+                              <div class="form-group">
+                                 <input type="radio" class=" form-check-input"  name="abdomen" value="Yes">Yes
+                              </div>
+                           </div>
+                           <div class="col-sm-3">
+                              <div class="form-group">
+                                 <input type="radio" class=" form-check-input" name="abdomen"  value="No">No
+                              </div>
+                           </div>
+                           <div class="col-sm-3">
+                              <div class="form-group">
+                                 <input type="text" class="form-control form-control-user" name="abdomen_desc"  placeholder="Remarks">
+                              </div>
+                           </div>
+                           <div class="col-sm-3">
+                              <p>Bladder</p>
+                           </div>
+                           <div class="col-sm-3">
+                              <div class="form-group">
+                                 <input type="radio" class=" form-check-input"  value="Yes" name="bladder">Yes
+                              </div>
+                           </div>
+                           <div class="col-sm-3">
+                              <div class="form-group">
+                                 <input type="radio" class=" form-check-input"  value="No" name="bladder" >No
+                              </div>
+                           </div>
+                           <div class="col-sm-3">
+                              <div class="form-group">
+                                 <input type="text" class="form-control form-control-user" name="bladder_desc" placeholder="Remarks">
+                              </div>
+                           </div>
+                        </div>
+                        <div class="row">
+                           <div class="col-sm-3">
+                              <p>Bowel:</p>
+                           </div>
+                           <div class="col-sm-3">
+                              <div class="form-group">
+                                 <input type="radio" class=" form-check-input"  name="bowel" value="Yes">Yes
+                              </div>
+                           </div>
+                           <div class="col-sm-3">
+                              <div class="form-group">
+                                 <input type="radio" class=" form-check-input" name="bowel"  value="No">No
+                              </div>
+                           </div>
+                           <div class="col-sm-3">
+                              <div class="form-group">
+                                 <input type="text" class="form-control form-control-user" name="bowel_desc"  placeholder="Remarks">
+                              </div>
+                           </div>
+                           <div class="col-sm-3">
+                              <p>Extremities:</p>
+                           </div>
+                           <div class="col-sm-3">
+                              <div class="form-group">
+                                 <input type="radio" class=" form-check-input"  value="Yes" name="extremities">Yes
+                              </div>
+                           </div>
+                           <div class="col-sm-3">
+                              <div class="form-group">
+                                 <input type="radio" class=" form-check-input"  value="No" name="extremities">No
+                              </div>
+                           </div>
+                           <div class="col-sm-3">
+                              <div class="form-group">
+                                 <input type="text" class="form-control form-control-user" name="extremities_desc"  placeholder="Remarks">
+                              </div>
+                           </div>
+                        </div>
+                        <h4>V. PHYSICAL EXAMINATION:</h4>
+                        <div class="row">
+                           <div class="col-sm-2">General Appearance:</div>
+                           <div class="col-sm-2"><input type="text" class="form-control form-control-user" name="gen_appearance"></div>
+                           <div class="col-sm-2">Weight:</div>
+                           <div class="col-sm-2"><input type="text" class="form-control form-control-user" name="weight"></div>
+                           <div class="col-sm-2">Teperature:</div>
+                           <div class="col-sm-2"><input type="text" class="form-control form-control-user" name="temperature"></div>
+                        </div>
+                        <div class="row">
+                           <div class="col-sm-2">Height:</div>
+                           <div class="col-sm-2"><input type="text" class="form-control form-control-user" name="height"></div>
+                           <div class="col-sm-2">PR:</div>
+                           <div class="col-sm-2"><input type="text" class="form-control form-control-user" name="pr"></div>
+                           <div class="col-sm-2">Body Mass Index:</div>
+                           <div class="col-sm-2"><input type="text" class="form-control form-control-user" name="bmi"></div>
+                        </div>
+                        <div class="row">
+                           <div class="col-sm-2">BP:</div>
+                           <div class="col-sm-2"><input type="text" class="form-control form-control-user" name="bp"></div>
+                           <div class="col-sm-2">OD:</div>
+                           <div class="col-sm-2"><input type="text" class="form-control form-control-user" name="od"></div>
+                           <div class="col-sm-2">RR:</div>
+                           <div class="col-sm-2"><input type="text" class="form-control form-control-user" name="rr"></div>
+                        </div>
+                        <div class="row">
+                           <div class="col-sm-2">Visual Activity:</div>
+                           <div class="col-sm-2"><input type="text" class="form-control form-control-user" name="visual_act"></div>
+                           <div class="col-sm-2">OS:</div>
+                           <div class="col-sm-2"><input type="text" class="form-control form-control-user" name="os"></div>
+                        </div>
+                         </form>
+                  </div>
+               </div>
+            </div>
+           
+</div>
+<!-- /.container-fluid -->
+</div>
+<!-- End of Main Content -->
+<!-- Footer -->
+<footer class="sticky-footer bg-white">
+   <div class="container my-auto">
+      <div class="copyright text-center my-auto">
+         <span>Copyright &copy; Your Website </span><span id="year-current"></span>
+      </div>
+   </div>
+</footer>
+<!-- End of Footer -->
+</div>
+<!-- End of Content Wrapper -->
+</div>
+<!-- End of Page Wrapper -->
+<!-- Scroll to Top Button-->
+<a class="scroll-to-top rounded" href="#page-top">
+<i class="fas fa-angle-up"></i>
+</a>
+<script type="text/javascript">
+   document.getElementById('year-current').innerHTML=new Date().getFullYear();
+</script> 
+<!-- Page level plugins -->
+<script src="{% static 'dashboard/vendor/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'dashboard/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<!-- Core plugin JavaScript-->
+<script src="{% static 'dashboard/vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+<!-- Custom scripts for all pages-->
+<script src="{% static 'dashboard/vendor/jquery/datepicker.min.js' %}"></script>
+<script src="{% static 'dashboard/js/sb-admin-2.min.js' %}"></script>
+{% endblock %}

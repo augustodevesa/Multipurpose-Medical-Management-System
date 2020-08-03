@@ -1,0 +1,238 @@
+{% extends "dashboard/lab/header_base.html" %}
+{% load static %}
+{% block content %}
+<link href="{% static 'dashboard/vendor/datatables/dataTables.bootstrap4.min.css' %}" rel="stylesheet">
+  <script src="{% static 'dashboard/vendor/jquery/jquery.min.js' %}"></script>
+  <!-- Page Wrapper -->
+  <div id="wrapper">
+
+    <!-- Sidebar -->
+    {% include "dashboard/lab/sidebar.html" %}
+    <!-- End of Sidebar -->
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+      <!-- Main Content -->
+      <div id="content">
+
+        <!-- Topbar -->
+        
+   {% include "dashboard/lab/top_bar.html" %}
+        <!-- End of Topbar -->
+
+
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+
+          <!-- Page Heading -->
+          <h1 class="h3 mb-2 text-gray-800">Prescription History</h1>
+          <p class="mb-4">Prescription History is for Pathologist reference</p>
+
+          <!-- DataTales Example -->
+          <div class="card shadow mb-4">
+            <div class="card-header py-3">
+              <h6 class="m-0 font-weight-bold text-primary">Pending Reports of Users</h6>
+            </div>
+            <div class="card-body">
+              {{message}}
+              <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                  <thead>
+                    <tr>
+                      <th>Id</th>
+                      <th>Report Name</th>
+                      <th>Doctor Name</th>
+                      <th>Reference Date</th>
+                      <th>Action to add</th>
+                      <th>Put pending</th>
+                    </tr>
+                  </thead>
+                  <tfoot>
+                    <tr>
+                      <th>Id</th>
+                      <th>Report Name</th>
+                      <th>Doctor Name</th>
+                      <th>Reference Date</th>
+                      <th>Action to add</th>
+                      <th>Put pending</th>
+                    </tr>
+                  </tfoot>
+                  <tbody>
+                   
+                    {% for x in  reports %}
+                   {% for ajax in x %}
+
+                   <tr id="table-{{ ajax.id }}">
+                                <td>{{ ajax.id }}</td>
+                                <td>{{ ajax.name }}</td>
+                                <td>{{ ajax.doctor.firstname }} {{ ajax.doctor.lastname }} </td>
+                                <td>{{ ajax.ref_date }}</td>
+                                <td><a href="#"  class="btn btn-info btn-icon-split" data-toggle="modal" data-target="#doc_cons{{ajax.id}}"><span class="icon text-white-50">
+                                 <i class="fas fa-arrow-right"></i>
+                                 </span><span class="text">Click</span></a>
+                                <!-- The Modal -->
+                                <div class="modal " id="doc_cons{{ajax.id}}">
+                                  <div class="modal-dialog">
+                                    <div class="modal-content">
+                                      <!-- Modal Header -->
+                                      <div class="modal-header">
+                                        <h4 class="modal-title">Report  ID: {{ ajax.id }}</h4>
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                      </div>
+                                      <!-- Modal body -->
+                                      <div class="modal-body" id="doc_cons_body{{ajax.id}}">
+
+                                       <form class="user" action="" method='POST' class="{{ ajax.id }}" id="injury_form" enctype="multipart/form-data">
+                                          {% csrf_token %} 
+                                          <div class="form-group">
+                                              <script type="text/javascript">
+                                                function delete_e(t) {
+                          // console.log(t.previousSibling.previousSibling,t.previousSibling.previousSibling.value);
+                          // t.parentElement.previousSibling.previousSibling.remove();
+                          // console.log(t.previousSibling,t.previousSibling.value);
+                          t.parentElement.previousSibling.remove();
+                          // console.log(t,t.parentNode);
+                          t.parentElement.parentNode.remove();
+                          t.remove();
+                          }
+                                                var id{{ ajax.id }}=0;
+                                                function add_lab_form{{ ajax.id }}()
+                                                    {
+                                                      // console.log("Hello");
+                                                      var div_to_be_appended = $("<div class='lab_id_entry{{ ajax.id }} row'></div>").html('<div class="form-group col-sm-10"> <label class="contol-label" for="report-file"></label> <input type="file" class="form-control input-md" name="file'+id{{ ajax.id }}+'" /> </div><div class=" col-sm-2"> <button type="button" class="btn btn-primary mt-4" onclick="delete_e(this)"> Delete</button> </div>');
+                                                    // console.log(div_to_be_appended.html());
+                                                    $('.lab_id_entry{{ ajax.id }}').last().after(div_to_be_appended);
+                                                    id{{ ajax.id }}++;
+                                                    
+                                                    }
+                                              </script>
+                                             <textarea type="text" class="form-control m-1 " id="injury_desc{{ ajax.id }}" name="rep_desc" placeholder="Enter Report Description" required></textarea>
+                                             <input type="text" value="{{ ajax.id }}" name="caseid" hidden>
+                                             <div class='lab_id_entry{{ ajax.id }} row'>
+                                              <div class="form-group col-sm-12">
+                                                <label class="contol-label" for="report-file"></label>
+                                                <input type="file" class="form-control input-md" name="file0" />
+
+                                              </div>
+                                          </div>
+                                          <button type="button"  id="add_class_lab" onclick="add_lab_form{{ ajax.id }}()" class="btn btn-primary my-2">
+                                             Click to add file/s</button>
+                                          </div>
+                                          <center><input type='submit' name='submit' class="btn btn-primary btn-user btn-block w-50"/></center>
+                                       </form>
+                                          
+                                      </div>
+                                      <!-- Modal footer -->
+                                      <div class="modal-footer">
+                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                      </div>
+
+                                    </div>
+                                  </div>
+                                </div>
+                              </td>
+                              <td>{% csrf_token %} <a href="#" onclick="change_status('{{ajax.id}}')" class="btn btn-info btn-icon-split"><span class="icon text-white-50">
+                                 <i class="fas fa-arrow-right"></i>
+                                 </span><span class="text">Click</span></a></td>
+                            </tr>
+                            {% endfor %}
+                            {% endfor %}
+                  </tbody>
+                </table>
+                <a href="/lab/takepatient/{{user.user_name}}" class="btn btn-info btn-icon-split"><span class="icon text-white-50">
+                                 <i class="fas fa-arrow-right"></i>
+                                 </span><span class="text">Logout</span></a>
+              </div>
+            </div>
+          </div>
+
+          
+
+        </div>
+        <!-- /.container-fluid -->
+
+      </div>
+      <!-- End of Main Content -->
+
+      <!-- Footer -->
+       <footer class="sticky-footer bg-white">
+        <div class="container my-auto">
+          <div class="copyright text-center my-auto">
+            <span>Copyright &copy; Your Website </span><span id="year-current"></span>
+          </div>
+        </div>
+      </footer>
+      <!-- End of Footer -->
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+  </div>
+  <!-- End of Page Wrapper -->
+
+  <!-- Scroll to Top Button-->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+ <script type="text/javascript">
+  document.getElementById('year-current').innerHTML=new Date().getFullYear();
+</script> 
+ <!-- Page level plugins -->
+
+  <script src="{% static 'dashboard/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="{% static 'dashboard/vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+
+  <!-- Custom scripts for all pages-->
+  <script src="{% static 'dashboard/vendor/jquery/datepicker.min.js' %}"></script>
+  <script src="{% static 'dashboard/js/sb-admin-2.min.js' %}"></script>
+
+  <!-- Page level plugins -->
+  <script src="{% static 'dashboard/vendor/datatables/jquery.dataTables.min.js' %}"></script>
+  <script src="{% static 'dashboard/vendor/datatables/dataTables.bootstrap4.min.js' %}"></script>
+
+  <!-- Page level custom scripts -->
+  <script src="{% static 'dashboard/js/demo/datatables-demo.js' %}"></script>
+<script type="text/javascript">   
+
+  function csrfSafeMethod(method) {
+   // these HTTP methods do not require CSRF protection
+   return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+   }
+   var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
+   $.ajaxSetup({
+   beforeSend: function(xhr, settings) {
+     $('#preloader').show();
+       if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+           xhr.setRequestHeader("X-CSRFToken", csrftoken);
+       }
+       
+        
+   }
+ });
+ </script>
+ <script type="text/javascript">
+  function change_status(tt) {
+         $.ajax({
+       type: "POST",
+       url: '/lab/change_status_rep/{{user.user_name}}',
+       data: {
+         'caseid':tt,
+       },
+       dataType: 'json',
+       complete: function(){
+       $('#preloader').hide();
+       },
+       success:function(data)
+       {
+         alert(data.result);
+       },
+       error : function(xhr,errmsg,err) {
+          alert(xhr.status + ": " + xhr.responseText); 
+       }
+     });
+  }
+</script>
+  {% endblock %}

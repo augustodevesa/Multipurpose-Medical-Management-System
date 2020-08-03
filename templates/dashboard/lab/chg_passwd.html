@@ -1,0 +1,130 @@
+{% extends "dashboard/lab/header_base.html" %}
+{% load static %}
+{% block content %}
+
+  <!-- Page Wrapper -->
+  <div id="wrapper">
+
+    <!-- Sidebar -->
+    {% include "dashboard/lab/sidebar.html" %}
+    <!-- End of Sidebar -->
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+      <!-- Main Content -->
+      <div id="content">
+
+        <!-- Topbar -->
+        
+   {% include "dashboard/lab/top_bar.html" %}
+        <!-- End of Topbar -->
+
+
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+
+          <!-- Page Heading -->
+          <h1 class="h3 mb-2 text-gray-800">Lab Settings</h1>
+          <p class="mb-4">If the Pathologist Wants to Update Profile</p>
+          <div class="card shadow mb-4">
+            <div class="card-header py-3">
+              <h6 class="m-0 font-weight-bold text-primary"> Update </h6>
+            </div>
+             <div class="card-body">
+              <div class="container">
+              <h3><img class="float-right" style="width: 150px" src="{{user.user_photo.url}}" alt="{{user.user_name}}"></h3>
+            </div>
+            <div class="text-center">
+                <h1 class="h4 text-gray-900 mb-4">Update Your Account!</h1>
+                {{message}}
+                <script>
+            {% if messages %}
+                {% for message in messages %}
+                    alert(message);
+                {% endfor %}
+            {% endif %}
+        </script>
+                {% if form.errors %}
+    {% for field in form %}
+        {% for error in field.errors %}
+            <div class="alert alert-danger">
+                <strong>Field Error{{ error|escape }}</strong>
+            </div>
+        {% endfor %}
+    {% endfor %}
+    {% for error in form.non_field_errors %}
+        <div class="alert alert-danger">
+            <strong>Non Field Error{{ error|escape }}</strong>
+        </div>
+    {% endfor %}
+{% endif %}
+              </div>
+              <form class="user" action='' method='POST'>
+                {% csrf_token %}  
+
+                <div class="form-group">
+                  <input type="password" class="form-control form-control-user"    name="password" placeholder="Old password">
+                </div>
+                <div class="form-group">
+                  <input type="password" class="form-control form-control-user"   name="password1" placeholder="New password">
+                </div>
+                <div class="form-group">
+                  <input type="password" class="form-control form-control-user"  placeholder="Please Rewrite" name="password2">
+                </div>
+                <center>
+                  <input type="submit" name="submit" class="btn btn-info btn-user btn-block w-50 m-2">
+                </center>
+               
+              </form>
+              
+
+              
+            </div>
+           
+          </div>
+
+          
+
+        </div>
+        <!-- /.container-fluid -->
+
+      </div>
+      <!-- End of Main Content -->
+
+      <!-- Footer -->
+       <footer class="sticky-footer bg-white">
+        <div class="container my-auto">
+          <div class="copyright text-center my-auto">
+            <span>Copyright &copy; Your Website </span><span id="year-current"></span>
+          </div>
+        </div>
+      </footer>
+      <!-- End of Footer -->
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+  </div>
+  <!-- End of Page Wrapper -->
+
+  <!-- Scroll to Top Button-->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+ <script type="text/javascript">
+  document.getElementById('year-current').innerHTML=new Date().getFullYear();
+</script> 
+
+<!-- Page level plugins -->
+  <script src="{% static 'dashboard/vendor/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'dashboard/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="{% static 'dashboard/vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+
+  <!-- Custom scripts for all pages-->
+  <script src="{% static 'dashboard/js/sb-admin-2.min.js' %}"></script>
+
+
+  {% endblock %}

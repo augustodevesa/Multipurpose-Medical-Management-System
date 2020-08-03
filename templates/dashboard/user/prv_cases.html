@@ -1,0 +1,408 @@
+{% extends "dashboard/user/header_base.html" %}
+{% load static %}
+{% block content %}
+<link href="{% static 'dashboard/vendor/datatables/dataTables.bootstrap4.min.css' %}" rel="stylesheet">
+
+  <!-- Page Wrapper -->
+  <div id="wrapper">
+
+    <!-- Sidebar -->
+    {% include "dashboard/user/sidebar.html" %}
+    <!-- End of Sidebar -->
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+      <!-- Main Content -->
+      <div id="content">
+
+        <!-- Topbar -->
+        
+   {% include "dashboard/user/top_bar.html" %}
+        <!-- End of Topbar -->
+
+
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+
+          <!-- Page Heading -->
+          <h1 class="h3 mb-2 text-gray-800">Previous Cases of User </h1>
+          <p class="mb-4">The Previous Cases of User is for recording and Monitoring Purposes</p>
+
+          <!-- DataTales Example -->
+          <div class="card shadow mb-4">
+            <div class="card-header py-3">
+              <h6 class="m-0 font-weight-bold text-primary">Cases of User as table</h6>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <div class="table-responsive">
+                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>{% csrf_token %}
+                           <tr>
+                              <th>ID</th>
+                              <th>Symptoms</th>
+                              <th>Diseases</th>
+                              <th>Injuries</th>
+                              <th>General Notes</th>
+                              <th>Case of Injury?</th>
+                              <th>Closed</th>
+                              <th>Consultancy & Medicine</th>
+                              <th>Lab Reports</th>
+                           </tr>
+                        </thead>
+                        <tfoot>
+                           <tr>
+                              <th>ID</th>
+                              <th>Symptoms</th>
+                              <th>Diseases</th>
+                              <th>Injuries</th>
+                              <th>General Notes</th>
+                              <th>Case of Injury?</th>
+                              <th>Closed</th>
+                              <th>Consultancy & Medicine</th>
+                              <th>Lab Reports</th>
+                           </tr>
+                        </tfoot>
+                        <tbody>
+
+                           {% for ajax in cases_ %}
+                           {% if not forloop.last  %}
+                           <tr id="table-{{forloop.counter0}}">
+                              <th>{{ ajax.id }}</th>
+                              <td>{{ ajax.symptoms }}</td>
+                              <td>{{ ajax.diseases }}</td>
+                              <td>{{ ajax.injury_type }}</td>
+                              <td>{{ ajax.general_notes }}</td>
+                              <td>{{ ajax.is_accidental}}</td>
+                              <td>{{ ajax.is_closed}}</td>
+                              <td><a href="#" onclick="getajaxconsultancy('{{ajax.id}}')" class="btn btn-info btn-icon-split" data-toggle="modal" data-target="#doc_cons{{ajax.id}}"><span class="icon text-white-50">
+                                 <i class="fas fa-arrow-right"></i>
+                                 </span><span class="text">Click</span></a>
+                                <!-- The Modal -->
+                                <div class="modal " id="doc_cons{{ajax.id}}">
+                                  <div class="modal-dialog mw-100">
+                                    <div class="modal-content">
+                                      <!-- Modal Header -->
+                                      <div class="modal-header">
+                                        <h4 class="modal-title">Case ID: {{ ajax.id }}</h4>
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                      </div>
+                                      <!-- Modal body -->
+                                      <div class="modal-body" id="doc_cons_body{{ajax.id}}">
+                                       <div class="table-responsive">
+                                            <table class="table table-bordered"  width="100%" cellspacing="0">
+                                              <thead>
+                                                <tr>
+                                                  <!-- <th>Id</th> -->
+                                                  <th>Entry Date</th>
+                                                  <th>Symptoms</th>
+                                                  <th>Injuries</th>
+                                                  <th>Diseases</th>
+                                                  <th>Personal notes</th>
+                                                  <th>General notes</th>
+                                                  <th>Case of Injury?</th>
+                                                </tr>
+                                              </thead>
+                                              <tfoot>
+                                                <tr>
+                                                   <!-- <th>Id</th> -->
+                                                  <th>Entry Date</th>
+                                                  <th>Symptoms</th>
+                                                  <th>Injuries</th>
+                                                  <th>Diseases</th>
+                                                  <th>Personal notes</th>
+                                                  <th>General notes</th>
+                                                  <th>Case of Injury?</th>
+                                                </tr>
+                                              </tfoot>
+                                              <tbody id="tbody-{{ajax.id}}">
+                                              </tbody>
+                                            </table>
+                                          </div>
+                                          <h1>List of Medicines</h1>
+                                          <style type="text/css">
+                                            #special-th  th, #special-th tbody td
+                                            {
+                                              color: #fff;
+                                            }
+                                          </style>
+                                          <div class="table-responsive bg-info" id="special-th">
+                                            <table class="table table-bordered"  width="100%" cellspacing="0">
+                                              <thead>
+                                                <tr>
+                                                 
+                                                  <th >Medicine Name</th>
+                                                  <th>Dosage</th>
+                                                  <th>Quantity</th>
+                                                  <th>Is it delivered?</th>
+                                                  
+                                                </tr>
+                                              </thead>
+                                              <tfoot>
+                                                <tr>
+                                                 
+                                                  <th>Medicine Name</th>
+                                                  <th>Dosage</th>
+                                                  <th>Quantity</th>
+                                                  <th>Is it delivered?</th>
+                                                  
+                                                </tr>
+                                              </tfoot>
+                                              <tbody id="tbody4-{{ajax.id}}">
+                                              </tbody>
+                                            </table>
+                                          </div>
+                                      </div>
+                                      <!-- Modal footer -->
+                                      <div class="modal-footer">
+                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                      </div>
+
+                                    </div>
+                                  </div>
+                                </div>
+                              </td>
+                              <td><a href="#" onclick="getajaxlab('{{ajax.id}}')" class="btn btn-info btn-icon-split" data-toggle="modal" data-target="#doc_lab{{ajax.id}}"><span class="icon text-white-50">
+                                 <i class="fas fa-arrow-right"></i>
+                                 </span><span class="text">Click</span></a>
+                                <!-- The Modal -->
+                                <div class="modal " id="doc_lab{{ajax.id}}">
+                                  <div class="modal-dialog mw-100">
+                                    <div class="modal-content">
+                                      <!-- Modal Header -->
+                                      <div class="modal-header">
+                                        <h4 class="modal-title">Case ID: {{ ajax.id }}</h4>
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                      </div>
+                                      <!-- Modal body -->
+                                      <div class="modal-body" id="doc_cons_body{{ajax.id}}">
+                                        <h4 class="modal-title">LAB Reports:</h4>
+                                       <div class="table-responsive">
+                                            <table class="table table-bordered"  width="100%" cellspacing="0">
+                                              <thead>
+                                                <tr>
+                                                  <th>Name</th>
+                                                  <th>Refered Date</th>
+                                                  <th>Delivered Date</th>
+                                                  <th>Is delivered</th>
+                                                  <th>Description by lab</th>
+                                                  <th>Files</th>
+                                                </tr>
+                                              </thead>
+                                              <tfoot>
+                                                <tr>
+                                                  <th>Name</th>
+                                                  <th>Refered Date</th>
+                                                  <th>Delivered Date</th>
+                                                  <th>Is delivered</th>
+                                                  <th>Description by lab</th>
+                                                  <th>Files</th>
+                                                </tr>
+                                              </tfoot>
+                                              <tbody id="tbody5-{{ajax.id}}">
+                                              </tbody>
+                                            </table>
+                                          </div>
+                                          
+                                      </div>
+                                      <!-- Modal footer -->
+                                      <div class="modal-footer">
+                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                      </div>
+
+                                    </div>
+                                  </div>
+                                </div>
+                              </td>
+
+                           </tr>
+                           {% endif %}
+                           {% endfor %}
+                        </tbody>
+                     </table>
+                  </div>
+              </div>
+            </div>
+          </div>
+
+          
+
+        </div>
+        <!-- /.container-fluid -->
+
+      </div>
+      <!-- End of Main Content -->
+
+      <!-- Footer -->
+       <footer class="sticky-footer bg-white">
+        <div class="container my-auto">
+          <div class="copyright text-center my-auto">
+            <span>Copyright &copy; Your Website </span><span id="year-current"></span>
+          </div>
+        </div>
+      </footer>
+      <!-- End of Footer -->
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+  </div>
+  <!-- End of Page Wrapper -->
+
+  <!-- Scroll to Top Button-->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+ <script type="text/javascript">
+  document.getElementById('year-current').innerHTML=new Date().getFullYear();
+</script> 
+ <!-- Page level plugins -->
+  <script src="{% static 'dashboard/vendor/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'dashboard/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="{% static 'dashboard/vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+
+  <!-- Custom scripts for all pages-->
+  <script src="{% static 'dashboard/vendor/jquery/datepicker.min.js' %}"></script>
+  <script src="{% static 'dashboard/js/sb-admin-2.min.js' %}"></script>
+
+  <!-- Page level plugins -->
+  <script src="{% static 'dashboard/vendor/datatables/jquery.dataTables.min.js' %}"></script>
+  <script src="{% static 'dashboard/vendor/datatables/dataTables.bootstrap4.min.js' %}"></script>
+
+  <!-- Page level custom scripts -->
+  <script src="{% static 'dashboard/js/demo/datatables-demo.js' %}"></script>
+<script type="text/javascript">
+  function csrfSafeMethod(method) {
+   // these HTTP methods do not require CSRF protection
+   return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+   }
+   var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
+   $.ajaxSetup({
+   beforeSend: function(xhr, settings) {
+     $('#preloader').show();
+       if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+           xhr.setRequestHeader("X-CSRFToken", csrftoken);
+       }
+       
+        
+   }
+   });
+     function getajaxconsultancy(tt) {
+       $.ajax({
+         type: "GET",
+         url: '/user/get_cons_doc/{{user.user_name}}',
+         data: {
+           'case_id': tt
+         },
+         dataType: 'json',
+         complete: function(){
+         $('#preloader').hide();
+         },
+         success:function(data)
+         {
+          // console.log(data.result);
+          xxx=JSON.parse(data.result);
+          // console.log(xxx);
+          strr="";
+          $("#tbody-"+tt).empty();
+          for (var i = 0; i < xxx.length; i++) {  
+            var date_= new Date(xxx[i].fields['logoutTime']);
+            // console.log(date_);
+            var dd = date_.getDate();
+            var mm = date_.getMonth() + 1; //January is 0!
+
+            var yyyy = date_.getFullYear();
+            if (dd < 10) {
+              dd = '0' + dd;
+            } 
+            if (mm < 10) {
+              mm = '0' + mm;
+            } 
+            var disp_date = dd + '/' + mm + '/' + yyyy;
+            strr="<tr><td>"+disp_date+"</td><td>"+xxx[i].fields['symptoms']+"</td><td>"+xxx[i].fields['injury_type']+"</td><td>"+xxx[i].fields['diseases']+"</td><td>"+xxx[i].fields['personal_notes']+"</td><td>"+xxx[i].fields['general_notes']+"</td><td>"+xxx[i].fields['is_accidental']+"</td></tr>"
+            // console.log(xxx[i].fields);  
+            $("#tbody-"+tt).append(strr);
+         
+          }
+           
+         },
+         error : function(xhr,errmsg,err) {
+            alert(xhr.status + ": " + xhr.responseText); 
+         }
+       });
+       $.ajax({
+         type: "GET",
+         url: '/user/get_cons_medicine/{{user.user_name}}',
+         data: {
+           'case_id': tt
+         },
+         dataType: 'json',
+         complete: function(){
+         $('#preloader').hide();
+         },
+         success:function(data)
+         {
+          
+          xxx=JSON.parse(data.result);
+          // console.log(xxx);
+          strr="";
+          $("#tbody4-"+tt).empty();
+          for (var i = 0; i < xxx.length; i++) {
+            strr="<tr><td>"+xxx[i]['medicine_name']+"</td><td>"+xxx[i]['dosage']+"</td><td>"+xxx[i]['quantity']+"</td><td>"+xxx[i]['is_delivered']+"</td></tr>";
+            console.log(xxx[i]);
+            $("#tbody4-"+tt).append(strr);
+         
+          }
+           
+         },
+         error : function(xhr,errmsg,err) {
+            alert(xhr.status + ": " + xhr.responseText); 
+         }
+       });
+      
+       
+   }
+   function getajaxlab(tt) {
+         $.ajax({
+         type: "POST",
+         url: '/user/getajaxlab/{{user.user_name}}',
+         data: {
+           'case_id': tt
+         },
+         dataType: 'json',
+         complete: function(){
+         $('#preloader').hide();
+         },
+         success:function(data)
+         {
+          xxx=JSON.parse(data.result);
+           strr="";
+            strr="";
+          $("#tbody5-"+tt).empty();
+          for (var i = 0; i < xxx.length; i++) {
+            strr="<tr><td>"+xxx[i]['name']+"</td><td>"+xxx[i]['ref_date']+"</td><td>"+xxx[i]['deliv_date']+"</td><td>"+xxx[i]['is_delivered']+"</td><td>"+xxx[i]['lab_desc']+"</td><td>";
+            for(var jj=0;jj<xxx[i]['files'].length;jj++)
+            {
+              strr+="<a href='"+xxx[i]['files'][jj]+"' download class='btn btn-primary m-2'>download</a>"
+            }
+            strr+="</td></tr>";
+            //+xxx[i]['files']+"</td></tr>";
+            console.log(xxx[i]);
+            $("#tbody5-"+tt).append(strr);
+         
+          }
+          // alert(data.result);           
+         },
+         error : function(xhr,errmsg,err) {
+            alert(xhr.status + ": " + xhr.responseText); 
+         }
+       });
+
+
+
+ }
+</script>
+  {% endblock %}

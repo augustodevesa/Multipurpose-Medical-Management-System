@@ -1,0 +1,164 @@
+{% extends "dashboard/pharm/header_base.html" %}
+ {% load static %} 
+{% block content %}
+  <div class="container">
+
+    <!-- Outer Row -->
+    <div class="row justify-content-center">
+
+      <div class="col-xl-8 col-lg-6 col-md-9">
+
+        <div class="card o-hidden border-0 shadow-lg my-5">
+          <div class="card-body p-0">
+                <div class="p-5">
+                  <div class="text-center">
+                    <!-- <h1 class="h4 text-gray-900 mb-4">Welcome Back!<br/></h1> -->
+                     <h1 class="h4 text-gray-900 mb-4">Verify your Email</h1>
+                     <p class="mb-4"><b>Please verify your Email</b></p>
+                {{message}}
+                 
+                <script>
+            {% if messages %}
+                {% for message in messages %}
+                    alert(message);
+                {% endfor %}
+            {% endif %}
+        </script>
+                {% if form.errors %}
+    {% for field in form %}
+        {% for error in field.errors %}
+            <div class="alert alert-danger">
+                <strong>Field Error{{ error|escape }}</strong>
+            </div>
+        {% endfor %}
+    {% endfor %}
+    {% for error in form.non_field_errors %}
+        <div class="alert alert-danger">
+            <strong>Non Field Error{{ error|escape }}</strong>
+        </div>
+    {% endfor %}
+{% endif %}
+                  </div>
+                  <div class="text-center m-2">
+                  <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal">
+ Click here to Change Email
+</button>
+</div>
+                  <form class="user" action="" method='POST'>
+                    {% csrf_token %} 
+                    <div class="form-group">
+                      <input type="text" class="form-control form-control-user" name="User_otp" placeholder="Enter OTP">
+                    </div>
+                       <center><input type='submit' name='submit' class="btn btn-success btn-user btn-block w-50"/></center>                   
+                  </form>
+                  <hr>
+                  <div class="text-center">
+                    <button type="button" class="btn btn-success mt-3" onclick="regenerate()">Click here to regenerate OTP</button>
+                  </div>
+
+
+<!-- The Modal -->
+<div class="modal" id="myModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Change Email</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+       <form class="user" action="" method='POST' id="json_form">
+          {% csrf_token %} 
+          <div class="form-group">
+           <input type="email" class="form-control form-control-user" id="exampleInputEmail" name="email" placeholder="Email Address" required>
+          </div>
+             <center><input type='submit' name='submit' class="btn btn-success btn-user btn-block w-50"/></center>                   
+         </form>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+                  
+                  <div class="text-center">
+                    <a class="small" href="/pharm/login">Login into Account</a>
+                  </div>
+                  <div class="text-center">
+                    <a class="small" href="/pharm/register">Create an Account!</a>
+                  </div>
+                </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+  <!-- Page level plugins -->
+  <script src="{% static 'dashboard/vendor/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'dashboard/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="{% static 'dashboard/vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+
+  <!-- Custom scripts for all pages-->
+  <script src="{% static 'dashboard/js/sb-admin-2.min.js' %}"></script>
+<script type="text/javascript">
+function regenerate() {
+
+  $.ajax({
+                url:'/pharm/regenerate_otp/{{user.user_name}}',
+                data: {
+                    'user_name':'{{user.user_name}}'
+                },
+                dataType: 'json',
+                success:function(data)
+                {
+                    alert(data.result);
+                    
+                }
+              });
+  }
+function csrfSafeMethod(method) {
+    // these HTTP methods do not require CSRF protection
+    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+}
+var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
+$.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        }
+    }
+});
+
+ $("#json_form").submit(function (event) {
+      event.preventDefault();
+      $.ajax({
+        type: "POST",
+        url: '/pharm/otp_email_chg/{{user.user_name}}',
+        data: {'email': $("#exampleInputEmail").val()},
+        dataType: 'json',
+        success:function(data)
+        {
+          alert(data.result);
+        },
+        error : function(xhr,errmsg,err) {
+           alert(xhr.status + ": " + xhr.responseText); 
+        }
+      });
+        return false;
+    });
+              
+</script>
+{% endblock %}

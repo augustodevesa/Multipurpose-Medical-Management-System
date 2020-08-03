@@ -1,0 +1,175 @@
+{% extends "dashboard/pharm/header_base.html" %}
+{% load static %}
+{% block content %}
+<link href="{% static 'dashboard/vendor/datatables/dataTables.bootstrap4.min.css' %}" rel="stylesheet">
+  <script src="{% static 'dashboard/vendor/jquery/jquery.min.js' %}"></script>
+  <!-- Page Wrapper -->
+  <div id="wrapper">
+
+    <!-- Sidebar -->
+    {% include "dashboard/pharm/sidebar.html" %}
+    <!-- End of Sidebar -->
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+      <!-- Main Content -->
+      <div id="content">
+
+        <!-- Topbar -->
+        
+   {% include "dashboard/pharm/top_bar.html" %}
+        <!-- End of Topbar -->
+
+
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+
+          <!-- Page Heading -->
+          <h1 class="h3 mb-2 text-gray-800">Previous Pharmacist History</h1>
+          <p class="mb-4">List of Delivered  is for Pharmacist reference</p>
+          
+
+
+          <!-- DataTales Example -->
+          <div class="card shadow mb-4">
+            <div class="card-header py-3">
+              <h6 class="m-0 font-weight-bold text-primary">Pending Reports of Users</h6>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                  <thead>
+                    <tr>
+                      <th>Id</th>
+                      <th>Medicine Name</th>
+                      <th>Medicine dosage</th>
+                      <th>Medicine Quantity</th>
+                      <th>Doctor Name</th>
+                      <th>Referred Date</th>
+                    </tr>
+                  </thead>
+                  <tfoot>
+                    <tr>
+                      <th>Id</th>
+                      <th>Medicine Name</th>
+                      <th>Medicine dosage</th>
+                      <th>Medicine Quantity</th>
+                      <th>Doctor Name</th>
+                      <th>Referred Date</th>
+                    </tr>
+                  </tfoot>
+                  <tbody>
+
+
+                   {% for y in  medicines %}
+                   {% for ajax in y %}
+
+                   <tr id="table-{{ ajax.id }}">
+                                <td>{{ ajax.id }}</td>
+                                <td>{{ ajax.medicine_name }}</td>
+                                <td>{{ ajax.dosage}} </td>
+                                <td>{{ ajax.quantity }}</td>
+                                <td>{{ ajax.use_consult.doctor.firstname }} {{ ajax.use_consult.doctor.lastname }}</td>
+                                <td>{{ ajax.use_consult.logoutTime}}</td>
+                             
+                            {% endfor %}
+                            {% endfor %}
+                            
+
+                  </tbody>
+                </table>
+                
+              </div>
+            </div>
+          </div>
+
+          
+
+        </div>
+        <!-- /.container-fluid -->
+
+      </div>
+      <!-- End of Main Content -->
+
+      <!-- Footer -->
+       <footer class="sticky-footer bg-white">
+        <div class="container my-auto">
+          <div class="copyright text-center my-auto">
+            <span>Copyright &copy; Your Website </span><span id="year-current"></span>
+          </div>
+        </div>
+      </footer>
+      <!-- End of Footer -->
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+  </div>
+  <!-- End of Page Wrapper -->
+
+  <!-- Scroll to Top Button-->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+ <script type="text/javascript">
+  document.getElementById('year-current').innerHTML=new Date().getFullYear();
+</script> 
+ <!-- Page level plugins -->
+
+  <script src="{% static 'dashboard/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="{% static 'dashboard/vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+
+  <!-- Custom scripts for all pages-->
+  <script src="{% static 'dashboard/vendor/jquery/datepicker.min.js' %}"></script>
+  <script src="{% static 'dashboard/js/sb-admin-2.min.js' %}"></script>
+
+  <!-- Page level plugins -->
+  <script src="{% static 'dashboard/vendor/datatables/jquery.dataTables.min.js' %}"></script>
+  <script src="{% static 'dashboard/vendor/datatables/dataTables.bootstrap4.min.js' %}"></script>
+
+  <!-- Page level custom scripts -->
+  <script src="{% static 'dashboard/js/demo/datatables-demo.js' %}"></script>
+<script type="text/javascript">   
+
+  function csrfSafeMethod(method) {
+   // these HTTP methods do not require CSRF protection
+   return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+   }
+   var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
+   $.ajaxSetup({
+   beforeSend: function(xhr, settings) {
+     $('#preloader').show();
+       if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+           xhr.setRequestHeader("X-CSRFToken", csrftoken);
+       }
+       
+        
+   }
+ });
+ </script>
+ <script type="text/javascript">
+  function change_status(tt) {
+         $.ajax({
+       type: "POST",
+       url: '/pharm/medicine_deliver/{{user.user_name}}',
+       data: {
+         'caseid':tt,
+       },
+       dataType: 'json',
+       complete: function(){
+       $('#preloader').hide();
+       },
+       success:function(data)
+       {
+         alert(data.result);
+       },
+       error : function(xhr,errmsg,err) {
+          alert(xhr.status + ": " + xhr.responseText); 
+       }
+     });
+  }
+</script>
+  {% endblock %}

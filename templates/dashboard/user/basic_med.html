@@ -1,0 +1,592 @@
+{% extends "dashboard/user/header_base.html" %}
+{% load static %}
+{% block content %}
+<script src="{% static 'dashboard/vendor/jquery/jquery.min.js' %}"></script>
+<script type="text/javascript">
+   function show_dis() {
+      $(".Disabled").show();
+      // body...
+   }
+   function remove_dis() {
+      $(".Disabled").hide();
+      // body...
+   }
+   function show_other() {
+     $("#disability_other").show();
+   }
+   function remove_other() {
+     $("#disability_other").hide();
+   }
+</script>
+<!-- Page Wrapper -->
+<div id="wrapper">
+   <!-- Sidebar -->
+   {% include "dashboard/user/sidebar.html" %}
+   <!-- End of Sidebar -->
+   <!-- Content Wrapper -->
+   <div id="content-wrapper" class="d-flex flex-column">
+      <!-- Main Content -->
+      <div id="content">
+         <!-- Topbar -->
+         {% include "dashboard/user/top_bar.html" %}
+         <!-- End of Topbar -->
+         <!-- Begin Page Content -->
+         <div class="container-fluid">
+            <!-- Page Heading -->
+            <h1 class="h3 mb-2 text-gray-800">Basic Medical Profile</h1>
+            <p class="mb-4"> Enter Basic Medical Details</p>
+            <div class="card shadow mb-4">
+               <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold text-primary"> Guideliness:Please Write all the details correctly</h6>
+               </div>
+               <div class="card-body">
+                  <div class="container">
+                     {% if message == "Invalid Details" %}
+                     <script type="text/javascript">alert("{{message}}")</script>
+                     {% else %}
+                     {{message}}
+                     {% endif %}
+                     <script>
+                        {% if messages %}
+                            {% for message in messages %}
+                                alert(message);
+                            {% endfor %}
+                        {% endif %}
+                     </script>
+                     {% if form.errors %}
+                     {% for field in form %}
+                     {% for error in field.errors %}
+                     <div class="alert alert-danger">
+                        <strong>Field Error{{ error|escape }}</strong>
+                     </div>
+                     {% endfor %}
+                     {% endfor %}
+                     {% for error in form.non_field_errors %}
+                     <div class="alert alert-danger">
+                        <strong>Non Field Error{{ error|escape }}</strong>
+                     </div>
+                     {% endfor %}
+                     {% endif %}
+                     {% if Uploaded %}
+                     {% for x in Uploaded%}<br/>
+                     Last Updated at:{{x.updated_at}}
+                     <form class="form-horizontal" method="POST" action="" >
+                        {% csrf_token %} 
+                        <fieldset>
+                           <!-- Form Name -->
+                           <div class="container">
+                              <legend>Fields marked with * are manadatory</legend>
+                              <div class="row">
+                                 <div class="col-sm-6">
+                                    <!-- Text input-->
+                                    <div class="form-group">
+                                       <label class=" control-label" >Height*</label>  
+                                       <input id="height" name="height" type="text" placeholder="Height (in cms)" value="{{x.height}}" class="form-control input-md" >
+                                    </div>
+                                    <!-- Text input-->
+                                    <div class="form-group">
+                                       <label class=" control-label" for="weight">Weight*</label>  
+                                       <input id="weight" name="weight" type="text"value="{{x.weight}}" placeholder="Weight(in Kgs)" class="form-control input-md">
+                                    </div>
+                                    <div class="form-group">
+                                       <label class="control-label" for="martial_s">Martial Status*</label>
+                                       <select class="form-control" id="martial_s" name="martial_s" required>
+                                          <option value="S" >Single</option>
+                                          <option value="M" selected>Married</option>
+                                          <option value="D">Divorced</option>
+                                          <option value="W">Widowed</option>
+                                       </select>
+                                    </div>
+                                    <script type="text/javascript">
+                                      var select=document.getElementById('martial_s')
+                                      var len=select.options.length;
+                                      for (var i = 0; i <len; i++) {
+                                        if(select.options[i].value=="{{x.martial_s}}")
+                                        {
+                                          
+                                          select.options[i].selected=true;
+                                        }
+                                        else 
+                                        {
+                                          select.options[i].selected=false;
+                                        
+                                        }
+                                      }
+                                    </script>
+                                    <div class="form-group">
+                                       <label class="control-label mr-5" for="pregnency">Pregnent</label>
+                                       <div class="form-check-inline">
+                                          <label class="form-check-label">
+                                          <input type="radio" class="form-check-input"  name="pregnency" value="1">YES
+                                          </label>
+                                       </div>
+                                       <div class="form-check-inline">
+                                          <label class="form-check-label">
+                                          <input type="radio" class="form-check-input" name="pregnency" value="0" >NO
+                                          </label>
+                                       </div>
+                                    </div>
+                                    <script type="text/javascript">
+                                      var p = document.getElementsByName('pregnency');
+                                        for (var i = 0; i <p.length; i++) {
+                                          if("{{x.pregnency}}"=="True")
+                                          {
+                                            var y=1;
+                                          }
+                                          else
+                                          {
+                                            var y=0;
+                                          }
+                                        if(p[i].value==y)
+                                        {
+
+                                          p[i].checked=true;
+                                        }
+                                        else
+                                        {
+                                           p[i].checked=false;
+                                        }
+                                      }
+                                      
+                                    </script>
+                                    <div class="form-group">
+                                       <label class="control-label mr-5" for="disability_status">Are you Disabled Person?</label>
+                                       <div class="form-check-inline">
+                                          <label class="form-check-label">
+                                          <input type="radio" class="form-check-input" onclick="show_dis()" value="1" name="disability_status" >YES
+                                          </label>
+                                       </div>
+                                       <div class="form-check-inline">
+                                          <label class="form-check-label">
+                                          <input type="radio" class="form-check-input" name="disability_status" value="0" onclick="remove_dis()" >NO
+                                          </label>
+                                       </div>
+                                    </div>
+                                    
+                                    <div class="Disabled" style="display: none;">
+                                       <div class="form-group">
+                                          <label class="control-label" for="disability_type">Disability Type*</label>
+                                          <select class="form-control" id="disability_type" name="disability_type" >
+                                             <option onclick="remove_other()">Please Select</option>
+                                             <option value="VI" onclick="remove_other()">Vision Impairment</option>
+                                             <option value="DF" onclick="remove_other()">Deaf or Hard of hearing</option>
+                                             <option value="MH" onclick="remove_other()">Mental health Conditions</option>
+                                             <option value="ID" onclick="remove_other()">Intellectual Disability</option>
+                                             <option value="AB" onclick="remove_other()">Acquired Brain Injury</option>
+                                             <option value="AS" onclick="remove_other()">Autism Spectrum Disorder</option>
+                                             <option value="PD" onclick="remove_other()">Physical Disability</option>
+                                             <option value="OT" onclick="show_other()">Other</option>
+                                          </select>
+                                       </div>
+                                       
+                                       <div class="form-group" style="display: none;" id="disability_other">
+                                          <label class=" control-label" >Other Type</label>  
+                                          <input  name="disability_other" type="text" value="{{x.disability_other}}" placeholder="Please mention" class="form-control input-md" >
+                                       </div>
+                                    </div>
+                                    <div class="form-group">
+                                       <label class="control-label" for="vision">Vision*</label>
+                                       <select class="form-control" name="vision" id="vision" required>
+                                          <option value="0">Blind</option>
+                                          <option value="1">Nearly Blind</option>
+                                          <option value="2">Having just Specs</option>
+                                          <option value="3" selected>OK</option>
+                                          <option value="4">Good</option>
+                                       </select>
+                                    </div>
+                                    <script type="text/javascript">
+                                      var p = document.getElementsByName('disability_status');
+                                        for (var i = 0; i <p.length; i++) {
+                                          if("{{x.disability_status}}"=="True")
+                                          {
+                                            var y=1;
+                                          }
+                                          else
+                                          {
+                                            var y=0;
+                                          }
+                                        if(p[i].value==y)
+                                        {
+                                          if(y==1)
+                                          {
+                                           show_dis();
+                                          }
+
+                                          p[i].checked=true;
+                                        }
+                                        else
+                                        {
+                                           p[i].checked=false;
+                                        }
+                                      }
+                                    
+                                      var select=document.getElementById('vision')
+                                      var len=select.options.length;
+                                      for (var i = 0; i <len; i++) {
+                                        if(select.options[i].value=="{{x.vision}}")
+                                        {
+                                          
+                                          select.options[i].selected=true;
+                                        }
+                                        else 
+                                        {
+                                          select.options[i].selected=false;
+                                        
+                                        }
+                                      }
+                                       var select=document.getElementById('disability_type')
+                                      var len=select.options.length;
+                                      for (var i = 0; i <len; i++) {
+                                        if(select.options[i].value=="{{x.disability_type}}")
+                                        {
+                                          if(select.options[i].value=="OT")
+                                          {
+                                            show_other();
+                                          }
+                                          
+                                          select.options[i].selected=true;
+                                        }
+                                        else 
+                                        {
+                                          select.options[i].selected=false;
+                                        
+                                        }
+                                      }
+                                    </script>
+                                    
+                                 </div>
+                                 <div class="col-sm-6">
+                                  <div class="form-group">
+                                       <label class="control-label" for="alcohol">Alcohol Consumption*</label>
+                                       <select class="form-control" id="alcohol" name="alcohol" required>
+                                          <option value="0">Severely Addicted</option>
+                                          <option value="1">Once in a day</option>
+                                          <option value="2">Once or twice a Week</option>
+                                          <option value="3">Not Regulary</option>
+                                          <option value="4" selected>Not touched in Life</option>
+                                       </select>
+                                    </div>
+                                    <script type="text/javascript">
+                                      var select=document.getElementById('alcohol')
+                                      var len=select.options.length;
+                                      for (var i = 0; i <len; i++) {
+                                        if(select.options[i].value=="{{x.alcohol}}")
+                                        {
+                                          
+                                          select.options[i].selected=true;
+                                        }
+                                        else 
+                                        {
+                                          select.options[i].selected=false;
+                                        
+                                        }
+                                      }
+                                    </script>
+                                    <div class="form-group">
+                                       <label class="control-label" for="smoking">Smoking Consumption*</label>
+                                       <select class="form-control" id="smoking"  name="smoking" required>
+                                          <option value="0">Severely Addicted</option>
+                                          <option value="1">Once in a day</option>
+                                          <option value="2">Once or twice a Week</option>
+                                          <option value="3">Not Regulary</option>
+                                          <option value="4" selected>Not touched in Life</option>
+                                       </select>
+                                    </div>
+                                    <script type="text/javascript">
+                                      var select=document.getElementById('smoking')
+                                      var len=select.options.length;
+                                      for (var i = 0; i <len; i++) {
+                                        if(select.options[i].value=="{{x.smoking}}")
+                                        {
+                                          
+                                          select.options[i].selected=true;
+                                        }
+                                        else 
+                                        {
+                                          select.options[i].selected=false;
+                                        
+                                        }
+                                      }
+                                    </script>
+                                    <div class="form-group">
+                                       <label class="control-label" for="vision">Color Vision *</label>
+                                       <select class="form-control" id="color_vison" name="color_vison" required>
+                                          <option value="0">Color Blind</option>
+                                          <option value="1">Nearly Blind</option>
+                                          <option value="2">Bad Color Vision</option>
+                                          <option value="3" selected>OK</option>
+                                          <option value="4">Good</option>
+                                       </select>
+                                    </div>
+                                    <script type="text/javascript">
+                                      var select=document.getElementById('color_vison')
+                                      var len=select.options.length;
+                                      for (var i = 0; i <len; i++) {
+                                        if(select.options[i].value=="{{x.color_vison}}")
+                                        {
+                                          
+                                          select.options[i].selected=true;
+                                        }
+                                        else 
+                                        {
+                                          select.options[i].selected=false;
+                                        
+                                        }
+                                      }
+                                    </script>
+                                    <div class="form-group">
+                                       <label class="control-label" for="masturbating">Other Bad Habits</label>
+                                       <select class="form-control"  id="masturbating" name="masturbating" required>
+                                          <option value="0">Severely Addicted</option>
+                                          <option value="1">Once in a day</option>
+                                          <option value="2">Once or twice a Week</option>
+                                          <option value="3">Not Regulary</option>
+                                          <option value="4" selected>Not to be disclose</option>
+                                       </select>
+                                    </div>
+                                    <script type="text/javascript">
+                                      var select=document.getElementById('masturbating')
+                                      var len=select.options.length;
+                                      for (var i = 0; i <len; i++) {
+                                        if(select.options[i].value=="{{x.masturbating}}")
+                                        {
+                                          
+                                          select.options[i].selected=true;
+                                        }
+                                        else 
+                                        {
+                                          select.options[i].selected=false;
+                                        
+                                        }
+                                      }
+                                    </script>
+                                    <div class="form-group">
+                                       <label class="control-label" for="smoking">Drugs*</label>
+                                       <select class="form-control" id="drugs" name="drugs" required>
+                                          <option value="0">Severely Addicted</option>
+                                          <option value="1">Once in a day</option>
+                                          <option value="2">Once or twice a Week</option>
+                                          <option value="3">Not Regulary</option>
+                                          <option value="4" selected>Not touched in Life</option>
+                                       </select>
+                                    </div>
+                                    <script type="text/javascript">
+                                      var select=document.getElementById('drugs')
+                                      var len=select.options.length;
+                                      for (var i = 0; i <len; i++) {
+                                        if(select.options[i].value=="{{x.drugs}}")
+                                        {
+                                          
+                                          select.options[i].selected=true;
+                                        }
+                                        else 
+                                        {
+                                          select.options[i].selected=false;
+                                        
+                                        }
+                                      }
+                                    </script>
+                                    <!-- Textarea -->
+                                    <div class="form-group">
+                                       <label class=" control-label" for="other_details">Other Problems you want to Mention</label>
+                                       <textarea class="form-control" value="{{x.other_details}}" name="other_details" >{{x.other_details}}</textarea>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </fieldset>
+                        <center>
+                           <input type='submit' name='submit' class="btn btn-primary btn-user w-25"/>
+                           <input type='reset' name='reset' class="btn btn-primary btn-user w-25"/>
+                        </center>
+                     </form>
+                     {% endfor %}
+                     {% else %}
+                     <form class="form-horizontal" method="POST" action="" >
+                        {% csrf_token %} 
+                        <fieldset>
+                           <!-- Form Name -->
+                           <div class="container">
+                              <legend>Fields marked with * are manadatory</legend>
+                              <div class="row">
+                                 <div class="col-sm-6">
+                                    <!-- Text input-->
+                                    <div class="form-group">
+                                       <label class=" control-label" >Height*</label>  
+                                       <input id="height" name="height" type="text" placeholder="Height (in cms)" class="form-control input-md" >
+                                    </div>
+                                    <!-- Text input-->
+                                    <div class="form-group">
+                                       <label class=" control-label" for="weight">Weight*</label>  
+                                       <input id="weight" name="weight" type="text" placeholder="Weight(in Kgs)" class="form-control input-md">
+                                    </div>
+                                    <div class="form-group">
+                                       <label class="control-label" for="martial_s">Martial Status*</label>
+                                       <select class="form-control"  name="martial_s" required>
+                                          <option value="S" selected>Single</option>
+                                          <option value="M" >Married</option>
+                                          <option value="D">Divorced</option>
+                                          <option value="W">Widowed</option>
+                                       </select>
+                                    </div>
+                                    <div class="form-group">
+                                       <label class="control-label mr-5" for="pregnency">Pregnent</label>
+                                       <div class="form-check-inline">
+                                          <label class="form-check-label">
+                                          <input type="radio" class="form-check-input" name="pregnency" value="1">YES
+                                          </label>
+                                       </div>
+                                       <div class="form-check-inline">
+                                          <label class="form-check-label">
+                                          <input type="radio" class="form-check-input" name="pregnency" value="0" >NO
+                                          </label>
+                                       </div>
+                                    </div>
+                                    <div class="form-group">
+                                       <label class="control-label mr-5" for="disability_status">Are you Disabled Person?</label>
+                                       <div class="form-check-inline">
+                                          <label class="form-check-label">
+                                          <input type="radio" class="form-check-input" onclick="show_dis()" value="1" name="disability_status" >YES
+                                          </label>
+                                       </div>
+                                       <div class="form-check-inline">
+                                          <label class="form-check-label">
+                                          <input type="radio" class="form-check-input" name="disability_status" value="0" onclick="remove_dis()" >NO
+                                          </label>
+                                       </div>
+                                    </div>
+                                    <div class="Disabled" style="display: none;">
+                                       <div class="form-group">
+                                          <label class="control-label" for="disability_type">Disability Type*</label>
+                                          <select class="form-control" name="disability_type" >
+                                             <option onclick="remove_other()">Please Select</option>
+                                             <option value="VI" onclick="remove_other()">Vision Impairment</option>
+                                             <option value="DF" onclick="remove_other()">Deaf or Hard of hearing</option>
+                                             <option value="MH" onclick="remove_other()">Mental health Conditions</option>
+                                             <option value="ID" onclick="remove_other()">Intellectual Disability</option>
+                                             <option value="AB" onclick="remove_other()">Acquired Brain Injury</option>
+                                             <option value="AS" onclick="remove_other()">Autism Spectrum Disorder</option>
+                                             <option value="PD" onclick="remove_other()">Physical Disability</option>
+                                             <option value="OT" onclick="show_other()">Other</option>
+                                          </select>
+                                       </div>
+                                       <div class="form-group" style="display: none;" id="disability_other">
+                                          <label class=" control-label" >Other Type</label>  
+                                          <input  name="disability_other" type="text" placeholder="Please mention" class="form-control input-md" >
+                                       </div>
+                                    </div>
+                                    <div class="form-group">
+                                       <label class="control-label" for="vision">Vision*</label>
+                                       <select class="form-control" name="vision" required>
+                                          <option value="0">Blind</option>
+                                          <option value="1">Nearly Blind</option>
+                                          <option value="2">Having just Specs</option>
+                                          <option value="3" selected>OK</option>
+                                          <option value="4">Good</option>
+                                       </select>
+                                    </div>
+                                    
+                                 </div>
+                                 <div class="col-sm-6">
+                                  <div class="form-group">
+                                       <label class="control-label" for="alcohol">Alcohol Consumption*</label>
+                                       <select class="form-control"  name="alcohol" required>
+                                          <option value="0">Severely Addicted</option>
+                                          <option value="1">Once in a day</option>
+                                          <option value="2">Once or twice a Week</option>
+                                          <option value="3">Not Regulary</option>
+                                          <option value="4" selected>Not touched in Life</option>
+                                       </select>
+                                    </div>
+                                    <div class="form-group">
+                                       <label class="control-label" for="smoking">Smoking Consumption*</label>
+                                       <select class="form-control"  name="smoking" required>
+                                          <option value="0">Severely Addicted</option>
+                                          <option value="1">Once in a day</option>
+                                          <option value="2">Once or twice a Week</option>
+                                          <option value="3">Not Regulary</option>
+                                          <option value="4" selected>Not touched in Life</option>
+                                       </select>
+                                    </div>
+                                    <div class="form-group">
+                                       <label class="control-label" for="vision">Color Vision *</label>
+                                       <select class="form-control" name="color_vison" required>
+                                          <option value="0">Color Blind</option>
+                                          <option value="1">Nearly Blind</option>
+                                          <option value="2">Bad Color Vision</option>
+                                          <option value="3" selected>OK</option>
+                                          <option value="4">Good</option>
+                                       </select>
+                                    </div>
+                                    <div class="form-group">
+                                       <label class="control-label" for="masturbating">Other bad Habits*</label>
+                                       <select class="form-control"  name="masturbating" required>
+                                          <option value="0">Severely Addicted</option>
+                                          <option value="1">Once in a day</option>
+                                          <option value="2">Once or twice a Week</option>
+                                          <option value="3">Not Regulary</option>
+                                          <option value="4" selected>Not to be disclose</option>
+                                       </select>
+                                    </div>
+                                    <div class="form-group">
+                                       <label class="control-label" for="smoking">Drugs*</label>
+                                       <select class="form-control"  name="drugs" required>
+                                          <option value="0">Severely Addicted</option>
+                                          <option value="1">Once in a day</option>
+                                          <option value="2">Once or twice a Week</option>
+                                          <option value="3">Not Regulary</option>
+                                          <option value="4" selected>Not touched in Life</option>
+                                       </select>
+                                    </div>
+                                    <!-- Textarea -->
+                                    <div class="form-group">
+                                       <label class=" control-label" for="other_details">Other Problems you want to Mention</label>
+                                       <textarea class="form-control"  name="other_details" ></textarea>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </fieldset>
+                        <center>
+                           <input type='submit' name='submit' class="btn btn-primary btn-user w-25"/>
+                           <input type='reset' name='reset' class="btn btn-primary btn-user w-25"/>
+                        </center>
+                     </form>
+                     {% endif %}
+                  </div>
+               </div>
+            </div>
+         </div>
+         <!-- /.container-fluid -->
+      </div>
+      <!-- End of Main Content -->
+      <!-- Footer -->
+      <footer class="sticky-footer bg-white">
+         <div class="container my-auto">
+            <div class="copyright text-center my-auto">
+               <span>Copyright &copy; Your Website </span><span id="year-current"></span>
+            </div>
+         </div>
+      </footer>
+      <!-- End of Footer -->
+   </div>
+   <!-- End of Content Wrapper -->
+</div>
+<!-- End of Page Wrapper -->
+<!-- Scroll to Top Button-->
+<a class="scroll-to-top rounded" href="#page-top">
+<i class="fas fa-angle-up"></i>
+</a>
+<script type="text/javascript">
+   document.getElementById('year-current').innerHTML=new Date().getFullYear();
+</script> 
+<!-- Page level plugins -->
+
+<script src="{% static 'dashboard/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<!-- Core plugin JavaScript-->
+<script src="{% static 'dashboard/vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+<!-- Custom scripts for all pages-->
+<script src="{% static 'dashboard/vendor/jquery/datepicker.min.js' %}"></script>
+<script src="{% static 'dashboard/js/sb-admin-2.min.js' %}"></script>
+
+{% endblock %}

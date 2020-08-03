@@ -1,0 +1,143 @@
+{% load static %} 
+
+
+{% block content %}
+
+ <ul class="navbar-nav bg-gradient-dark sidebar sidebar-dark accordion" id="accordionSidebar">
+
+      <!-- Sidebar - Brand -->
+      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/superadmin/dashboard/{{user.user_name}}">
+        <div class="sidebar-brand-icon">
+          <!-- <i class="fas fa-laugh-wink"></i> -->
+          <img src="{% static 'img/logo.png' %}"  class="img-fluid" alt="">
+        </div>
+        <div class="sidebar-brand-text mx-3">UIPMR</div>
+      </a>
+
+      <!-- Divider -->
+      <hr class="sidebar-divider my-0">
+
+      <!-- Nav Item - Dashboard -->
+      <li class="nav-item active">
+        <a class="nav-link" href="/superadmin/dashboard/{{user.user_name}}">
+          <i class="fas fa-fw fa-tachometer-alt"></i>
+          <span>Dashboard</span></a>
+      </li>
+
+      <!-- Divider -->
+      <hr class="sidebar-divider">
+
+      <!-- Heading -->
+     <!--  <div class="sidebar-heading">
+        Medical Details
+      </div>
+ -->
+      <!-- Nav Item - Pages Collapse Menu -->
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+          <i class="fas fa-fw fa-cog"></i>
+          <span>User</span>
+        </a>
+        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Account Details:</h6>
+            <a class="collapse-item {% if request.resolver_match.url_name == 'manage_users' %}active text-dark{% endif %}" href="/superadmin/manage_users/{{user.user_name}}">Manage Users </a>
+            <a class="collapse-item {% if request.resolver_match.url_name == 'user_session' %}active text-dark{% endif %}" href="/superadmin/user_session/{{user.user_name}}">User Session Logs </a>
+            <a class="collapse-item {% if request.resolver_match.url_name == 'user_feedback' %}active text-dark{% endif %}" href="/superadmin/user_feedback/{{user.user_name}}">User Feedback</a>
+            <h6 class="collapse-header">Medical Details:</h6>
+            <a class="collapse-item {% if request.resolver_match.url_name == 'user_health' %}active text-dark{% endif %}" href="/superadmin/user_health/{{user.user_name}}">User Health History </a>
+            <a class="collapse-item {% if request.resolver_match.url_name == 'user_emergency' %}active text-dark{% endif %}" href="/superadmin/user_emergency/{{user.user_name}}">User Emergency<br/> Contact Details</a>
+          </div>
+        </div>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse3" aria-expanded="true" aria-controls="collapse3">
+          <i class="fas fa-fw fa-cog"></i>
+          <span>Doctor</span>
+        </a>
+        <div id="collapse3" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Account Details:</h6>
+            <a class="collapse-item {% if request.resolver_match.url_name == 'approveDoctor' %}active text-dark{% endif %}" href="/superadmin/approveDoctor/{{user.user_name}}">Approve Doctors</a>
+            <a class="collapse-item {% if request.resolver_match.url_name == 'manage_doctors' %}active text-dark{% endif %}" href="/superadmin/manage_doctors/{{user.user_name}}">Manage Doctors </a>
+            <a class="collapse-item {% if request.resolver_match.url_name == 'doctor_session' %}active text-dark{% endif %}" href="/superadmin/doctor_session/{{user.user_name}}">Doctors Session <br/>Logs </a>
+            <a class="collapse-item {% if request.resolver_match.url_name == 'doctor_feedback' %}active text-dark{% endif %}" href="/superadmin/doctor_feedback/{{user.user_name}}">Doctors Feedback</a>
+          </div>
+        </div>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse4" aria-expanded="true" aria-controls="collapse4">
+          <i class="fas fa-fw fa-cog"></i>
+          <span>Laboratorian</span>
+        </a>
+        <div id="collapse4" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Account Details:</h6>
+            <a class="collapse-item {% if request.resolver_match.url_name == 'approveLab' %}active text-dark{% endif %}" href="/superadmin/approveLab/{{user.user_name}}">Approve Laboratorians</a>
+            <a class="collapse-item {% if request.resolver_match.url_name == 'manage_labs' %}active text-dark{% endif %}" href="/superadmin/manage_labs/{{user.user_name}}">Manage Laboratorians </a>
+            <a class="collapse-item {% if request.resolver_match.url_name == 'lab_sesssion' %}active text-dark{% endif %}" href="/superadmin/lab_sesssion/{{user.user_name}}">Laboratorians Session <br/>Logs </a>
+            <a class="collapse-item {% if request.resolver_match.url_name == 'lab_feedback' %}active text-dark{% endif %}" href="/superadmin/lab_feedback/{{user.user_name}}">Laboratorians Feedback</a>
+          </div>
+        </div>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse6" aria-expanded="true" aria-controls="collapse6">
+          <i class="fas fa-fw fa-cog"></i>
+          <span>Pharmacist</span>
+        </a>
+        <div id="collapse6" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Account Details:</h6>
+            <a class="collapse-item {% if request.resolver_match.url_name == 'approvePharm' %}active text-dark{% endif %}" href="/superadmin/approvePharm/{{user.user_name}}">Approve Pharmacists</a>
+            <a class="collapse-item {% if request.resolver_match.url_name == 'manage_pharms' %}active text-dark{% endif %}" href="/superadmin/manage_pharms/{{user.user_name}}">Manage Pharmacists </a>
+            <a class="collapse-item {% if request.resolver_match.url_name == 'pharm_session' %}active text-dark{% endif %}" href="/superadmin/pharm_session/{{user.user_name}}">Pharmacists Session<br/> Logs </a>
+            <a class="collapse-item {% if request.resolver_match.url_name == 'pharm_feedback' %}active text-dark{% endif %}" href="/superadmin/pharm_feedback/{{user.user_name}}">Pharmacists Feedback</a>
+          </div>
+        </div>
+      </li>
+       <li class="nav-item ">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse5" aria-expanded="true" aria-controls="collapse5">
+          <i class="fas fa-fw fa-cog"></i>
+          <span>Translate this page:</span>
+        </a>
+        <div id="collapse5" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded" >
+            <div id="google_translate_element" class="px-2"></div>
+
+<script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
+}
+</script>
+
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+          </div>
+        </div>
+
+      </li>
+
+ 
+
+      <!-- Divider -->
+      <hr class="sidebar-divider d-none d-md-block">
+
+      <!-- Sidebar Toggler (Sidebar) -->
+      <div class="text-center d-none d-md-inline">
+        <button class="rounded-circle border-0" id="sidebarToggle"></button>
+      </div>
+
+    </ul>
+    <script type="text/javascript">
+      var l=document.getElementsByClassName('collapse-inner');
+      for( x of l){
+        var y=x.children;
+        for(z of y){
+          // console.log(z,z.classList,z.classList.contains("active"));
+          if(z.classList.contains("active")){
+            x.parentElement.classList.add("show");
+            break;
+          }
+        }
+      }
+    </script>
+    {% endblock %}

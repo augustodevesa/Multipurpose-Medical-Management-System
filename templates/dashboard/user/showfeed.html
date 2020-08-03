@@ -1,0 +1,144 @@
+{% extends "dashboard/user/header_base.html" %}
+{% load static %}
+{% block content %}
+<link href="{% static 'dashboard/vendor/datatables/dataTables.bootstrap4.min.css' %}" rel="stylesheet">
+
+  <!-- Page Wrapper -->
+  <div id="wrapper">
+
+    <!-- Sidebar -->
+    {% include "dashboard/user/sidebar.html" %}
+    <!-- End of Sidebar -->
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+      <!-- Main Content -->
+      <div id="content">
+
+        <!-- Topbar -->
+        
+   {% include "dashboard/user/top_bar.html" %}
+        <!-- End of Topbar -->
+
+
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+
+          <!-- Page Heading -->
+          <h1 class="h3 mb-2 text-gray-800">Display User Feed Back</h1>
+          <p class="mb-4">The Activity Log of Users is for Security Purposes and Monitoring Purposes</p>
+                          
+                    <!-- DataTales Example -->
+          <div class="card shadow mb-4">
+            <div class="card-header py-3">
+              <h6 class="m-0 font-weight-bold text-primary">Activity Log of Users</h6>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                  <thead>
+                    <tr>
+                      
+                      <th>created_at</th>
+                      <th>content</th>
+                      <th>Subject</th>
+                    </tr>
+                  </thead>
+                  <tfoot>
+                    <tr>
+                      
+                      <th>created_at</th>
+                      <th>content</th>
+                      <th>Subject</th>
+                      
+                    </tr>
+                  </tfoot>
+                  <tbody>
+                   {% for ajax in ftable %}
+                   <tr id="table-{{ ajax.id }}">
+                                <td>{{ ajax.created_at }}</td>
+                                <td><a href="#" data-toggle="modal" data-target="#myModal{{ajax.id}}" class="btn btn-primary btn-icon-split">
+                    <span class="icon text-white-50">
+                      <i class="fas fa-arrow-right"></i>
+                    </span>
+                    <span class="text">Click</span>
+                  </a>
+                                 <!-- <button data-toggle="modal" data-target="#myModal{{ajax.id}}">Click</button> -->
+                                       <!-- Modal -->
+                                       <div id="myModal{{ajax.id}}" class="modal fade" role="dialog">
+                                          <div class="modal-dialog min-vw-100 px-5">
+                                             <!-- Modal content-->
+                                             <div class="modal-content  w-100">
+                                                <div class="modal-header">
+                                                   
+                                                   <h4 class="modal-title">Content of the Feed Back</h4>
+                                                </div>
+                                                <div class="modal-body">
+                                                   {{ ajax.content | safe}}
+                                                </div>
+                                                <div class="modal-footer">
+                                                   <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                </div>
+                                             </div>
+                                          </div>
+                                       </div> 
+                                </td>
+                                <td>{{ ajax.subject }}</td>
+                            </tr>
+                            {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+
+        </div>
+        <!-- /.container-fluid -->
+
+      </div>
+      <!-- End of Main Content -->
+
+      <!-- Footer -->
+       <footer class="sticky-footer bg-white">
+        <div class="container my-auto">
+          <div class="copyright text-center my-auto">
+            <span>Copyright &copy; Your Website </span><span id="year-current"></span>
+          </div>
+        </div>
+      </footer>
+      <!-- End of Footer -->
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+  </div>
+  <!-- End of Page Wrapper -->
+
+  <!-- Scroll to Top Button-->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+ <script type="text/javascript">
+  document.getElementById('year-current').innerHTML=new Date().getFullYear();
+</script> 
+ <!-- Page level plugins -->
+  <script src="{% static 'dashboard/vendor/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'dashboard/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="{% static 'dashboard/vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+
+  <!-- Custom scripts for all pages-->
+  <script src="{% static 'dashboard/vendor/jquery/datepicker.min.js' %}"></script>
+  <script src="{% static 'dashboard/js/sb-admin-2.min.js' %}"></script>
+
+  <!-- Page level plugins -->
+  <script src="{% static 'dashboard/vendor/datatables/jquery.dataTables.min.js' %}"></script>
+  <script src="{% static 'dashboard/vendor/datatables/dataTables.bootstrap4.min.js' %}"></script>
+
+  <!-- Page level custom scripts -->
+  <script src="{% static 'dashboard/js/demo/datatables-demo.js' %}"></script>
+
+  {% endblock %}

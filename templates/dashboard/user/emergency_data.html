@@ -1,0 +1,247 @@
+{% extends "dashboard/user/header_base.html" %}
+{% load static %}
+{% block content %}
+<link href="{% static 'dashboard/vendor/datatables/dataTables.bootstrap4.min.css' %}" rel="stylesheet">
+<!-- Page Wrapper -->
+<div id="wrapper">
+ <!-- Sidebar -->
+ {% include "dashboard/user/sidebar.html" %}
+ <!-- End of Sidebar -->
+ <!-- Content Wrapper -->
+ <div id="content-wrapper" class="d-flex flex-column">
+  <!-- Main Content -->
+  <div id="content">
+   <!-- Topbar -->
+   {% include "dashboard/user/top_bar.html" %}
+   <!-- End of Topbar -->
+   <!-- Begin Page Content -->
+   <div class="container-fluid">
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">Emergency Contact Details</h1>
+    <p class="mb-4">Enter Emergency Contact Details</p>
+    <div class="card shadow mb-4">
+     <div class="card-header py-3">
+      <h6 class="m-0 font-weight-bold text-primary"> Maximum 4 entries are allowed</h6>
+    </div>
+    <div class="card-body">
+      <div class="container">
+        {% if message == "Invalid Details" %}
+        <script type="text/javascript">alert("{{message}}")</script>
+        {% elif message == "MAX 4 Entries are allowed" %}
+        <script type="text/javascript">alert("{{message}}")</script>
+        {% else %}
+         {{message}}
+        {% endif %}
+        <form class="form-horizontal" method="POST" action="" onsubmit="return validate_form()">
+           {% csrf_token %} 
+          <fieldset>
+
+            <!-- Form Name -->
+
+            <div class="container">
+              <legend>Fields marked with * are manadatory</legend>
+              <div class="row">
+                <div class="col-sm-6">
+                  <!-- Text input-->
+                  <div class="form-group">
+                    <label class=" control-label" for="name_of_relative">Name*</label>  
+                    <input id="name_of_relative" name="name" type="text" placeholder="Name of Relative" class="form-control input-md" required>
+                  </div>
+
+                  <!-- Text input-->
+                  <div class="form-group">
+                    <label class=" control-label" for="contact_no">Contact No.*</label>  
+
+                    <input id="contact_no" name="phone_number" type="text" placeholder="Contact No." class="form-control input-md" required="">
+
+
+                  </div>
+
+                  <div class="form-group">
+                    <label class=" control-label" for="contact_no">Email</label>  
+
+                    <input type="email" class="form-control" id="exampleInputEmail" aria-describedby="emailHelp" name="email" placeholder="Enter Email Address...">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <!-- Text input-->
+                  <div class="form-group">
+                    <label class=" control-label" for="phone_number_2">Alternate Contact No.</label>  
+
+                    <input id="alternate_contact_no" name="phone_number_2" type="text" placeholder="Alternate Contact No." class="form-control input-md">
+
+                  </div>
+
+                  <!-- Textarea -->
+                  <div class="form-group">
+                    <label class=" control-label" for="address">Address*</label>
+
+                    <textarea class="form-control" id="relative_address" name="address" required></textarea>
+
+                  </div>
+
+                  <!-- Button Drop Down -->
+                  <div class="form-group">
+                    <label class="control-label" for="relation">Relation with User*</label>
+                      <select class="form-control" id="sel1" name="relationship">
+                        <option value="SB">Sibling/Cousin</option>
+                        <option value="PR" selected>Parents</option>
+                        <option value="RL">Relative</option>
+                        <option value="FR">Friend</option>
+                        <option value="NG">Neighbour</option>
+                        <option value="OT">Other</option>
+                      </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </fieldset>
+          <center>
+          <input type='submit' name='submit' class="btn btn-primary btn-user btn-block w-50"/>
+          </center>
+        </form>
+      </div>
+    </div>
+
+  </div>
+  <div class="card shadow mb-4">
+            <div class="card-header py-3">
+              <h6 class="m-0 font-weight-bold text-primary">Emergency Contact Details of Yours</h6>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                  <thead>
+                    <tr>
+                      <th>Id</th>
+                      <th>Name</th>
+                      <th>Email</th>
+                      <th>Contact Number</th>
+                      <th>Address</th>
+                      <th>Alternate Contact Number</th>
+                      <th>Relationship</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tfoot>
+                    <tr>
+                      <th>Id</th>
+                      <th>Name</th>
+                      <th>Email</th>
+                      <th>Contact Number</th>
+                      <th>Address</th>
+                      <th>Alternate Contact Number</th>
+                      <th>Relationship</th>
+                      <th>Action</th>
+                    </tr>
+                  </tfoot>
+                  <tbody>
+                   {% for ajax in ftable %}
+                   <tr id="table-{{forloop.counter0}}">
+                                <td>{{ ajax.id }}</td>
+                                <td>{{ ajax.name }}</td>
+                                <td>{{ ajax.email }}</td>
+                                <td>{{ ajax.phone_number }}</td>
+                                <td>{{ ajax.address }}</td>
+                                <td>{{ ajax.phone_number_2 }}</td>
+                                <td>{{ ajax.relationship}}</td>
+                                <td><a href="#" onclick="delete_contact({{ ajax.id }})" class="btn btn-danger btn-icon-split"> <span class="icon text-white-50">
+                      <i class="fas fa-arrow-right"></i>
+                    </span>
+                    <span class="text">Delete</span>
+                  </a></td>  
+                            </tr>
+                            {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+</div>
+
+<!-- /.container-fluid -->
+</div>
+<!-- End of Main Content -->
+<!-- Footer -->
+<footer class="sticky-footer bg-white">
+ <div class="container my-auto">
+  <div class="copyright text-center my-auto">
+   <span>Copyright &copy; Your Website </span><span id="year-current"></span>
+ </div>
+</div>
+</footer>
+<!-- End of Footer -->
+</div>
+<!-- End of Content Wrapper -->
+</div>
+<!-- End of Page Wrapper -->
+<!-- Scroll to Top Button-->
+<a class="scroll-to-top rounded" href="#page-top">
+  <i class="fas fa-angle-up"></i>
+</a>
+<script type="text/javascript">
+ document.getElementById('year-current').innerHTML=new Date().getFullYear();
+</script> 
+<!-- Page level plugins -->
+<script src="{% static 'dashboard/vendor/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'dashboard/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<!-- Core plugin JavaScript-->
+<script src="{% static 'dashboard/vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+<!-- Custom scripts for all pages-->
+  <script src="{% static 'dashboard/js/sb-admin-2.min.js' %}"></script>
+  <script type="text/javascript">
+    function validate_form() {
+      if(document.getElementById("alternate_contact_no").value==document.getElementById("contact_no").value)
+      {
+        alert("Both Contact No Same");
+        return false;
+      }
+      return true;
+    }
+  </script>
+  <!-- Page level plugins -->
+  <script src="{% static 'dashboard/vendor/datatables/jquery.dataTables.min.js' %}"></script>
+  <script src="{% static 'dashboard/vendor/datatables/dataTables.bootstrap4.min.js' %}"></script>
+
+  <!-- Page level custom scripts -->
+  <script src="{% static 'dashboard/js/demo/datatables-demo.js' %}"></script>
+<script type="text/javascript">
+ var l=document.getElementsByTagName("tr").length-2;
+ var r = {
+   'SB': 'Sibling/Cousin',
+   'PR': 'Parents',
+   'RL': 'Relative',
+   'FR': 'Friend',
+   'NG': 'Neighbour',
+   'OT': 'Other',
+ }
+ for(var i=0;i<l;i++)
+ {
+  var strr="#table-"+i.toString();
+  $(strr).children().eq(6).html(r[$(strr).children().eq(6).html()])
+ }
+function delete_contact(id) {
+  var confirm_app = confirm("Are you sure want to Delete Contact with id "+id.toString());
+        if (confirm_app == true) {
+
+      $.ajax({
+        url: '/user/delete_emergency_contact/{{user.user_name}}',
+        data: {
+          'Contactid': id
+        },
+        dataType: 'json',
+        success:function(data)
+        {
+          // console.log("User",$(this).attr('class'),'Approved')
+          alert("response "+data.result),
+          location.reload();
+        }
+      });
+    }
+
+}
+
+
+</script>
+{% endblock %}
