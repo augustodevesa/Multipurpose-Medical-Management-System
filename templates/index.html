@@ -1,0 +1,306 @@
+{% extends "base.html" %}
+{% load static %} 
+{% block content %}
+<!--================Header Menu Area =================-->
+<!--================ Home Banner Area =================-->
+<section class="home_banner_area">
+   <div class="banner_inner d-flex align-items-center">
+      <div class="container">
+         <!-- <div class="row justify-content-center section-title-wrap">
+            <div class="col-lg-12">
+            	<h1>Enjoy our Client’s Feedback</h1>
+            	<p>
+            		Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+            	</p>
+            </div>
+            </div>
+            -->
+         <div class="feedback_contents justify-content-center align-items-center">
+            <div class="active-review-carusel owl-carousel">
+               <div class="row m-3">
+                  <div class="col-lg-6">
+                     <img src="{% static 'img/banner/c1.jpg' %}" alt="" class="banner-kavil-img" style="">
+                  </div>
+                  <div class="col-lg-6">
+                     <div class="single-feedback-carusel">
+                        <div class="d-flex flex-row">
+                           <h4 class="">Fannie Rowe</h4>
+                           
+                        </div>
+                        <p class="">
+                           Accessories Here you can find the best computer accessory for your laptop, monitor, printer, scanner, speaker. Here you can
+                           find the best computer accessory for your laptop, monitor, printer, scanner, speaker.
+                        </p>
+                     </div>
+                  </div>
+               </div>
+               <div class="row">
+                  <div class="col-lg-6">
+                  	<img src="{% static 'img/banner/c2.jpg' %}" alt="" class="banner-kavil-img" style="top: -44px;">
+                     <!-- <img src="{% static 'img/banner/C-apponment.jpg' %}" class="banner-kavil-img" alt="" style="    width: 555px;    height: 326px;"> -->
+                  </div>
+                  <div class="col-lg-6">
+                     <div class="single-feedback-carusel">
+                        <div class="d-flex flex-row">
+                           <h4 class="">Analysis</h4>
+                           
+                        </div>
+                        <p class="">
+                           Accessories Here you can find the best computer accessory for your laptop, monitor, printer, scanner, speaker. Here you can
+                           find the best computer accessory for your laptop, monitor, printer, scanner, speaker.
+                        </p>
+                     </div>
+                  </div>
+               </div>
+               <div class="row">
+                  <div class="col-lg-6">
+                     <img src="{% static 'img/banner/c3.jpg' %}" class="banner-kavil-img" alt="" style="    top: -65px;">
+                  </div>
+                  <div class="col-lg-6">
+                     <div class="single-feedback-carusel">
+                        <div class="d-flex flex-row">
+                           <h4 class="">Appointment Booking</h4>
+                           
+                        </div>
+                        <p class="">
+                           Accessories Here you can find the best computer accessory for your laptop, monitor, printer, scanner, speaker. Here you can
+                           find the best computer accessory for your laptop, monitor, printer, scanner, speaker.
+                        </p>
+                     </div>
+                  </div>
+               </div>
+               <div class="row">
+                  <div class="col-lg-6">
+                     <img src="{% static 'img/c4.jpg' %}" alt=""  style="position: relative;top: -63px;">
+                  </div>
+                  <div class="col-lg-6">
+                     <div class="single-feedback-carusel">
+                        <div class="d-flex flex-row">
+                           <h4 class="">Health Tips</h4>
+                           
+                        </div>
+                        <p class="text-dark " style="background-color: #ffffff7a;">
+                           Eat different variety of foods.<br>
+                     Base your diet on plenty of foods rich in carbohydrates.<br>
+                     Enjoy plenty of fruits and vegetables everyday.<br>
+                     Reduce salt and sugar intake.<br>
+                     Drink plenty of water.<br>
+                     Maintain a healthy body weight.<br>
+                     Get on the move, make it a habit!<br>
+                     Start now! And keep changing gradually.<br>
+                        </p>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <!-- <div class="banner_content row">
+            <div class="col-lg-12">
+            	<h1>We Care for Your Health Every Moment</h1>
+            	<p>If you are looking at blank cassettes on the web, you may be very confused at the difference in price You may see some
+            		for as low as each.</p>
+            	<a class="main_btn mr-10" href="#">get started</a>
+            </div>
+            </div> -->
+      </div>
+   </div>
+</section>
+<style type="text/css">
+	.owl-dots
+	{
+		position: relative;
+		top: 33px;
+	}
+	.single-feedback-carusel
+	{
+		position: absolute;
+    /*top: 177px;*/
+    left: 50px;
+	}
+	.banner-kavil-img
+	{
+		position: absolute;
+		top: 0px;
+	}
+	.owl-dot
+	{
+		border-radius:50%; 
+	}
+</style>
+<!--================ End Home Banner Area =================-->
+<!--================ About Myself Area =================-->
+<section class="about_myself pad_top">
+   <div class="container">
+      <div class="row">
+         <div class="col-lg-6 pr-0">
+            <div class="about_img">
+               <img class="img-fluid w-100" src="{% static 'img/about-me.jpg' %}" alt="">
+            </div>
+         </div>
+         <div class="col-lg-6 pl-0">
+            <div class="about_box">
+               <div class="section-title-wrap text-left">
+                  <h1>About UIPMR</h1>
+                  <p>
+                    UIPMR is an online platform offering varieties of medical services ranging from appointment booking to laboratory and pharmacy services. We also offer various types of medical analysis which will help to take precautionary measures as and when needed in case of any epidemic. Our centralized database storage will enable Doctors to know the patient's past medical history without any hassle. 
+                  </p>
+               </div>
+               <div class="activity">
+                  <div class="row">
+                     <div class="col-lg-6 col-md-6">
+                        <div class="activity_box">
+                           <div>
+                              <i class="lnr lnr-users"></i>
+                           </div>
+                           <h3><span class="counter">2.5</span> M</h3>
+                           <p >Patients Treated till date</p>
+                        </div>
+                     </div>
+                     <div class="col-lg-6 col-md-6">
+                        <div class="activity_box">
+                           <div>
+                              <i class="lnr lnr-book"></i>
+                           </div>
+                           <h3 class="counter">1465</h3>
+                           <p>Registered Doctors</p>
+                        </div>
+                     </div>
+                     <div class="col-lg-6 col-md-6">
+                        <div class="activity_box">
+                           <div>
+                              <i class="lnr lnr-users"></i>
+                           </div>
+                           <h3 class="counter">3965</h3>
+                           <p>Registered Laboratories</p>
+                        </div>
+                     </div>
+                     <div class="col-lg-6 col-md-6">
+                        <div class="activity_box">
+                           <div>
+                              <i class="lnr lnr-users"></i>
+                           </div>
+                           <h3 class="counter">3965</h3>
+                           <p>Registered Pharmacies</p>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</section>
+<!--================ End About Myself Area =================-->
+<!--================ Procedure Category Area =================-->
+<section class="procedure_category section_gap">
+   <div class="container">
+      <div class="row justify-content-center section-title-wrap">
+         <div class="col-lg-12">
+            <h1>Important Health Portals</h1>
+            <p>
+               Directorate General of Health Services (DGHS) is attached office of the Department of Health & Family Welfare and has subordinate offices spread all over the country. The DGHS renders technical advice on all Medical and Public Health matters and is involved in the implementation of various Health Services.
+            </p>
+         </div>
+      </div>
+      <div class="row ">
+         <div class="col-lg-4">
+            <div class="categories_post">
+               <img src="{% static 'img/procedure/p4.png' %}" alt="Procedure">
+               <div class="categories_details">
+                  <div class="categories_text">
+                     <div class="border_line"></div>
+                     <a href="http://www.eraktkosh.in/BLDAHIMS/bloodbank/transactions/bbpublicindex.html">
+                        <h5>
+                           eRaktKosh
+                        </h5>
+                     </a>
+                     <div class="border_line"></div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="col-lg-4">
+            <div class="categories_post">
+               <img src="{% static 'img/procedure/p2.png' %}" alt="Procedure">
+               <div class="categories_details">
+                  <div class="categories_text">
+                     <div class="border_line"></div>
+                     <a href="https://pmsma.nhp.gov.in/">
+                        <h5>Pradhan Mantri Surakshit Matritva Abhiyan		</h5>
+                     </a>
+                     <div class="border_line"></div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="col-lg-4">
+            <div class="categories_post">
+               <img src="{% static 'img/procedure/p3.png' %}" alt="Procedure">
+               <div class="categories_details">
+                  <div class="categories_text">
+                     <div class="border_line"></div>
+                     <a href="http://meraaspataal.nhp.gov.in/">
+                        <h5>Mera Aspataal</h5>
+                     </a>
+                     <div class="border_line"></div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</section>
+<!--================ End Procedure Category Area =================-->
+<!--================ Start Offered Services Area =================-->
+<section class="service_area section_gap">
+   <div class="container">
+      <div class="row justify-content-center section-title-wrap">
+         <div class="col-lg-12">
+            <h1>Our Offered Services</h1>
+            
+         </div>
+      </div>
+      <div class="row">
+         <div class="col-lg-3 col-md-6">
+            <div class="single_service">
+            	<span class="lnr lnr-calendar-full"></span>
+               <a href="#">
+                  <h4>Appointment Booking</h4>
+               </a>
+               
+            </div>
+         </div>
+         <div class="col-lg-3 col-md-6">
+            <div class="single_service">
+               <span class="lnr lnr-heart-pulse"></span>
+               <a href="#">
+                  <h4>Laboratory services</h4>
+               </a>
+               
+            </div>
+         </div>
+         <div class="col-lg-3 col-md-6">
+            <div class="single_service">
+               <span class="lnr lnr-store"></span>
+               <a href="#">
+                  <h4>Pharmacy services</h4>
+               </a>
+               
+            </div>
+         </div>
+         <div class="col-lg-3 col-md-6">
+            <div class="single_service">
+               <span class="lnr lnr-pie-chart"></span>
+               <a href="#">
+                  <h4>Monitoring Patient's health record</h4>
+               </a>
+               
+            </div>
+         </div>
+      </div>
+   </div>
+</section>
+<!--================ End Offered Services Area =================-->
+
+
+{% endblock %}

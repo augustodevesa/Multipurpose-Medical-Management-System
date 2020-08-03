@@ -1,0 +1,250 @@
+ {% load static %} 
+
+<!DOCTYPE HTML>
+<html lang="en">
+
+<head>
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="stylesheet" >
+	<link rel="icon" href="{% static 'img/favicon.png' %}" type="image/png">
+	<title>Unique Identification of Patient Medical Record(UIPMR)</title>
+	<!-- Bootstrap CSS -->
+
+	<link rel="stylesheet" href="{% static 'css/bootstrap.css' %}" >
+	<link rel="stylesheet" href="{% static 'vendors/linericon/style.css' %}">
+	<link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
+	<link rel="stylesheet" href="{% static 'vendors/owl-carousel/owl.carousel.min.css' %}">
+	<link rel="stylesheet" href="{% static 'vendors/lightbox/simpleLightbox.css' %}">
+	<link rel="stylesheet" href="{% static 'vendors/nice-select/css/nice-select.css' %}">
+	<link rel="stylesheet" href="{% static 'vendors/animate-css/animate.css' %}">
+	<link rel="stylesheet" href="{% static 'vendors/jquery-ui/jquery-ui.css' %}">
+	<!-- main css -->
+	<link rel="stylesheet" href="{% static 'css/style.css' %}">
+	<link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+</head>
+
+<body>
+
+
+
+	<!--================Header Menu Area =================-->
+	<header class="header_area">
+		<div class="top_menu row m0">
+			<div class="container">
+				<!-- <div class="float-left">
+					<ul class="left_side">
+						<li>
+							<a href="login.html">
+								<i class="fa fa-facebook-f"></i>
+							</a>
+						</li>
+						<li>
+							<a href="login.html">
+								<i class="fa fa-twitter"></i>
+							</a>
+						</li>
+						<li>
+							<a href="login.html">
+								<i class="fa fa-dribbble"></i>
+							</a>
+						</li>
+						<li>
+							<a href="login.html">
+								<i class="fa fa-behance"></i>
+							</a>
+						</li>
+					</ul>
+				</div> -->
+				<div class="float-right">
+					<ul class="right_side">
+						<li>
+							<a href="login.html">
+								<i class="lnr lnr-phone-handset"></i>
+								+919898780779
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<i class="lnr lnr-envelope"></i>
+								emergency@uipmr.com
+							</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<style type="text/css">
+			.logo_h strong
+			{
+
+			}
+		</style>
+		<div class="main_menu">
+			<nav class="navbar navbar-expand-lg navbar-light">
+				<div class="container">
+					<!-- Brand and toggle get grouped for better mobile display -->
+					<a class="navbar-brand logo_h" href="/">
+						
+						<img src="{% static 'img/index.jfif' %}" alt="">
+					</a>
+
+					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+					 aria-expanded="false" aria-label="Toggle navigation">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<!-- Collect the nav links, forms, and other content for toggling -->
+					<div class="collapse navbar-collapse offset" id="navbarSupportedContent">
+						<div class="row ml-0 w-100">
+							<div class="col-lg-12 pr-0">
+								<ul class="nav navbar-nav center_nav pull-right">
+									<li class="nav-item {% if request.resolver_match.url_name == '' %}active{% endif %}">
+										<a class="nav-link" href="/">Home</a>
+									</li>
+									<li class="nav-item  {% if request.resolver_match.url_name == 'blog' %}active{% endif %}">
+										<a class="nav-link" href="/blog">Events</a>
+									</li>
+									<li class="nav-item {% if request.resolver_match.url_name == 'departments' %}active{% endif %}">
+										<a class="nav-link" href="/departments">FAQ</a>
+									</li>
+									<li class="nav-item submenu dropdown">
+										<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Login</a>
+										<ul class="dropdown-menu">
+											<li class="nav-item">
+												<a class="nav-link" href="user/login">User-login</a>
+											</li>
+											<li class="nav-item">
+												<a class="nav-link" href="doctor/login">Doctor-Login</a>
+											</li>
+											<li class="nav-item">
+												<a class="nav-link" href="pharm/login">Pharm-Login</a>
+											</li>
+											<li class="nav-item">
+												<a class="nav-link" href="lab/login">Lab-Login</a>
+											</li>
+											<li class="nav-item">
+												<a class="nav-link" href="superadmin/login">Admin-Login</a>
+											</li>
+										</ul>
+									</li>
+									
+									<li class="nav-item {% if request.resolver_match.url_name == 'contact' %}active{% endif %}">
+										<a class="nav-link" href="/contact">Contact</a>
+
+									</li>
+									<img src="{% static 'img/emblem-dark.png' %}" style="width: 51px;padding: 6px;" alt="">
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</nav>
+		</div>
+	</header>
+	{% block content %}
+    {% endblock %}
+
+    <!--================ start footer Area =================-->
+	<footer class="footer-area section_gap">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-2  col-md-6">
+					<div class="single-footer-widget">
+						<h6>Important </h6>
+						<ul class="footer-nav">
+							<li>
+								<a href="https://www.nhp.gov.in/">National Health Portal</a>
+							</li>
+							<li>
+								<a href="https://nrhm-mis.nic.in/SitePages/Home.aspx">Health Statistics Information Portal</a>
+							</li>
+							<li>
+								<a href="http://cghs.gov.in/">Central Government Health Scheme</a>
+							</li>
+							<li>
+								<a href="http://nhm.gov.in/">National  Health Mission</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-lg-4  col-md-6">
+					<div class="single-footer-widget mail-chimp">
+						<h6 class="mb-20">Contact Us</h6>
+						<p>
+							Near Udyog Bhawan Metro Station, Maulana Azad Rd, New Delhi, Delhi 110011
+						</p>
+						<h3>011 2306 1913</h3>
+					</div>
+				</div>
+				<div class="col-lg-6  col-md-12">
+					<div class="single-footer-widget newsletter">
+						<h6>Newsletter</h6>
+						<p>You can trust us. we only send promo offers, not a single spam.</p>
+						<div id="mc_embed_signup">
+							<form target="_blank" action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01"
+							 method="get" class="form-inline">
+
+								<div class="form-group row">
+									<div class="col-lg-7 col-md-6 col-sm-12">
+										<input name="EMAIL" placeholder="Your Email Address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Your Email Address '"
+										 required="" type="email">
+									</div>
+
+									<div class="col-lg-5 col-md-12">
+										<button class="nw-btn main_btn circle">get started
+											<span class="lnr lnr-arrow-right"></span>
+										</button>
+									</div>
+								</div>
+								<div class="info"></div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row footer-bottom d-flex justify-content-between">
+				<p class="col-lg-8 col-sm-12 footer-text m-0">
+Copyright &copy; <script>document.write(new Date().getFullYear());</script> All rights reserved Kavil Parikh
+
+				</p>
+				<div class="col-lg-4 col-sm-12 footer-social">
+					<a href="#">
+						<i class="fa fa-facebook"></i>
+					</a>
+					<a href="#">
+						<i class="fa fa-twitter"></i>
+					</a>
+					<a href="#">
+						<i class="fa fa-dribbble"></i>
+					</a>
+					<a href="#">
+						<i class="fa fa-behance"></i>
+					</a>
+				</div>
+			</div>
+		</div>
+	</footer>
+	<!--================ End footer Area =================-->
+
+
+
+	<!--================ Optional JavaScript =================-->
+	<!--================ jQuery first, then Popper.js, then Bootstrap JS =================-->
+	<script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+	<script src="{% static 'js/popper.js' %}"></script>
+	<script src="{% static 'js/bootstrap.min.js' %}"></script>
+	<script src="{% static 'vendors/nice-select/js/jquery.nice-select.min.js' %}"></script>
+	<script src="{% static 'vendors/isotope/isotope-min.js' %}"></script>
+	<script src="{% static 'vendors/owl-carousel/owl.carousel.min.js' %}"></script>
+	<script src="{% static 'js/jquery.ajaxchimp.min.js' %}"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Counter-Up/1.0.0/jquery.counterup.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.min.js"></script>
+	<script src="{% static 'js/mail-script.js' %}"></script>
+    	<script src="{% static 'js/custom.js' %}"></script>
+</body>
+
+</html>

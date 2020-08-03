@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+ {% load static %} 
+{% block content %}
+  <!--================Header Menu Area =================-->
+
+  <!--================ Banner Area =================-->
+  <section class="home_banner_area">
+        <div class="banner_inner d-flex align-items-center">
+            <div class="container">
+                <div class="banner_content row">
+                    <div class="col-lg-12">
+                        <h1>Keep your vitality. A life without health is like a river without water</h1>
+                        <p>Calm mind brings inner strength and self-confidence, so that's very important for good health</p>
+                        <!-- <a class="main_btn mr-10" href="#">get started</a> -->
+                        <br>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+  <!--================End Banner Area =================-->
+
+  <!--================ Procedure Category Area =================-->
+  <section class="procedure_category section_gap_custom">
+    <div class="container">
+      <!-- <div style="border: 1px solid gray;width:10%"><b>FAQs</b></div> -->
+      <br>
+      <div id="accordion">
+
+  <div class="card">
+    <div class="card-header">
+      <a class="card-link" data-toggle="collapse" href="#collapseOne">
+        What is UIPMR.com portal?
+      </a>
+    </div>
+    <div id="collapseOne" class="collapse show" data-parent="#accordion">
+      <div class="card-body">
+        UIPMR is an online registration portal for booking Appointments with all kind of Doctors around the world. 
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <a class="collapsed card-link" data-toggle="collapse" href="#collapseTwo">
+        Is booking appointment compulsory to consult the doctor?
+      </a>
+    </div>
+    <div id="collapseTwo" class="collapse" data-parent="#accordion">
+      <div class="card-body">
+       Yes.You need to book an appointment to consult the doctor.You can do that online by visiting the website.
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <a class="collapsed card-link" data-toggle="collapse" href="#collapseThree">
+         What are the various methods to book the appointment?
+      </a>
+    </div>
+    <div id="collapseThree" class="collapse" data-parent="#accordion">
+      <div class="card-body">
+        Patient can get the online appointment (over internet) by visiting website <a href="#">uipmr.com</a>.
+      </div>
+    </div>
+  </div>
+
+   <div class="card">
+    <div class="card-header">
+      <a class="collapsed card-link" data-toggle="collapse" href="#collapseFour">
+       What are the advantages of booking online appointment using uipmr.com?
+      </a>
+    </div>
+    <div id="collapseFour" class="collapse" data-parent="#accordion">
+      <div class="card-body">
+        Patients can avoid standing in long queues at the hospital for booking appointment.
+      </div>
+    </div>
+  </div>
+
+   <div class="card">
+    <div class="card-header">
+      <a class="collapsed card-link" data-toggle="collapse" href="#collapseFive">
+        What are the pre-requisites for booking appointment?
+      </a>
+    </div>
+    <div id="collapseFive" class="collapse" data-parent="#accordion">
+      <div class="card-body">
+        New patient has to first register himself on the website. All the required details have to be filled by patient himself.
+      </div>
+    </div>
+  </div>
+
+   <div class="card">
+    <div class="card-header">
+      <a class="collapsed card-link" data-toggle="collapse" href="#collapseSix">
+        What is the process to book appointment for a new patient?
+      </a>
+    </div>
+    <div id="collapseSix" class="collapse" data-parent="#accordion">
+      <div class="card-body">
+        Patients, who are already registered on UIPMR can book appointment by logging in to their account and navigating to the appointment booking section.
+        <br>
+        To book Appointment patient has to provide User name and Email Id and once the One Time Password (OTP) sent to the patient by email has been verified, he can successfully book the appointment with the concerned doctor. The appointment details will be sent to the patient through email.
+      </div>
+    </div>
+  </div>
+
+</div>
+    </div>
+  </section>
+  <!--================ End Procedure Category Area =================-->
+{% endblock %}

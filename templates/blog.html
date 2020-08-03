@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+ {% load static %} 
+{% block content %}
+    <!--================Header Menu Area =================-->
+
+    <!--================ Home Banner Area =================-->
+    <section class="home_banner_area">
+        <div class="banner_inner d-flex align-items-center">
+            <div class="container">
+                <div class="banner_content row">
+                    <div class="col-lg-12">
+                        <h1>We Care for Your Health Every Moment</h1>
+                        <p>Calm mind brings inner strength and self-confidence, so that's very important for good health</p>
+                        <!-- <a class="main_btn mr-10" href="#">get started</a> -->
+                        <br>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--================ End Home Banner Area =================-->
+
+    
+    <!--================Blog Area =================-->
+
+
+    <section class="recent-blog-area section_gap">
+        <div class="container">
+            <div class="row justify-content-center section-title-wrap">
+                <<!-- div class="col-lg-12">
+                    <h1>Important Links</h1>
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                    </p>
+                </div> -->
+                <div class="col-lg-12">
+                    <h1>Current Medical Affairs</h1>
+                   
+                </div>
+            </div>
+            <div class="row">
+                <div class="single-recent-blog col-lg-4 col-md-4">
+                    <div class="thumb">
+                        <img class="f-img img-fluid mx-auto" src="{% static 'img/corona.jpg' %}" alt="">
+                    </div>
+                    <a href="#">
+                        <h4>The Latest on the Coronavirus: Vice President to Lead Response</h4>
+                    </a>
+                    <p>
+                        The new coronavirus outbreak initially identified in China is continuing to grow about 2 months after it was first detected.
+
+                    </p>
+                   
+                </div>
+                <div class="single-recent-blog col-lg-4 col-md-4">
+                    <div class="thumb">
+                        <img class="f-img img-fluid mx-auto" src="{% static 'img/sugary-drink.jpg' %}" alt="">
+                    </div>
+                    <a href="#">
+                        <h4>How Sugary Drinks Can Affect Cholesterol Levels and Heart Health</h4>
+                    </a>
+                    <p>
+                        New research finds that sugar-laden drinks can not only increase cholesterol levels, but reduce the amount of HDL (good) cholesterol in our bodies…
+                    </p>
+                   
+                </div>
+                <div class="single-recent-blog col-lg-4 col-md-4">
+                    <div class="thumb">
+                        <img class="f-img img-fluid mx-auto" src="{% static 'img/vap.jpg' %}" alt="">
+                    </div>
+                    <a href="#">
+                        <h4>What Vaping, Smoking Do to Your Mouth’s Microbiome — and How That Affects Your Health</h4>
+                    </a>
+                    <p>
+                       Researchers say vaping and smoking can affect your oral health, leading to infection and inflammation.
+
+                    </p>
+                    
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+<section class="recent-blog-area section_gap">
+        <div class="container">
+            <div class="row justify-content-center section-title-wrap">
+               
+                <div class="col-lg-12">
+                    <h1>Upcoming Medical Camps</h1>
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="single-recent-blog col-lg-4 col-md-4">
+                    <div class="thumb">
+                        <img class="f-img img-fluid mx-auto" src="{% static 'img/hcamp2.jpg' %}" alt="">
+                    </div>
+                    <a href="#">
+                        <h4>Uppahar</h4>
+                    </a>
+                    <p>
+                        Uppahar has borne a lot in order to help the needy beneficiaries in conducting such activities. In many places Mother and Childcare, Pre Natal and Post Natal Care, TB,  AIDS/HIV awareness program are conducted  every year. The awareness program organised with such issues like Child labour, Child marriage, trafficking, family issues, teen age such different issues.
+                    </p>
+                    
+                </div>
+                <div class="single-recent-blog col-lg-4 col-md-4">
+                    <div class="thumb">
+                        <img class="f-img img-fluid mx-auto" src="{% static 'img/hcamp1.jpg' %}" alt="">
+                    </div>
+                    <a href="#">
+                        <h4>Health camp at Golden temple</h4>
+                    </a>
+                    <p>     A multispeciality health camp was organized at Sriomani Gurdwara Prabandhak Committee; Golden Temple. More than 150 patients were examined during the camp.                    </p>
+                                           
+                </div>
+                <div class="single-recent-blog col-lg-4 col-md-4">
+                    <div class="thumb">
+                        <img class="f-img img-fluid mx-auto" src="{% static 'img/hcamp3.jpg' %}" alt="">
+                    </div>
+                    <a href="#">
+                        <h4>Medical camp by Apollo </h4>
+                    </a>
+                      <p>
+                        As a socially cognizant organisation, Apollo Hospitals has undertaken a major initiative of organizing nationwide free monthly health check camps dedicated towards ensuring the health of expecting mothers. Following the pledge of 9000 doctors from Apollo Hospitals to dedicate one day a month to provide healthcare services to urban, semi urban and rural areas of India, free medical camps are conducted across various locations on the 9th of every month. 
+                       </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--================End Blog Area =================-->
+
+{% endblock %}

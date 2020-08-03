@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+ {% load static %} 
+{% block content %}
+    <!--================Header Menu Area =================-->
+
+    <!--================ Banner Area =================-->
+    <section class="home_banner_area">
+        <div class="banner_inner d-flex align-items-center">
+            <div class="container">
+                <div class="banner_content row">
+                    <div class="col-lg-12">
+                        <h1>It is health that is real wealth and not pieces of gold and silver.</h1>
+                        <p>Calm mind brings inner strength and self-confidence, so that's very important for good health</p>
+                        <!-- <a class="main_btn mr-10" href="#">get started</a> -->
+                        <br>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--================End Banner Area =================-->
+    <!--================Contact Area =================-->
+    <section class="contact_area p_120">
+        <div class="container">
+            <div id="mapBox" class="mapBox">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d224275.64895415973!2d77.27111279307017!3d28.560542145886124!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390ce2b834500e75%3A0xcf0479b94060c647!2sMinistry%20of%20Health%20%26%20Family%20Welfare%2C%20Nirman%20Bhawan!5e0!3m2!1sen!2sin!4v1582717734668!5m2!1sen!2sin" style="width: 100%;height: 400px;" frameborder="0" style="border:0;" allowfullscreen=""></iframe>
+            </div>
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="contact_info">
+                        <div class="info_item">
+                            <i class="lnr lnr-home"></i>
+                            <h6>Near Udyog Bhawan Metro Station, Maulana Azad Rd, </h6>
+                            <p>New Delhi, Delhi 110011</p>
+                        </div>
+                        <div class="info_item">
+                            <i class="lnr lnr-phone-handset"></i>
+                            <h6>
+                                <a href="#">011 2306 1913</a>
+                            </h6>
+                            <p>Mon to Fri 9am to 6 pm</p>
+                        </div>
+                        <div class="info_item">
+                            <i class="lnr lnr-envelope"></i>
+                            <h6>
+                                <a href="#">health@gmail.com</a>
+                            </h6>
+                            <p>Send us your query anytime!</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-9">
+                    <form class="row contact_form" action="contact_process.php" method="post" id="contactForm" novalidate="novalidate">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="name" name="name" placeholder="Enter your name">
+                            </div>
+                            <div class="form-group">
+                                <input type="email" class="form-control" id="email" name="email" placeholder="Enter email address">
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="subject" name="subject" placeholder="Enter Subject">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <textarea class="form-control" name="message" id="message" rows="1" placeholder="Enter Message"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-12 text-right">
+                            <button type="submit" value="submit" class="btn submit_btn">Send Message</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--================Contact Area =================-->
+
+    <!-- start footer Area -->
+    
+{% endblock %}
